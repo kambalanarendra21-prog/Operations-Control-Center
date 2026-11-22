@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Operations Control Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, body * {
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    body.theme-light {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+    body.theme-light .bg-slate-900,
+    body.theme-light .bg-slate-900\/95,
+    body.theme-light .bg-slate-900\/90,
+    body.theme-light .bg-slate-900\/80,
+    body.theme-light .bg-slate-900\/70 {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    body.theme-light .bg-slate-950,
+    body.theme-light .bg-slate-950\/90,
+    body.theme-light .bg-slate-950\/80,
+    body.theme-light .bg-slate-950\/70,
+    body.theme-light .bg-slate-950\/60,
+    body.theme-light .bg-slate-950\/50 {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    body.theme-light .bg-slate-800,
+    body.theme-light .bg-slate-800\/70,
+    body.theme-light .hover\:bg-slate-800:hover,
+    body.theme-light .hover\:bg-slate-800\/90:hover {
+      background-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    body.theme-light .text-slate-100,
+    body.theme-light .text-slate-200,
+    body.theme-light .text-white {
+      color: #0f172a !important;
+    }
+    body.theme-light .text-slate-300 {
+      color: #334155 !important;
+    }
+    body.theme-light .text-slate-400,
+    body.theme-light .text-slate-500 {
+      color: #475569 !important;
+    }
+    body.theme-light .text-amber-300,
+    body.theme-light .text-amber-400 { color: #b45309 !important; }
+    body.theme-light .text-sky-300,
+    body.theme-light .text-sky-400 { color: #0369a1 !important; }
+    body.theme-light .text-emerald-300,
+    body.theme-light .text-emerald-400 { color: #047857 !important; }
+    body.theme-light .text-rose-300,
+    body.theme-light .text-rose-400 { color: #be123c !important; }
+    body.theme-light .text-purple-300,
+    body.theme-light .text-purple-400 { color: #6d28d9 !important; }
+    body.theme-light .text-cyan-300,
+    body.theme-light .text-cyan-400 { color: #0e7490 !important; }
+
+    body.theme-light input,
+    body.theme-light select,
+    body.theme-light textarea {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #94a3b8 !important;
+    }
+    body.theme-light input::placeholder,
+    body.theme-light textarea::placeholder {
+      color: #64748b !important;
+    }
+    body.theme-light .border-slate-800,
+    body.theme-light .border-slate-700,
+    body.theme-light .border-slate-700\/80 {
+      border-color: #cbd5e1 !important;
+    }
+    body.theme-light .divide-slate-800 > :not([hidden]) ~ :not([hidden]) {
+      border-color: #e2e8f0 !important;
+    }
+    body.theme-light .from-slate-900,
+    body.theme-light .via-slate-900,
+    body.theme-light .to-slate-950 {
+      --tw-gradient-from: #ffffff !important;
+      --tw-gradient-via: #f8fafc !important;
+      --tw-gradient-to: #f1f5f9 !important;
+    }
+    body.theme-light .runBtn,
+    body.theme-light .keep-white,
+    body.theme-light .keep-white * {
+      color: #ffffff !important;
+    }
+
+    body.theme-darkblue {
+      background-color: #040d21 !important;
+      color: #e2e8f0 !important;
+    }
+    body.theme-darkblue .bg-slate-900,
+    body.theme-darkblue .bg-slate-900\/95,
+    body.theme-darkblue .bg-slate-900\/90,
+    body.theme-darkblue .bg-slate-900\/80,
+    body.theme-darkblue .bg-slate-900\/70 {
+      background-color: #0a1936 !important;
+      border-color: #1e3a8a !important;
+    }
+    body.theme-darkblue .bg-slate-950,
+    body.theme-darkblue .bg-slate-950\/90,
+    body.theme-darkblue .bg-slate-950\/80,
+    body.theme-darkblue .bg-slate-950\/70,
+    body.theme-darkblue .bg-slate-950\/60,
+    body.theme-darkblue .bg-slate-950\/50 {
+      background-color: #061128 !important;
+      border-color: #1d4ed8 !important;
+    }
+    body.theme-darkblue .bg-slate-800,
+    body.theme-darkblue .bg-slate-800\/70 {
+      background-color: #0f254e !important;
+    }
+    body.theme-darkblue .border-slate-800,
+    body.theme-darkblue .border-slate-700 {
+      border-color: #1e3a8a !important;
+    }
+    body.theme-darkblue .from-slate-900,
+    body.theme-darkblue .via-slate-900,
+    body.theme-darkblue .to-slate-950 {
+      --tw-gradient-from: #0a1936 !important;
+      --tw-gradient-via: #08152e !important;
+      --tw-gradient-to: #040d21 !important;
+    }
+
+    .animated-title-gradient {
+      background: linear-gradient(90deg, #F38020, #0099E5, #FF9900, #EA4335, #9333EA, #F38020);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent !important;
+      color: transparent !important;
+      animation: titleColorCycle 6s ease-in-out infinite;
+    }
+
+    @keyframes titleColorCycle {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 transition-colors duration-200">
+  <div class="max-w-7xl mx-auto space-y-5">
+    <!-- HOME PAGE TOP BAR -->
+    <div id="homeTopBar" class="flex items-center justify-end">
+      <div class="inline-flex items-center gap-1 bg-slate-900 border border-slate-700 rounded-xl p-1 text-xs font-semibold shadow-sm">
+        <span class="px-2 text-[11px] font-mono uppercase text-slate-400">Theme:</span>
+        <button type="button" onclick="setTheme('light')" class="theme-opt-light px-3 py-1 rounded-lg transition">Light</button>
+        <button type="button" onclick="setTheme('dark')" class="theme-opt-dark px-3 py-1 rounded-lg transition">Dark</button>
+        <button type="button" onclick="setTheme('darkblue')" class="theme-opt-darkblue px-3 py-1 rounded-lg transition text-sky-400">Dark Blue</button>
+      </div>
+    </div>
+
+    <!-- WORKSPACE TOP HEADER -->
+    <header id="workspaceTopHeader" class="hidden bg-slate-900/95 border border-slate-800 rounded-xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-950 border border-slate-700/80 shrink-0">
+          <svg viewBox="0 0 64 64" class="w-7 h-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="topOccGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#F38020"/>
+                <stop offset="50%" stop-color="#0099E5"/>
+                <stop offset="100%" stop-color="#9333EA"/>
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="32" r="26" stroke="url(#topOccGrad)" stroke-width="3.5"/>
+            <path d="M34 18L23 33H32L30 46L41 31H32L34 18Z" fill="url(#topOccGrad)"/>
+          </svg>
+        </div>
+        <div>
+          <div class="text-xl font-extrabold tracking-tight animated-title-gradient">Operations Control Center</div>
+          <div class="text-[11px] text-slate-400">Parallel Multi-Account Execution • Max 1,000 Domains/Run</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <div class="flex items-center bg-slate-950 border border-slate-700 rounded-lg p-1 text-xs font-medium">
+          <button type="button" onclick="setTheme('light')" class="theme-opt-light px-2.5 py-1 rounded transition">Light</button>
+          <button type="button" onclick="setTheme('dark')" class="theme-opt-dark px-2.5 py-1 rounded transition">Dark</button>
+          <button type="button" onclick="setTheme('darkblue')" class="theme-opt-darkblue px-2.5 py-1 rounded transition text-sky-400">Dark Blue</button>
+        </div>
+        <button type="button" onclick="switchTab('home')" class="text-xs bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-emerald-500/40 px-3 py-1.5 rounded-lg font-semibold">
+          ← Home
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB NAVIGATION BAR WITH RESPECTIVE LOGO ON EVERY TAB -->
+    <nav id="tabNavBar" class="hidden bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2 flex flex-wrap items-center gap-1.5">
+      <button type="button" onclick="switchTab('home')" id="btn-home" data-brand="home" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-white">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+        <span>0. Home</span>
+      </button>
+      <button type="button" onclick="switchTab('dns')" id="btn-dns" data-brand="cf" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#F38020]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H7a5 5 0 0 1-.6-9.96A7 7 0 0 1 20 8.5a4.5 4.5 0 0 1-2.5 10.5z"/></svg>
+        <span>1. Bulk DNS</span>
+      </button>
+      <button type="button" onclick="switchTab('csv')" id="btn-csv" data-brand="cf" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#F38020]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>
+        <span>2. CSV Import</span>
+      </button>
+      <button type="button" onclick="switchTab('ssl')" id="btn-ssl" data-brand="cf" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#F38020]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>3. SSL &amp; Cache</span>
+      </button>
+      <button type="button" onclick="switchTab('redir')" id="btn-redir" data-brand="cf" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#F38020]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        <span>4. Redirects</span>
+      </button>
+      <button type="button" onclick="switchTab('prov')" id="btn-prov" data-brand="cf" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#F38020]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+        <span>5. Add Zones &amp; NS</span>
+      </button>
+      <button type="button" onclick="switchTab('audit')" id="btn-audit" data-brand="cf" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#F38020]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>6. DNS Auditor</span>
+      </button>
+      <button type="button" onclick="switchTab('dyna')" id="btn-dyna" data-brand="dyna" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#0099E5]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M14 6l6 6-6 6M10 18l-6-6 6-6"/></svg>
+        <span>7. Dynadot → CF</span>
+      </button>
+      <button type="button" onclick="switchTab('s3')" id="btn-s3" data-brand="aws" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#FF9900]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+        <span>8. AWS S3 &amp; CDN</span>
+      </button>
+      <button type="button" onclick="switchTab('pm')" id="btn-pm" data-brand="google" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#EA4335]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg>
+        <span>9. Postmaster DNS</span>
+      </button>
+      <button type="button" onclick="switchTab('ysh')" id="btn-ysh" data-brand="yahoo" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#9b4dff]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l6 8v6M16 6l-6 8M18 19h.01"/></svg>
+        <span>10. Yahoo Sender Hub</span>
+      </button>
+      <button type="button" onclick="switchTab('ses')" id="btn-ses" data-brand="aws" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-[#FF9900]">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span>11. Amazon SES</span>
+      </button>
+      <button type="button" onclick="switchTab('jobs'); loadJobHistory();" id="btn-jobs" data-brand="jobs" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-cyan-400">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span>12. Job History</span>
+      </button>
+      <button type="button" onclick="switchTab('guide')" id="btn-guide" data-brand="guide" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-emerald-400">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>13. API Guide Book</span>
+      </button>
+    </nav>
+
+    <!-- ACTIVE TAB BANNER -->
+    <div id="activeTabBanner" class="hidden bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-2.5 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <span id="activeTabIconBox" class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-950 border border-slate-700"></span>
+        <div>
+          <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Active Workspace • Parallel Execution • Max 1,000 Domains / Batch</div>
+          <div id="activeTabTitleText" class="text-sm font-bold text-white"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLOUDFLARE ACCOUNT & API TOKEN MANAGER -->
+    <div id="cfAccountBar" class="hidden bg-slate-900 p-4 rounded-xl border border-[#F38020]/50 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="font-bold text-[#F38020] uppercase tracking-wider">Cloudflare Account &amp; Token:</span>
+        {% if has_env_token %}<span class="text-emerald-400 font-semibold">(ENV Active)</span>{% endif %}
+        <select id="cfProfileSelect" onchange="selectCredentialProfile('cf')" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono text-slate-200">
+          <option value="">-- Saved CF Accounts (0) --</option>
+        </select>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <input type="text" id="cfAccountLabel" placeholder="Account Name (e.g. Infoscience Main)" class="w-48 bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-mono" />
+        <input type="password" id="sharedToken" placeholder="Paste Cloudflare User API Token..." class="w-64 bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-mono" />
+        <button type="button" onclick="saveCredentialProfile('cf')" class="keep-white text-xs bg-[#F38020] hover:bg-orange-500 text-white font-semibold px-3 py-2 rounded-lg">Save Account</button>
+        <button type="button" onclick="deleteCredentialProfile('cf')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-2 rounded-lg border border-slate-700">Delete</button>
+      </div>
+    </div>
+
+    <!-- TAB 0: HOME PAGE -->
+    <div id="panel-home" class="tab-panel space-y-8">
+      <section class="relative overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 px-6 py-10 md:py-12 shadow-2xl text-center">
+        <div class="pointer-events-none absolute -top-28 left-1/4 h-80 w-80 rounded-full bg-gradient-to-tr from-[#F38020]/20 via-[#0099E5]/15 to-transparent blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-28 right-1/4 h-80 w-80 rounded-full bg-gradient-to-tr from-[#EA4335]/15 via-[#9333EA]/20 to-transparent blur-3xl"></div>
+
+        <div class="relative flex flex-col items-center justify-center max-w-3xl mx-auto space-y-4">
+          <div class="flex items-center justify-center w-24 h-24 rounded-3xl bg-slate-950/90 border border-slate-700/80 shadow-2xl shadow-orange-500/15">
+            <svg viewBox="0 0 64 64" class="w-16 h-16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="heroOccRing" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#F38020"/>
+                  <stop offset="28%" stop-color="#0099E5"/>
+                  <stop offset="55%" stop-color="#FF9900"/>
+                  <stop offset="80%" stop-color="#EA4335"/>
+                  <stop offset="100%" stop-color="#9333EA"/>
+                </linearGradient>
+                <linearGradient id="heroOccCore" x1="16" y1="16" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#F38020"/>
+                  <stop offset="50%" stop-color="#0099E5"/>
+                  <stop offset="100%" stop-color="#9333EA"/>
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="27" stroke="url(#heroOccRing)" stroke-width="3.5" stroke-dasharray="128 18" stroke-linecap="round"/>
+              <circle cx="32" cy="5" r="3.8" fill="#F38020"/>
+              <circle cx="57" cy="24" r="3.8" fill="#0099E5"/>
+              <circle cx="48" cy="53" r="3.8" fill="#FF9900"/>
+              <circle cx="16" cy="53" r="3.8" fill="#EA4335"/>
+              <circle cx="7" cy="24" r="3.8" fill="#9333EA"/>
+              <polygon points="32,14 47,23 47,41 32,50 17,41 17,23" fill="url(#heroOccCore)" fill-opacity="0.22" stroke="url(#heroOccRing)" stroke-width="2.5"/>
+              <path d="M34 20L24 33H32L30 44L40 31H32L34 20Z" fill="url(#heroOccRing)"/>
+            </svg>
+          </div>
+          <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight animated-title-gradient">Operations Control Center</h1>
+          <p class="text-sm md:text-base text-slate-300 leading-relaxed max-w-2xl">
+            Centralized multi-account automation platform for bulk Cloudflare DNS provisioning (up to 1,000 domains per run), registrar migrations, S3 static web hosting, and email deliverability verification.
+          </p>
+        </div>
+      </section>
+
+      <section class="space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 px-0.5">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Dashboard Purpose, Features &amp; Uses</h2>
+          <span class="text-[11px] font-mono text-slate-500">Up to 1,000 Domains / Run • Parallel Workers • Real-Time Progress</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+          <div class="h-full flex flex-col justify-between rounded-xl p-5 bg-gradient-to-br from-[#F38020]/15 via-slate-900 to-slate-950 border border-[#F38020]/40 space-y-2.5">
+            <div class="space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-[#F38020]/20 text-[#F38020] flex items-center justify-center"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H7a5 5 0 0 1-.6-9.96A7 7 0 0 1 20 8.5a4.5 4.5 0 0 1-2.5 10.5z"/></svg></div>
+              <div class="text-base font-bold text-white">Multi-Account DNS Control</div>
+              <p class="text-xs text-slate-300 leading-relaxed">Automatically locates root zones across linked Cloudflare accounts to update all 22 DNS record types, SSL/TLS modes, redirects, and cache purges for up to 1,000 domains at once.</p>
+            </div>
+          </div>
+          <div class="h-full flex flex-col justify-between rounded-xl p-5 bg-gradient-to-br from-[#0099E5]/15 via-slate-900 to-slate-950 border border-[#0099E5]/40 space-y-2.5">
+            <div class="space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-[#0099E5]/20 text-[#0099E5] flex items-center justify-center"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M14 6l6 6-6 6M10 18l-6-6 6-6"/></svg></div>
+              <div class="text-base font-bold text-white">Registrar &amp; Static Hosting</div>
+              <p class="text-xs text-slate-300 leading-relaxed">Migrates Dynadot nameservers directly into Cloudflare Free zones and deploys live HTTPS static websites on Amazon S3 buckets with automated CNAME routing.</p>
+            </div>
+          </div>
+          <div class="h-full flex flex-col justify-between rounded-xl p-5 bg-gradient-to-br from-[#EA4335]/15 via-slate-900 to-slate-950 border border-[#EA4335]/40 space-y-2.5">
+            <div class="space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-[#EA4335]/20 text-rose-400 flex items-center justify-center"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+              <div class="text-base font-bold text-white">Email Deliverability Suite</div>
+              <p class="text-xs text-slate-300 leading-relaxed">Automates DNS TXT/CNAME publishing, smart SPF merging, DMARC records, and ownership verification across Google Postmaster Tools, Yahoo Sender Hub, and Amazon SES.</p>
+            </div>
+          </div>
+          <div class="h-full flex flex-col justify-between rounded-xl p-5 bg-gradient-to-br from-emerald-500/15 via-slate-900 to-slate-950 border border-emerald-500/40 space-y-2.5">
+            <div class="space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <div class="text-base font-bold text-white">Resilient Queue &amp; Diagnostics</div>
+              <p class="text-xs text-slate-300 leading-relaxed">Runs domains concurrently with automatic 429/5xx retry backoff, isolated error handling per domain, and persistent SQLite job history.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 px-0.5">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Workspaces &amp; Tools</h2>
+          <span class="text-[11px] font-mono text-slate-500">Select any card to launch its dedicated tool</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+          <button type="button" onclick="switchTab('dns')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-[#F38020]/10 via-slate-900 to-slate-950 hover:from-[#F38020]/20 border border-[#F38020]/40 hover:border-[#F38020] rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-[#F38020]/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-[#F38020] to-orange-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-[#F38020]/20 text-[#F38020] flex items-center justify-center border border-[#F38020]/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H7a5 5 0 0 1-.6-9.96A7 7 0 0 1 20 8.5a4.5 4.5 0 0 1-2.5 10.5z"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-[#F38020] group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Bulk DNS Manager</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Create, replace, or delete all 22 Cloudflare DNS record types with proxy &amp; SSL controls.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('csv')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-950 hover:from-amber-500/20 border border-amber-500/40 hover:border-amber-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-amber-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">CSV Multi-Record Import</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Upload a multi-domain CSV to batch-deploy A, CNAME, MX, SPF, DKIM, and DMARC rows.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('ssl')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-teal-500/10 via-slate-900 to-slate-950 hover:from-teal-500/20 border border-teal-500/40 hover:border-teal-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-teal-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-teal-500 to-emerald-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center border border-teal-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-teal-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">SSL/TLS &amp; Cache Purge</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Switch SSL modes, enforce Always HTTPS, and purge Cloudflare edge cache in bulk.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('redir')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-indigo-500/10 via-slate-900 to-slate-950 hover:from-indigo-500/20 border border-indigo-500/40 hover:border-indigo-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-indigo-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-indigo-500 to-sky-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-indigo-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Bulk Domain Redirects</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Configure 301/302 forwarding page rules from root to subdomain or custom target URLs.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('prov')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-lime-500/10 via-slate-900 to-slate-950 hover:from-lime-500/20 border border-lime-500/40 hover:border-lime-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-lime-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-lime-500 to-emerald-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-lime-500/20 text-lime-400 flex items-center justify-center border border-lime-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-lime-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Add Zones &amp; Fetch NS</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Provision new Free-tier Cloudflare zones and export assigned nameserver pairs to CSV.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('audit')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-blue-500/10 via-slate-900 to-slate-950 hover:from-blue-500/20 border border-blue-500/40 hover:border-blue-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center border border-blue-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-blue-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">DNS Auditor &amp; Backup</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Inspect live DNS records across multiple Cloudflare accounts and export full snapshots.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('dyna')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-[#0099E5]/10 via-slate-900 to-slate-950 hover:from-[#0099E5]/20 border border-[#0099E5]/40 hover:border-[#0099E5] rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-[#0099E5]/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-[#0099E5] to-sky-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-[#0099E5]/20 text-[#0099E5] flex items-center justify-center border border-[#0099E5]/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M14 6l6 6-6 6M10 18l-6-6 6-6"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-[#0099E5] group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Dynadot → Cloudflare</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Auto-create CF zones, update Dynadot nameservers, toggle auto-renew, and import A records.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('s3')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-orange-600/10 via-slate-900 to-slate-950 hover:from-orange-600/20 border border-orange-500/40 hover:border-orange-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-orange-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-orange-500 to-amber-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center border border-orange-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-orange-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">AWS S3 Static Hosting</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Deploy public S3 website buckets, link Cloudflare CNAMEs, verify HTTP 200, or teardown.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('pm')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-[#EA4335]/10 via-slate-900 to-slate-950 hover:from-[#EA4335]/20 border border-[#EA4335]/40 hover:border-[#EA4335] rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-[#EA4335]/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-[#EA4335] to-rose-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-[#EA4335]/20 text-rose-400 flex items-center justify-center border border-[#EA4335]/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-rose-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Postmaster Tools DNS</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Auto-enroll root domains &amp; subdomains in Postmaster UI and verify DNS TXT ownership.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('ysh')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-[#6001D2]/15 via-slate-900 to-slate-950 hover:from-[#6001D2]/25 border border-purple-500/45 hover:border-purple-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-[#6001D2] to-purple-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center border border-purple-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l6 8v6M16 6l-6 8M18 19h.01"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-purple-300 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Yahoo Sender Hub</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Pull unverified domains from Yahoo, publish root TXT records in CF, and trigger verification.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('ses')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-[#FF9900]/10 via-slate-900 to-slate-950 hover:from-[#FF9900]/20 border border-[#FF9900]/40 hover:border-[#FF9900] rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-[#FF9900]/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-[#FF9900] to-amber-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-[#FF9900]/20 text-amber-400 flex items-center justify-center border border-[#FF9900]/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-amber-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">Amazon SES Verification</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Enroll domains across 35 AWS regions, inject 3 Easy DKIM CNAMEs, merge SPF, and add DMARC.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('jobs'); loadJobHistory();" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-cyan-500/10 via-slate-900 to-slate-950 hover:from-cyan-500/20 border border-cyan-500/40 hover:border-cyan-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-cyan-500/10 hover:-translate-y-0.5 transition">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-cyan-500 to-sky-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center border border-cyan-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-cyan-400 group-hover:translate-x-0.5 transition">Launch →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">SQLite Job Queue</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Reload any past batch run back into its workspace tab, export CSVs, or retry failed rows.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('guide')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-r from-emerald-500/15 via-slate-900 to-slate-950 hover:from-emerald-500/25 border border-emerald-500/40 hover:border-emerald-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-emerald-500/10 transition sm:col-span-2 lg:col-span-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5">
+                <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+                <div>
+                  <div class="text-base font-bold text-white">API Key &amp; Token Setup Guide Book</div>
+                  <p class="text-xs text-slate-400 mt-0.5">Step-by-step credentials setup for Cloudflare, Dynadot, AWS S3/SES, Google Postmaster OAuth, Yahoo Sender Hub, and Render deployment.</p>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-semibold text-emerald-400 group-hover:translate-x-0.5 transition shrink-0">Open Guide →</span>
+            </div>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB 1: BULK DNS -->
+    <div id="panel-dns" class="tab-panel hidden space-y-4">
+      <form id="form-dns" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#F38020]/50">
+        <div class="md:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Domains (One per line)</label>
+              <span id="count-dns" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <button type="button" onclick="cleanDomainTextarea('dnsDomainsTa')" class="text-[11px] text-[#F38020] hover:underline font-mono">Clean &amp; Deduplicate</button>
+          </div>
+          <textarea name="domains_text" id="dnsDomainsTa" rows="8" required placeholder="example1.com&#10;example2.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+        </div>
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">Action</label>
+              <select name="action" id="dnsActionSelect" onchange="updateBulkDnsFields()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+                <option value="replace" selected>Replace / Create</option>
+                <option value="add_if_missing">Add If Missing</option>
+                <option value="delete">Delete Record</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">Record Type</label>
+              <select name="rtype" id="dnsRtypeSelect" onchange="updateBulkDnsFields()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm font-mono">
+                <option value="A" selected>A</option><option value="AAAA">AAAA</option><option value="CAA">CAA</option><option value="CERT">CERT</option><option value="CNAME">CNAME</option><option value="DNSKEY">DNSKEY</option><option value="DS">DS</option><option value="HTTPS">HTTPS</option><option value="LOC">LOC</option><option value="MX">MX</option><option value="NAPTR">NAPTR</option><option value="NS">NS</option><option value="OPENPGPKEY">OPENPGPKEY</option><option value="PTR">PTR</option><option value="SMIMEA">SMIMEA</option><option value="SPF">SPF</option><option value="SRV">SRV</option><option value="SSHFP">SSHFP</option><option value="SVCB">SVCB</option><option value="TLSA">TLSA</option><option value="TXT">TXT</option><option value="URI">URI</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">Name</label>
+              <input type="text" name="name" id="dnsNameInput" value="@" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+            </div>
+            <div class="col-span-2">
+              <label id="dnsContentLabel" class="block text-xs uppercase text-slate-400 mb-1">IPv4 Address</label>
+              <input type="text" name="content" id="dnsContentInput" placeholder="e.g. 3.23.10.37" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div id="dnsPriorityBox" class="hidden">
+              <label class="block text-xs uppercase text-slate-400 mb-1">Priority</label>
+              <input type="number" name="priority" id="dnsPriorityInput" placeholder="10" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm" />
+            </div>
+            <div id="dnsTtlBox">
+              <label class="block text-xs uppercase text-slate-400 mb-1">TTL</label>
+              <select name="ttl" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+                <option value="1" selected>Auto</option><option value="60">1 Min</option><option value="300">5 Min</option><option value="3600">1 Hour</option>
+              </select>
+            </div>
+            <div id="dnsSslBox">
+              <label class="block text-xs uppercase text-slate-400 mb-1">Also Set SSL</label>
+              <select name="ssl_mode" id="dnsSslSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+                <option value="">No Change</option><option value="flexible" selected>Flexible</option><option value="full">Full</option><option value="strict">Full (Strict)</option>
+              </select>
+            </div>
+          </div>
+          <label id="dnsProxyBox" class="flex items-center space-x-2 text-sm">
+            <input type="checkbox" name="proxied" id="dnsProxiedCheckbox" value="true" checked class="accent-[#F38020] w-4 h-4" />
+            <span>Proxy Enabled (Orange Cloud)</span>
+          </label>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <label class="flex items-center space-x-2 text-xs text-amber-300 font-medium cursor-pointer">
+              <input type="checkbox" name="dry_run" value="true" class="accent-amber-500 w-4 h-4" />
+              <span>Dry-Run (Preview)</span>
+            </label>
+            <div class="flex items-center gap-1.5 text-xs">
+              <span class="text-slate-400">Delay(ms):</span>
+              <input type="number" name="request_delay_ms" value="0" min="0" max="5000" step="50" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-xs" />
+            </div>
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#F38020] hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg">Execute Bulk DNS</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#F38020]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#F38020] uppercase tracking-wide">Step-by-Step Guide • 1. Bulk DNS Manager</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Add, replace, or delete one DNS record type across up to 1,000 Cloudflare domains in parallel, with optional SSL mode updates.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Cloudflare Token:</strong> Choose a saved Cloudflare account above or paste a User API Token with <code class="text-slate-200">Zone:Read</code>, <code class="text-slate-200">DNS:Edit</code>, and <code class="text-slate-200">Zone Settings:Edit</code>.</li>
+            <li><strong>Step 2 — Domain List (Max 1,000):</strong> Paste one domain or subdomain per line. Click <strong>Clean &amp; Deduplicate</strong> to remove <code class="text-slate-200">https://</code>, paths, and duplicates.</li>
+            <li><strong>Step 3 — Action &amp; Record Details:</strong> Pick <strong>Replace / Create</strong> (overwrites matching records), <strong>Add If Missing</strong> (leaves existing records intact), or <strong>Delete Record</strong>. Select <strong>Record Type</strong>, <strong>Name</strong> (<code class="text-slate-200">@</code> = root), and <strong>Content</strong>.</li>
+            <li><strong>Step 4 — Proxy, Delay &amp; Dry-Run:</strong> Keep <strong>Proxy Enabled</strong> checked only for <code class="text-slate-200">A/AAAA/CNAME</code> web records. Check <strong>Dry-Run (Preview)</strong> to test without writing DNS changes.</li>
+            <li><strong>Step 5 — Execute &amp; Follow Up:</strong> Click <strong>Execute Bulk DNS</strong> (or <code class="text-slate-200">Ctrl + Enter</code>). Filter <strong>Failed</strong> rows if needed, click <strong>Retry Failed</strong>, and click <strong>Export Tab CSV</strong>.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-dns"></div>
+    </div>
+
+    <!-- TAB 2: CSV UPLOAD -->
+    <div id="panel-csv" class="tab-panel hidden space-y-4">
+      <form id="form-csv" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#F38020]/50">
+        <div class="md:col-span-2 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Upload Multi-Record CSV</label>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">Max: 1,000 rows / run</span>
+            </div>
+            <a href="/sample-csv" class="text-xs text-[#F38020] hover:underline font-mono">Download Sample CSV</a>
+          </div>
+          <input type="file" name="csv_file" accept=".csv" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#F38020] file:text-white" />
+          <p class="text-xs text-slate-400 font-mono">Columns: <span class="text-slate-200">domain, action (replace/add_if_missing/delete), type, name, content, proxied, priority, ttl, ssl_mode</span></p>
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="runBtn w-full bg-[#F38020] hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg">Upload &amp; Run CSV</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#F38020]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#F38020] uppercase tracking-wide">Step-by-Step Guide • 2. CSV Multi-Record Import</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Apply multiple DNS record types (<code class="text-slate-200">A</code>, <code class="text-slate-200">CNAME</code>, <code class="text-slate-200">MX</code>, <code class="text-slate-200">TXT</code>) or domain-specific values in one batch (up to 1,000 CSV rows).</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Download Sample CSV:</strong> Click <strong>Download Sample CSV</strong> to inspect the exact column headers and sample values.</li>
+            <li><strong>Step 2 — Populate Rows (Max 1,000):</strong> For each row, enter <code class="text-slate-200">domain</code>, <code class="text-slate-200">action</code> (<code class="text-slate-200">replace</code>, <code class="text-slate-200">add_if_missing</code>, or <code class="text-slate-200">delete</code>), <code class="text-slate-200">type</code>, <code class="text-slate-200">name</code>, and <code class="text-slate-200">content</code>.</li>
+            <li><strong>Step 3 — Proxy &amp; MX Priority:</strong> Set <code class="text-slate-200">proxied=true</code> only for <code class="text-slate-200">A/AAAA/CNAME</code> records, and add numeric <code class="text-slate-200">priority</code> (such as <code class="text-slate-200">10</code>) for <code class="text-slate-200">MX</code> records.</li>
+            <li><strong>Step 4 — Upload &amp; Run:</strong> Select your <code class="text-slate-200">.csv</code> file, ensure your Cloudflare token is set above, and click <strong>Upload &amp; Run CSV</strong>.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-csv"></div>
+    </div>
+
+    <!-- TAB 3: SSL & CACHE -->
+    <div id="panel-ssl" class="tab-panel hidden space-y-4">
+      <form id="form-ssl" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#F38020]/50">
+        <div class="md:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Domains (One per line)</label>
+              <span id="count-ssl" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <button type="button" onclick="cleanDomainTextarea('sslDomainsTa')" class="text-[11px] text-[#F38020] hover:underline font-mono">Clean &amp; Deduplicate</button>
+          </div>
+          <textarea name="domains_text" id="sslDomainsTa" rows="8" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">SSL/TLS Mode</label>
+            <select name="ssl_mode" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="">No Change</option><option value="flexible" selected>Flexible</option><option value="full">Full</option><option value="strict">Full (Strict)</option><option value="off">Off</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">Always HTTPS</label>
+              <select name="always_https" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+                <option value="">No Change</option><option value="on">On</option><option value="off">Off</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">HTTPS Rewrites</label>
+              <select name="auto_https_rewrites" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+                <option value="">No Change</option><option value="on">On</option><option value="off">Off</option>
+              </select>
+            </div>
+          </div>
+          <label class="flex items-center space-x-2 text-sm">
+            <input type="checkbox" name="purge_cache" value="true" class="accent-[#F38020] w-4 h-4" />
+            <span>Purge Everything (Cache)</span>
+          </label>
+          <button type="submit" class="runBtn w-full bg-[#F38020] hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg">Apply SSL &amp; Cache</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#F38020]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#F38020] uppercase tracking-wide">Step-by-Step Guide • 3. SSL/TLS &amp; Cache Purge</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Update SSL/TLS encryption modes, force HTTPS traffic, and purge Cloudflare cached assets for up to 1,000 domains at once.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Paste Domains (Max 1,000):</strong> Enter one domain per line and optionally click <strong>Clean &amp; Deduplicate</strong>.</li>
+            <li><strong>Step 2 — Choose SSL/TLS Mode:</strong> Pick <code class="text-slate-200">Flexible</code> (common for S3 static website endpoints), <code class="text-slate-200">Full</code>, <code class="text-slate-200">Full (Strict)</code>, or <strong>No Change</strong>.</li>
+            <li><strong>Step 3 — HTTPS &amp; Cache Purge:</strong> Set <strong>Always HTTPS</strong> to <code class="text-slate-200">On</code> to redirect HTTP to HTTPS, and check <strong>Purge Everything (Cache)</strong> after updating site files or DNS.</li>
+            <li><strong>Step 4 — Apply:</strong> Click <strong>Apply SSL &amp; Cache</strong> and review the live table results.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-ssl"></div>
+    </div>
+
+    <!-- TAB 4: BULK REDIRECTS -->
+    <div id="panel-redir" class="tab-panel hidden space-y-4">
+      <form id="form-redir" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#F38020]/50">
+        <div class="md:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Root Domains (One per line)</label>
+              <span id="count-redir" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <button type="button" onclick="cleanDomainTextarea('redirDomainsTa')" class="text-[11px] text-[#F38020] hover:underline font-mono">Clean &amp; Deduplicate</button>
+          </div>
+          <textarea name="domains_text" id="redirDomainsTa" rows="8" required placeholder="example1.com&#10;example2.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Redirect Mode</label>
+            <select name="redirect_preset" id="redirectPreset" onchange="toggleRedirectInputs()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="root_to_subdomain" selected>Root (@) → Subdomain (e.g. www / app)</option>
+              <option value="custom_url">All Traffic (*domain/*) → Custom URL</option>
+            </select>
+          </div>
+          <div id="subdomainBox">
+            <label class="block text-xs uppercase text-slate-400 mb-1">Target Subdomain Prefix</label>
+            <input type="text" name="subdomain_prefix" value="www" placeholder="e.g. www, app, portal, go" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+          </div>
+          <div id="customUrlBox" class="hidden">
+            <label class="block text-xs uppercase text-slate-400 mb-1">Destination URL (Supports {domain})</label>
+            <input type="text" name="target_url" placeholder="https://portal.{domain} or https://brand.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Status Code</label>
+            <select name="status_code" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="301" selected>301 Permanent Redirect</option><option value="302">302 Temporary Redirect</option>
+            </select>
+          </div>
+          <label class="flex items-center space-x-2 text-sm">
+            <input type="checkbox" name="preserve_path" value="true" checked class="accent-[#F38020] w-4 h-4" />
+            <span>Preserve URL Path ($1 / $2)</span>
+          </label>
+          <label class="flex items-center space-x-2 text-sm">
+            <input type="checkbox" name="ensure_proxied_root" value="true" checked class="accent-[#F38020] w-4 h-4" />
+            <span>Auto-add Proxied Root A if missing</span>
+          </label>
+          <button type="submit" class="runBtn w-full bg-[#F38020] hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg">Create Bulk Redirects</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#F38020]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#F38020] uppercase tracking-wide">Step-by-Step Guide • 4. Bulk Domain Redirects</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Create 301 or 302 forwarding Page Rules across up to 1,000 Cloudflare zones so root or all domain traffic forwards to a subdomain or destination URL.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Paste Root Domains (Max 1,000):</strong> Enter one root domain per line (e.g., <code class="text-slate-200">example.com</code>).</li>
+            <li><strong>Step 2 — Choose Redirect Mode:</strong> Select <strong>Root → Subdomain</strong> (enter prefix like <code class="text-slate-200">www</code> or <code class="text-slate-200">app</code>) or <strong>All Traffic → Custom URL</strong> (use <code class="text-slate-200">{domain}</code> if you want each domain inserted into the target URL).</li>
+            <li><strong>Step 3 — Set Status &amp; Path Options:</strong> Pick <code class="text-slate-200">301</code> (permanent) or <code class="text-slate-200">302</code> (temporary), keep <strong>Preserve URL Path</strong> checked to keep paths, and keep <strong>Auto-add Proxied Root A</strong> checked if a zone has no root <code class="text-slate-200">A</code> record yet.</li>
+            <li><strong>Step 4 — Create Rules:</strong> Click <strong>Create Bulk Redirects</strong> and check each domain's result.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-redir"></div>
+    </div>
+    <!-- TAB 5: ZONE PROVISIONING & NS FETCHER -->
+    <div id="panel-prov" class="tab-panel hidden space-y-4">
+      <form id="form-prov" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#F38020]/50">
+        <div class="md:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Domains to Add or Fetch Nameservers (One per line)</label>
+              <span id="count-prov" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <button type="button" onclick="cleanDomainTextarea('provDomainsTa')" class="text-[11px] text-[#F38020] hover:underline font-mono">Clean &amp; Deduplicate</button>
+          </div>
+          <textarea name="domains_text" id="provDomainsTa" rows="7" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-xs uppercase text-slate-400">Target Account</label>
+              <button type="button" onclick="loadAccounts('accountSelect')" class="text-xs text-[#F38020] hover:underline">Load Accounts</button>
+            </div>
+            <select name="account_id" id="accountSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="">Click 'Load Accounts'...</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Action Mode</label>
+            <select name="mode" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="create_and_fetch" selected>Create Zone (Free) &amp; Get NS</option><option value="fetch_only">Fetch Existing NS Only</option>
+            </select>
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#F38020] hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg">Provision / Fetch NS</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#F38020]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#F38020] uppercase tracking-wide">Step-by-Step Guide • 5. Add Zones &amp; Fetch Nameservers</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Create new Free-tier Cloudflare zones in bulk or pull assigned Cloudflare nameservers (<code class="text-slate-200">ns1 / ns2</code>) for up to 1,000 domains.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Load Target Account:</strong> Ensure your Cloudflare token has <code class="text-slate-200">Account Settings:Read</code> and <code class="text-slate-200">Zone:Edit</code> permissions, then click <strong>Load Accounts</strong> and select the destination account.</li>
+            <li><strong>Step 2 — Paste Root Domains (Max 1,000):</strong> Enter one root domain per line (do not enter subdomains here) and click <strong>Clean &amp; Deduplicate</strong>.</li>
+            <li><strong>Step 3 — Choose Action Mode:</strong> Pick <strong>Create Zone (Free) &amp; Get NS</strong> to provision new zones and retrieve their nameservers, or <strong>Fetch Existing NS Only</strong> to read nameservers for zones already in Cloudflare.</li>
+            <li><strong>Step 4 — Run &amp; Export NS CSV:</strong> Click <strong>Provision / Fetch NS</strong>, then click <strong>Export Tab CSV</strong> to download the assigned nameserver pairs for your registrar.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-prov"></div>
+    </div>
+
+    <!-- TAB 6: DNS AUDITOR & BACKUP -->
+    <div id="panel-audit" class="tab-panel hidden space-y-4">
+      <form id="form-audit" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#F38020]/50">
+        <div class="md:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Domains to Audit / Export DNS (One per line)</label>
+              <span id="count-audit" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <button type="button" onclick="cleanDomainTextarea('auditDomainsTa')" class="text-[11px] text-[#F38020] hover:underline font-mono">Clean &amp; Deduplicate</button>
+          </div>
+          <textarea name="domains_text" id="auditDomainsTa" rows="6" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+        </div>
+        <div class="space-y-3 flex flex-col justify-between">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Filter Record Type</label>
+            <select name="filter_type" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="" selected>All Record Types</option><option value="A">A Only</option><option value="CNAME">CNAME Only</option><option value="MX">MX Only</option><option value="TXT">TXT (SPF/DKIM/DMARC/Postmaster/Yahoo/SES)</option>
+            </select>
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#F38020] hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg">Audit &amp; Export CSV</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#F38020]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#F38020] uppercase tracking-wide">Step-by-Step Guide • 6. DNS Auditor &amp; Backup</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Read-only DNS snapshot across up to 1,000 domains—use this before bulk changes to back up live records or verify SPF, DKIM, DMARC, Postmaster, Yahoo, and SES entries.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Enter Domains (Max 1,000):</strong> Paste one domain per line and click <strong>Clean &amp; Deduplicate</strong>.</li>
+            <li><strong>Step 2 — Filter Record Type:</strong> Leave on <strong>All Record Types</strong> for a full zone dump, or pick <code class="text-slate-200">A</code>, <code class="text-slate-200">CNAME</code>, <code class="text-slate-200">MX</code>, or <code class="text-slate-200">TXT</code>.</li>
+            <li><strong>Step 3 — Audit &amp; Save Backup:</strong> Click <strong>Audit &amp; Export CSV</strong> to inspect live records in the table, then click <strong>Export Tab CSV</strong> to save a local backup file.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-audit"></div>
+    </div>
+
+    <!-- TAB 7: DYNADOT -> CLOUDFLARE -->
+    <div id="panel-dyna" class="tab-panel hidden space-y-4">
+      <form id="form-dyna" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#0099E5]/60">
+        <div class="md:col-span-2 space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-2">
+                <label class="block text-xs uppercase text-slate-400">Dynadot Domains to Move to Cloudflare (One per line)</label>
+                <span id="count-dyna" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+              </div>
+              <button type="button" onclick="cleanDomainTextarea('dynaDomainsTa')" class="text-[11px] text-[#0099E5] hover:underline font-mono">Clean &amp; Deduplicate</button>
+            </div>
+            <textarea name="domains_text" id="dynaDomainsTa" rows="8" required placeholder="newdomain1.com&#10;newdomain2.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+          </div>
+          <div class="border border-slate-800 bg-slate-950/70 rounded-lg p-3 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="flex items-center space-x-2 text-sm font-semibold text-[#0099E5] cursor-pointer">
+                <input type="checkbox" name="add_custom_records" id="dynaCustomRecToggle" value="true" onchange="toggleDynaCustomRec()" class="accent-[#0099E5] w-4 h-4" />
+                <span>Also Add Specified DNS Records (All CF Record Types)</span>
+              </label>
+              <button type="button" id="addDynaRecBtn" onclick="addDynaRecordRow()" class="hidden keep-white text-xs bg-[#0099E5] hover:bg-sky-500 text-white font-semibold px-2.5 py-1 rounded">+ Add Record Row</button>
+            </div>
+            <input type="hidden" name="custom_records_json" id="dynaCustomRecordsJson" value="[]" />
+            <div id="dynaCustomRecBox" class="hidden space-y-2 pt-1">
+              <p class="text-[11px] text-slate-400">Supports <code class="text-slate-200">{domain}</code> placeholder (e.g., <code class="text-slate-200">track.{domain}</code>).</p>
+              <div id="dynaRecordRows" class="space-y-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-xs uppercase text-slate-400">Destination CF Account</label>
+              <button type="button" onclick="loadAccounts('dynaAccountSelect')" class="text-xs text-[#0099E5] hover:underline">Load Accounts</button>
+            </div>
+            <select name="account_id" id="dynaAccountSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="">Click 'Load Accounts'...</option>
+            </select>
+          </div>
+          <div class="bg-slate-950 border border-[#0099E5]/40 rounded-lg p-2.5 space-y-2">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[11px] font-bold uppercase text-[#0099E5]">Dynadot Account &amp; Key {% if has_env_dynadot %}<span class="text-emerald-400">(ENV)</span>{% endif %}</span>
+              <button type="button" onclick="deleteCredentialProfile('dyna')" class="text-[11px] text-rose-400 hover:underline">Delete</button>
+            </div>
+            <select id="dynaProfileSelect" onchange="selectCredentialProfile('dyna')" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-mono">
+              <option value="">-- Saved Dynadot Accounts (0) --</option>
+            </select>
+            <div class="flex gap-1.5">
+              <input type="text" id="dynaAccountLabel" placeholder="Account Name" class="w-1/2 bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+              <input type="password" name="dynadot_key" id="dynaKeyInput" placeholder="Dynadot API3 Key..." class="w-1/2 bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+            </div>
+            <button type="button" onclick="saveCredentialProfile('dyna')" class="keep-white w-full text-xs bg-[#0099E5]/80 hover:bg-[#0099E5] text-white font-semibold py-1 rounded">Save Dynadot Account</button>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] uppercase text-slate-400 mb-1">SSL/TLS Mode</label>
+              <select name="ssl_mode" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs">
+                <option value="flexible" selected>Flexible</option><option value="full">Full</option><option value="strict">Full (Strict)</option><option value="off">Off</option><option value="">No Change</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] uppercase text-slate-400 mb-1">Always HTTPS</label>
+              <select name="always_https" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs">
+                <option value="on" selected>On</option><option value="off">Off</option><option value="">No Change</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] uppercase text-slate-400 mb-1">HTTPS Rewrites</label>
+              <select name="auto_https_rewrites" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs">
+                <option value="">No Change</option><option value="on">On</option><option value="off">Off</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] uppercase text-slate-400 mb-1">Dynadot Auto-Renew</label>
+              <select name="dyna_renew" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-semibold">
+                <option value="">No Change</option><option value="auto">Auto-Renew: ON</option><option value="donot">Auto-Renew: OFF</option>
+              </select>
+            </div>
+          </div>
+          <label class="flex items-center space-x-2 text-xs text-sky-300 font-medium pt-1">
+            <input type="checkbox" name="import_dynadot_dns" value="true" checked class="accent-[#0099E5] w-4 h-4" />
+            <span>Import Dynadot A Records / IPs</span>
+          </label>
+          <label class="flex items-center space-x-2 text-xs text-slate-300">
+            <input type="checkbox" name="trigger_activation_check" value="true" checked class="accent-[#0099E5] w-4 h-4" />
+            <span>Trigger Immediate CF Nameserver Check</span>
+          </label>
+          <button type="submit" class="runBtn w-full bg-[#0099E5] hover:bg-sky-500 text-white font-semibold py-2.5 rounded-lg">Sync Dynadot NS → Cloudflare</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#0099E5]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#0099E5] uppercase tracking-wide">Step-by-Step Guide • 7. Dynadot → Cloudflare Migration</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> End-to-end migration of up to 1,000 Dynadot domains into Cloudflare—creates zones, updates Dynadot nameservers (<code class="text-slate-200">set_ns</code>), imports existing <code class="text-slate-200">A</code> records, configures SSL/HTTPS, sets auto-renew, and optionally injects custom DNS records.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Enable Dynadot API3 &amp; Whitelist IP:</strong> Log into Dynadot (<code class="text-slate-200">Tools → API</code>), turn API status ON, copy your API3 key, and add your current public IPv4 address to the Dynadot IP whitelist.</li>
+            <li><strong>Step 2 — Save Dynadot &amp; Select Cloudflare Account:</strong> Save your Dynadot account profile above, then click <strong>Load Accounts</strong> and pick your destination Cloudflare account.</li>
+            <li><strong>Step 3 — Paste Domains &amp; Configure Settings:</strong> Enter up to 1,000 domains. Keep <strong>Import Dynadot A Records</strong> checked to preserve existing root IPs, set <strong>SSL/TLS</strong> and <strong>Dynadot Auto-Renew</strong>, and check <strong>Also Add Specified DNS Records</strong> to add <code class="text-slate-200">A</code>, <code class="text-slate-200">CNAME</code>, <code class="text-slate-200">MX</code>, or <code class="text-slate-200">TXT</code> records immediately.</li>
+            <li><strong>Step 4 — Sync &amp; Verify:</strong> Click <strong>Sync Dynadot NS → Cloudflare</strong>. If any domain fails (e.g., IP whitelist or rate limit), filter <strong>Failed</strong> and click <strong>Retry Failed</strong>.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-dyna"></div>
+    </div>
+
+    <!-- TAB 8: AWS S3 DEPLOY / VERIFY / TEARDOWN -->
+    <div id="panel-s3" class="tab-panel hidden space-y-4">
+      <form id="form-s3" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#FF9900]/60">
+        <div class="md:col-span-2 space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-2">
+                <label class="block text-xs uppercase text-slate-400">Domains to Deploy, Verify or Teardown (One per line)</label>
+                <span id="count-s3" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+              </div>
+              <button type="button" onclick="cleanDomainTextarea('s3DomainsTa')" class="text-[11px] text-[#FF9900] hover:underline font-mono">Clean &amp; Deduplicate</button>
+            </div>
+            <textarea name="domains_text" id="s3DomainsTa" rows="8" required placeholder="primesecurityinsurance.com&#10;barnum-notary.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">S3 Operation Mode</label>
+              <select name="s3_operation" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm font-semibold">
+                <option value="deploy" selected>Deploy Static Website + Update CF DNS</option>
+                <option value="verify_only">Verify Live HTTP (200 OK)</option>
+                <option value="teardown">Teardown (Delete S3 Bucket &amp; CF CNAME)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">AWS Region</label>
+              <input type="text" name="aws_region" value="us-east-1" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <div class="bg-slate-950 border border-[#FF9900]/40 rounded-lg p-2.5 space-y-2">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[11px] font-bold uppercase text-[#FF9900]">AWS S3 Account &amp; Keys {% if has_env_aws %}<span class="text-emerald-400">(ENV)</span>{% endif %}</span>
+              <button type="button" onclick="deleteCredentialProfile('s3')" class="text-[11px] text-rose-400 hover:underline">Delete</button>
+            </div>
+            <select id="s3ProfileSelect" onchange="selectCredentialProfile('s3')" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-mono">
+              <option value="">-- Saved AWS Accounts (0) --</option>
+            </select>
+            <input type="text" id="s3AccountLabel" placeholder="Account Name" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+            <input type="password" name="aws_access_key" id="s3AwsKeyInput" placeholder="AWS Access Key ID (AKIA...)" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+            <input type="password" name="aws_secret_key" id="s3AwsSecretInput" placeholder="AWS Secret Access Key" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+            <button type="button" onclick="saveCredentialProfile('s3')" class="keep-white w-full text-xs bg-[#FF9900]/80 hover:bg-[#FF9900] text-white font-semibold py-1 rounded">Save AWS Account</button>
+          </div>
+          <label class="flex items-center space-x-2 text-xs"><input type="checkbox" name="add_www_cname" value="true" class="accent-[#FF9900] w-4 h-4" /><span>Also add www CNAME → S3</span></label>
+          <label class="flex items-center space-x-2 text-xs"><input type="checkbox" name="set_flexible_ssl" value="true" checked class="accent-[#FF9900] w-4 h-4" /><span>Set SSL/TLS to Flexible</span></label>
+          <label class="flex items-center space-x-2 text-xs"><input type="checkbox" name="always_https" value="true" checked class="accent-[#FF9900] w-4 h-4" /><span>Enable Always Use HTTPS</span></label>
+          <label class="flex items-center space-x-2 text-xs"><input type="checkbox" name="verify_after_deploy" value="true" class="accent-[#FF9900] w-4 h-4" /><span>Verify Live HTTP After Deploy</span></label>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <label class="flex items-center space-x-2 text-xs text-amber-300 font-medium cursor-pointer"><input type="checkbox" name="dry_run" value="true" class="accent-[#FF9900] w-4 h-4" /><span>Dry-Run (Preview)</span></label>
+            <div class="flex items-center gap-1.5 text-xs"><span class="text-slate-400">Delay(ms):</span><input type="number" name="request_delay_ms" value="0" min="0" max="5000" step="50" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-xs" /></div>
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#FF9900] hover:bg-amber-500 text-white font-semibold py-2.5 rounded-lg">Execute AWS S3 Action</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#FF9900]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#FF9900] uppercase tracking-wide">Step-by-Step Guide • 8. AWS S3 Static Hosting</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Create public S3 static website buckets, configure Cloudflare <code class="text-slate-200">CNAME</code> records + <code class="text-slate-200">Flexible</code> SSL, verify live HTTP <code class="text-slate-200">200 OK</code> responses, or tear down buckets for up to 1,000 domains.</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Save AWS S3 Credentials:</strong> Use an IAM user with <code class="text-amber-300">AmazonS3FullAccess</code>, paste the Access Key ID and Secret Access Key above, and click <strong>Save AWS Account</strong>.</li>
+            <li><strong>Step 2 — Select Operation Mode &amp; Region:</strong> Choose <strong>Deploy Static Website + Update CF DNS</strong> to create buckets and point Cloudflare CNAMEs, <strong>Verify Live HTTP (200 OK)</strong> to check live sites, or <strong>Teardown</strong> to delete buckets and CNAMEs.</li>
+            <li><strong>Step 3 — Configure SSL &amp; CNAME Options:</strong> Keep <strong>Set SSL/TLS to Flexible</strong> and <strong>Enable Always Use HTTPS</strong> checked because S3 website endpoints serve over HTTP.</li>
+            <li><strong>Step 4 — Execute:</strong> Paste up to 1,000 domains and click <strong>Execute AWS S3 Action</strong>.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-s3"></div>
+    </div>
+
+    <!-- TAB 9: GOOGLE POSTMASTER -->
+    <div id="panel-pm" class="tab-panel hidden space-y-4">
+      <form id="form-pm" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#EA4335]/60">
+        <div class="md:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Root Domains &amp; Subdomains for Postmaster (One per line)</label>
+              <span id="count-pm" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <button type="button" onclick="cleanDomainTextarea('pmDomainsTa')" class="text-[11px] text-[#EA4335] hover:underline font-mono">Clean &amp; Deduplicate</button>
+          </div>
+          <textarea name="domains_text" id="pmDomainsTa" rows="9" required placeholder="example1.com&#10;alerts.example1.com&#10;example2.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Verification Mode</label>
+            <select name="pm_mode" id="pmModeSelect" onchange="togglePmInputs()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+              <option value="google_api_auto" selected>Auto-Enroll in Postmaster UI + Verify DNS</option>
+              <option value="manual_txt">Bulk Add Shared Google TXT Token Only</option>
+            </select>
+          </div>
+          <div id="googleOauthBox" class="bg-slate-950 border border-[#EA4335]/40 rounded-lg p-2.5 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-[11px] font-bold uppercase text-[#EA4335]">Google Account &amp; OAuth {% if has_env_google %}<span class="text-emerald-400">(ENV)</span>{% endif %}</span>
+              <div class="flex items-center gap-2">
+                <a href="https://developers.google.com/oauthplayground/" target="_blank" class="text-[11px] text-[#4285F4] hover:underline">Get Token ↗</a>
+                <button type="button" onclick="deleteCredentialProfile('pm')" class="text-[11px] text-rose-400 hover:underline">Delete</button>
+              </div>
+            </div>
+            <select id="pmProfileSelect" onchange="selectCredentialProfile('pm')" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-mono">
+              <option value="">-- Saved Google Accounts (0) --</option>
+            </select>
+            <input type="text" id="pmAccountLabel" placeholder="Account Name (e.g. deepak@infoscience.co)" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+            <input type="password" name="google_oauth_token" id="pmTokenInput" placeholder="ya29.a0..." class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+            <button type="button" onclick="saveCredentialProfile('pm')" class="keep-white w-full text-xs bg-[#EA4335]/80 hover:bg-[#EA4335] text-white font-semibold py-1 rounded">Save Google Account</button>
+            <div id="pmTokenExpiryBadge" class="flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
+              <span id="pmTokenExpiryText">Paste or select a token to check exact expiry seconds.</span>
+              <button type="button" onclick="syncGoogleTokenExactExpiry(true)" class="text-[10px] text-sky-400 hover:underline shrink-0">Sync</button>
+            </div>
+          </div>
+          <div id="manualTxtBox" class="hidden">
+            <label class="block text-xs uppercase text-slate-400 mb-1">Google Verification TXT Value</label>
+            <input type="text" name="manual_txt_token" placeholder="google-site-verification=..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+          </div>
+          <div id="waitBox">
+            <label class="block text-xs uppercase text-slate-400 mb-1">DNS Propagation Wait (Seconds)</label>
+            <input type="number" name="propagation_wait" value="1" min="0" max="10" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#EA4335] hover:bg-red-500 text-white font-semibold py-2.5 rounded-lg">Verify Postmaster &amp; Sync DNS</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#EA4335]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#EA4335] uppercase tracking-wide">Step-by-Step Guide • 9. Google Postmaster Tools DNS</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Enroll root domains or subdomains in Google Postmaster Tools, add the <code class="text-slate-200">google-site-verification=...</code> DNS TXT record in Cloudflare, and verify ownership in bulk (up to 1,000 domains).</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Generate Google OAuth Token:</strong> Click <strong>Get Token ↗</strong> to open OAuth 2.0 Playground, authorize <code class="text-rose-300">https://www.googleapis.com/auth/postmaster</code> and <code class="text-rose-300">https://www.googleapis.com/auth/siteverification</code>, exchange for an access token (<code class="text-slate-200">ya29...</code>), and paste it above.</li>
+            <li><strong>Step 2 — Monitor Live Token Countdown:</strong> The timer badge below <strong>Save Google Account</strong> displays the exact remaining seconds in real time (<code class="text-slate-200">The access token will expire in ... seconds</code>). If it approaches <code class="text-slate-200">0</code>, generate a fresh token before running a large batch.</li>
+            <li><strong>Step 3 — Enter Domains &amp; Subdomains (Max 1,000):</strong> Paste root domains (e.g., <code class="text-slate-200">example.com</code>) or sending subdomains (e.g., <code class="text-slate-200">alerts.example.com</code>), one per line.</li>
+            <li><strong>Step 4 — Verify &amp; Refresh Postmaster UI:</strong> Click <strong>Verify Postmaster &amp; Sync DNS</strong>. Once finished, refresh <code class="text-slate-200">postmaster.google.com</code> (<code class="text-slate-200">Ctrl + F5</code>) to confirm green <strong>Verified</strong> status.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-pm"></div>
+    </div>
+    <!-- TAB 10: YAHOO SENDER HUB -->
+    <div id="panel-ysh" class="tab-panel hidden space-y-4">
+      <form id="form-ysh" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#6001D2]/70">
+        <div class="md:col-span-2 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs uppercase text-slate-400">Root Domain &amp; Token Pairs (<span class="text-purple-300 font-mono">domain,yahoo-verification-key=...</span>)</label>
+              <span id="count-ysh" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="cleanDomainTextarea('yshDomainsTextarea')" class="text-[11px] text-purple-300 hover:underline font-mono">Clean &amp; Deduplicate</button>
+              <button type="button" id="pullYahooBtn" onclick="pullUnverifiedFromYahoo(true)" class="keep-white text-xs bg-[#6001D2] hover:bg-purple-600 text-white font-semibold px-2.5 py-1 rounded">↓ Pull Unverified from Yahoo</button>
+              <a href="/sample-yahoo-csv" class="text-xs text-purple-400 hover:underline font-mono">Sample CSV</a>
+            </div>
+          </div>
+          <textarea name="domains_text" id="yshDomainsTextarea" rows="6" placeholder="Select a saved Yahoo account or paste your cookie, click '↓ Pull Unverified from Yahoo', upload a CSV below, or paste domain,token pairs..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Or Upload Yahoo Verification Tokens CSV (2 Columns: domain, verification_token)</label>
+            <input type="file" name="yahoo_csv" accept=".csv" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#6001D2] file:text-white" />
+          </div>
+        </div>
+
+        <div class="space-y-3 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <input type="hidden" name="ysh_mode" value="token_pairs" />
+            <div id="yahooCookieBox" class="bg-slate-950 border border-[#6001D2]/50 rounded-lg p-2.5 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-[11px] font-bold uppercase text-purple-300">Yahoo Account &amp; Cookie {% if has_env_yahoo %}<span class="text-emerald-400">(ENV)</span>{% endif %}</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="pullUnverifiedFromYahoo(false)" class="text-[11px] text-emerald-400 hover:underline">Check</button>
+                  <a href="https://senders.yahooinc.com/" target="_blank" class="text-[11px] text-purple-300 hover:underline">YSH ↗</a>
+                  <button type="button" onclick="deleteCredentialProfile('ysh')" class="text-[11px] text-rose-400 hover:underline">Del</button>
+                </div>
+              </div>
+              <select id="yshProfileSelect" onchange="selectCredentialProfile('ysh')" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-mono">
+                <option value="">-- Saved Yahoo Accounts (0) --</option>
+              </select>
+              <input type="text" id="yshAccountLabel" placeholder="Account Name" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+              <input type="password" name="yahoo_cookie" id="yahooCookieInput" placeholder="Paste Yahoo Cookie header..." class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+              <button type="button" onclick="saveCredentialProfile('ysh')" class="keep-white w-full text-xs bg-[#6001D2]/90 hover:bg-[#6001D2] text-white font-semibold py-1 rounded">Save Yahoo Account</button>
+              <div id="yahooCookieStatus" class="hidden text-[11px] font-mono px-2 py-1 rounded border"></div>
+            </div>
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">DNS Propagation Wait (Seconds)</label>
+              <input type="number" name="propagation_wait" value="1" min="0" max="10" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+            </div>
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#6001D2] hover:bg-purple-600 text-white font-semibold py-2.5 rounded-lg">Sync Cloudflare DNS &amp; Verify in Yahoo</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#6001D2]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-purple-300 uppercase tracking-wide">Step-by-Step Guide • 10. Yahoo Sender Hub</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Automatically pull unverified domains from Yahoo Sender Hub, publish <code class="text-slate-200">yahoo-verification-key=...</code> TXT records on root domains in Cloudflare, and trigger verification in bulk (up to 1,000 domains).</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Copy &amp; Save Yahoo Cookie:</strong> Sign into <code class="text-slate-200">senders.yahooinc.com</code>, open DevTools (<code class="text-slate-200">F12 → Network → Fetch/XHR</code>), reload, copy the full <code class="text-purple-300">cookie:</code> request header, and click <strong>Save Yahoo Account</strong>.</li>
+            <li><strong>Step 2 — Pull Unverified Domains (or Upload CSV):</strong> Click <strong>↓ Pull Unverified from Yahoo</strong> to populate <code class="text-slate-200">domain,yahoo-verification-key=...</code> pairs automatically, or upload a 2-column CSV.</li>
+            <li><strong>Step 3 — Sync DNS &amp; Verify:</strong> Click <strong>Sync Cloudflare DNS &amp; Verify in Yahoo</strong>. If Yahoo returns a session/403 error, refresh your cookie from the browser, update the saved profile, and click <strong>Retry Failed</strong>.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-ysh"></div>
+    </div>
+
+    <!-- TAB 11: AMAZON SES -->
+    <div id="panel-ses" class="tab-panel hidden space-y-4">
+      <form id="form-ses" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-900 p-5 rounded-xl border border-[#FF9900]/60">
+        <div class="md:col-span-2 space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-2">
+                <label class="block text-xs uppercase text-slate-400">Domains to Add &amp; Verify in Amazon SES (One per line)</label>
+                <span id="count-ses" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-700 text-emerald-400">0 / 1,000 domains</span>
+              </div>
+              <button type="button" onclick="cleanDomainTextarea('sesDomainsTa')" class="text-[11px] text-[#FF9900] hover:underline font-mono">Clean &amp; Deduplicate</button>
+            </div>
+            <textarea name="domains_text" id="sesDomainsTa" rows="7" required placeholder="example1.com&#10;example2.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-sm"></textarea>
+          </div>
+
+          <div class="bg-slate-950/70 p-3.5 rounded-lg border border-slate-800 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold uppercase text-[#FF9900]">Required &amp; Optional Domain DNS Setup (All CNAMEs Added with Proxy OFF)</span>
+              <span class="text-[11px] font-mono text-emerald-400">3 Easy DKIM CNAMEs: Always Added (Gray Cloud)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="space-y-1.5 bg-slate-900/70 p-2.5 rounded border border-slate-800">
+                <label class="flex items-center space-x-2 text-xs text-slate-200 font-semibold cursor-pointer">
+                  <input type="checkbox" name="add_root_spf" value="true" checked class="accent-[#FF9900] w-4 h-4" />
+                  <span>Smart SPF Merge (<code class="text-[#FF9900]">@</code>)</span>
+                </label>
+                <p class="text-[11px] text-slate-400">Merges <code class="text-slate-200">include:amazonses.com</code> into existing SPF or creates one if none exists.</p>
+              </div>
+              <div class="space-y-1.5 bg-slate-900/70 p-2.5 rounded border border-slate-800">
+                <label class="flex items-center space-x-2 text-xs text-slate-200 font-semibold cursor-pointer">
+                  <input type="checkbox" name="add_ses_dmarc" id="sesDmarcToggle" value="true" checked onchange="toggleSesDmarc()" class="accent-[#FF9900] w-4 h-4" />
+                  <span>Add SES DMARC (<code class="text-[#FF9900]">_dmarc</code>)</span>
+                </label>
+                <div id="sesDmarcFields" class="space-y-1.5">
+                  <select name="dmarc_policy" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs font-mono">
+                    <option value="none" selected>v=DMARC1; p=none;</option><option value="quarantine">v=DMARC1; p=quarantine;</option><option value="reject">v=DMARC1; p=reject;</option>
+                  </select>
+                  <input type="text" name="dmarc_rua" placeholder="Optional rua email" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 font-mono text-[11px]" />
+                </div>
+              </div>
+              <div class="space-y-1.5 bg-slate-900/70 p-2.5 rounded border border-slate-800">
+                <label class="flex items-center space-x-2 text-xs text-[#FF9900] font-semibold cursor-pointer">
+                  <input type="checkbox" name="enable_mail_from" id="sesEnableMailFrom" value="true" onchange="toggleSesMailFrom()" class="accent-[#FF9900] w-4 h-4" />
+                  <span>Custom MAIL FROM (Optional)</span>
+                </label>
+                <input type="text" name="mail_from_sub" id="sesMailFromInput" value="mail" disabled placeholder="Prefix (e.g. mail)" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 font-mono text-xs opacity-50" />
+                <p class="text-[11px] text-slate-400">Adds <code class="text-slate-200">MX 10</code> + <code class="text-slate-200">SPF</code> only when checked.</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-[11px] uppercase text-slate-400 mb-1">SES Configuration Set (Optional)</label>
+                <input type="text" name="config_set_name" placeholder="e.g. default-tracking-set" class="w-full bg-slate-950 border border-slate-700 rounded p-2 font-mono text-xs" />
+              </div>
+              <div>
+                <label class="block text-[11px] uppercase text-slate-400 mb-1">SNS Bounce &amp; Complaint Topic ARN (Optional)</label>
+                <input type="text" name="sns_topic_arn" placeholder="arn:aws:sns:us-east-1:123456789012:ses-bounces" class="w-full bg-slate-950 border border-slate-700 rounded p-2 font-mono text-xs" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2.5 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">SES Operation Mode</label>
+              <select name="ses_mode" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-semibold">
+                <option value="enroll_and_verify" selected>Enroll in SES + Add CF DNS + Verify</option>
+                <option value="check_status">Check Existing SES Status Only</option>
+              </select>
+            </div>
+            <div class="bg-slate-950 border border-[#FF9900]/40 rounded-lg p-2.5 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-[11px] font-bold uppercase text-[#FF9900]">AWS SES Account &amp; Keys {% if has_env_aws %}<span class="text-emerald-400">(ENV)</span>{% endif %}</span>
+                <div class="flex items-center gap-2">
+                  <a href="https://console.aws.amazon.com/iam/home#/users" target="_blank" class="text-[11px] text-[#FF9900] hover:underline">IAM ↗</a>
+                  <button type="button" onclick="deleteCredentialProfile('ses')" class="text-[11px] text-rose-400 hover:underline">Delete</button>
+                </div>
+              </div>
+              <select id="sesProfileSelect" onchange="selectCredentialProfile('ses')" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-xs font-mono">
+                <option value="">-- Saved AWS SES Accounts (0) --</option>
+              </select>
+              <input type="text" id="sesAccountLabel" placeholder="Account Name" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+              <input type="password" name="aws_access_key" id="sesAwsKeyInput" placeholder="AWS Access Key ID (AKIA...)" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+              <input type="password" name="aws_secret_key" id="sesAwsSecretInput" placeholder="AWS Secret Access Key" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-mono text-xs" />
+              <button type="button" onclick="saveCredentialProfile('ses')" class="keep-white w-full text-xs bg-[#FF9900]/80 hover:bg-[#FF9900] text-white font-semibold py-1 rounded">Save AWS SES Account</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs uppercase text-slate-400 mb-1">SES Region (All 35)</label>
+                <select name="aws_region" id="sesAwsRegionSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-xs">
+                  <optgroup label="US Regions"><option value="us-east-1" selected>us-east-1 (N. Virginia)</option><option value="us-east-2">us-east-2 (Ohio)</option><option value="us-west-1">us-west-1 (N. California)</option><option value="us-west-2">us-west-2 (Oregon)</option></optgroup>
+                  <optgroup label="Europe Regions"><option value="eu-west-1">eu-west-1 (Ireland)</option><option value="eu-west-2">eu-west-2 (London)</option><option value="eu-west-3">eu-west-3 (Paris)</option><option value="eu-central-1">eu-central-1 (Frankfurt)</option><option value="eu-central-2">eu-central-2 (Zurich)</option><option value="eu-north-1">eu-north-1 (Stockholm)</option><option value="eu-south-1">eu-south-1 (Milan)</option><option value="eu-south-2">eu-south-2 (Spain)</option></optgroup>
+                  <optgroup label="Asia Pacific Regions"><option value="ap-south-1">ap-south-1 (Mumbai)</option><option value="ap-south-2">ap-south-2 (Hyderabad)</option><option value="ap-southeast-1">ap-southeast-1 (Singapore)</option><option value="ap-southeast-2">ap-southeast-2 (Sydney)</option><option value="ap-southeast-3">ap-southeast-3 (Jakarta)</option><option value="ap-southeast-4">ap-southeast-4 (Melbourne)</option><option value="ap-southeast-5">ap-southeast-5 (Malaysia)</option><option value="ap-southeast-6">ap-southeast-6 (New Zealand)</option><option value="ap-southeast-7">ap-southeast-7 (Thailand)</option><option value="ap-northeast-1">ap-northeast-1 (Tokyo)</option><option value="ap-northeast-2">ap-northeast-2 (Seoul)</option><option value="ap-northeast-3">ap-northeast-3 (Osaka)</option><option value="ap-east-1">ap-east-1 (Hong Kong)</option><option value="ap-east-2">ap-east-2 (Taipei)</option></optgroup>
+                  <optgroup label="Canada &amp; Latin America"><option value="ca-central-1">ca-central-1 (Canada Central)</option><option value="ca-west-1">ca-west-1 (Calgary)</option><option value="mx-central-1">mx-central-1 (Mexico Central)</option><option value="sa-east-1">sa-east-1 (São Paulo)</option></optgroup>
+                  <optgroup label="Middle East, Israel &amp; Africa"><option value="me-south-1">me-south-1 (Bahrain)</option><option value="me-central-1">me-central-1 (UAE)</option><option value="il-central-1">il-central-1 (Tel Aviv)</option><option value="af-south-1">af-south-1 (Cape Town)</option></optgroup>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs uppercase text-slate-400 mb-1">Verify Poll (Sec)</label>
+                <input type="number" name="poll_seconds" value="0" min="0" max="30" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-xs" />
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="runBtn w-full bg-[#FF9900] hover:bg-amber-500 text-white font-semibold py-2.5 rounded-lg">Execute Amazon SES Sync</button>
+        </div>
+
+        <div class="md:col-span-3 bg-slate-950 border border-[#FF9900]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+          <div class="font-bold text-[#FF9900] uppercase tracking-wide">Step-by-Step Guide • 11. Amazon SES Verification &amp; DNS</div>
+          <p class="text-slate-400"><strong>Purpose:</strong> Enroll domains in Amazon SES across 35 AWS regions, inject 3 Easy DKIM <code class="text-slate-200">CNAME</code> records (Proxy OFF), merge SPF, configure DMARC, and optionally attach Custom MAIL FROM or SNS bounce/complaint notifications (up to 1,000 domains).</p>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+            <li><strong>Step 1 — Save AWS SES IAM Credentials:</strong> Use an IAM user with <code class="text-amber-300">AmazonSESFullAccess</code>, select the target <strong>SES Region</strong> (e.g., <code class="text-slate-200">us-east-1</code> or <code class="text-slate-200">ap-south-2</code>), and save the profile.</li>
+            <li><strong>Step 2 — Choose Operation Mode:</strong> Select <strong>Enroll in SES + Add CF DNS + Verify</strong> for full provisioning, or <strong>Check Existing SES Status Only</strong> to audit current DKIM and sending readiness.</li>
+            <li><strong>Step 3 — Configure DNS &amp; Optional Routing:</strong> Keep <strong>Smart SPF Merge</strong> and <strong>Add SES DMARC</strong> checked; enable <strong>Custom MAIL FROM</strong> or enter an <strong>SNS Topic ARN</strong> / <strong>Configuration Set</strong> only when needed.</li>
+            <li><strong>Step 4 — Run Sync:</strong> Paste up to 1,000 domains, keep <strong>Verify Poll (Sec)</strong> at <code class="text-slate-200">0</code> for fast parallel runs, and click <strong>Execute Amazon SES Sync</strong>.</li>
+          </ol>
+        </div>
+      </form>
+      <div id="results-slot-ses"></div>
+    </div>
+
+    <!-- TAB 12: SQLITE JOB QUEUE & HISTORY -->
+    <div id="panel-jobs" class="tab-panel hidden grid-cols-1 gap-4 bg-slate-900 p-5 rounded-xl border border-cyan-900/60">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base font-bold text-cyan-400">Saved Batch Runs (SQLite Persistent Job Queue)</h2>
+          <p class="text-xs text-slate-400">Every completed or stopped run is saved locally in <code class="text-slate-200">jobs.db</code>.</p>
+        </div>
+        <button type="button" onclick="loadJobHistory()" class="keep-white text-xs bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-2 rounded-lg font-semibold">Refresh History</button>
+      </div>
+      <div class="overflow-x-auto border border-slate-800 rounded-lg">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-slate-950 text-slate-400 uppercase">
+            <tr>
+              <th class="p-3">Job ID</th><th class="p-3">Timestamp</th><th class="p-3">Workspace Tab</th><th class="p-3">Operation</th><th class="p-3">Total</th><th class="p-3 text-emerald-400">Passed</th><th class="p-3 text-rose-400">Failed</th><th class="p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="jobsHistoryBody" class="divide-y divide-slate-800 bg-slate-950/50"></tbody>
+        </table>
+      </div>
+      <div class="bg-slate-950 border border-cyan-900/50 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+        <div class="font-bold text-cyan-400 uppercase tracking-wide">Step-by-Step Guide • 12. SQLite Job History</div>
+        <p class="text-slate-400"><strong>Purpose:</strong> Reload any past batch execution from <code class="text-slate-200">jobs.db</code> back into its workspace tab to inspect rows, export CSVs, or retry failed domains.</p>
+        <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+          <li><strong>Step 1 — Refresh History:</strong> Click <strong>Refresh History</strong> to list recent runs along with their timestamp, workspace tab, and <strong>Passed / Failed</strong> totals.</li>
+          <li><strong>Step 2 — Open in Tab:</strong> Click <strong>Open in Tab</strong> on any job to restore all rows into that tab's table, then click <strong>Export Tab CSV</strong> or <strong>Retry Failed</strong>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- TAB 13: API KEY & TOKEN SETUP GUIDE BOOK -->
+    <div id="panel-guide" class="tab-panel hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 bg-slate-900 p-6 rounded-xl border border-emerald-900/50">
+      <div class="space-y-3 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div><span class="text-[10px] font-mono uppercase text-[#F38020]">Required for Tabs 1–11</span><h2 class="text-base font-bold text-white">1. Cloudflare User API Token</h2></div>
+            <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" class="keep-white text-xs bg-[#F38020] hover:bg-orange-500 text-white font-semibold px-3 py-1.5 rounded-lg">Open CF ↗</a>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+            <li>Log into Cloudflare → <strong class="text-white">My Profile → API Tokens → Create Token → Create Custom Token</strong>.</li>
+            <li>Include permissions for <code class="text-slate-200">Account Settings (Read)</code>, <code class="text-slate-200">Zone (Edit)</code>, <code class="text-slate-200">DNS (Edit)</code>, <code class="text-slate-200">SSL and Certificates (Edit)</code>, <code class="text-slate-200">Zone Settings (Edit)</code>, and <code class="text-slate-200">Page Rules / Cache Purge</code>.</li>
+            <li>Set <strong class="text-amber-300">Account Resources</strong> and <strong class="text-amber-300">Zone Resources</strong> to <strong class="text-emerald-400">Include → All accounts / All zones</strong>.</li>
+          </ol>
+        </div>
+        <div class="space-y-1 pt-2 border-t border-slate-800">
+          <div class="flex items-center justify-between"><span class="text-[10px] uppercase text-slate-400">PowerShell ENV Command</span><button type="button" onclick="copyText('$env:CF_API_TOKEN=&quot;YOUR_CF_TOKEN&quot;', this)" class="text-xs text-[#F38020] hover:underline">Copy</button></div>
+          <pre class="bg-slate-900 border border-slate-800 rounded p-2 text-[11px] font-mono text-slate-200 overflow-x-auto">$env:CF_API_TOKEN="YOUR_CF_TOKEN"</pre>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div><span class="text-[10px] font-mono uppercase text-[#0099E5]">Required for Tab 7</span><h2 class="text-base font-bold text-white">2. Dynadot API3 Key &amp; IP</h2></div>
+            <a href="https://www.dynadot.com/account/domain/setting/api.html" target="_blank" class="keep-white text-xs bg-[#0099E5] hover:bg-sky-500 text-white font-semibold px-3 py-1.5 rounded-lg">Dynadot ↗</a>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+            <li>Open <strong class="text-white">Dynadot → Tools → API</strong> and enable <strong class="text-emerald-400">API Status</strong>.</li>
+            <li>Copy the <strong class="text-sky-300">API Key</strong> and whitelist your public IPv4 from <code class="text-slate-200">api.ipify.org</code>.</li>
+            <li>Save the profile with an <strong class="text-white">Account Name</strong> in Tab 7.</li>
+          </ol>
+        </div>
+        <div class="space-y-1 pt-2 border-t border-slate-800">
+          <div class="flex items-center justify-between"><span class="text-[10px] uppercase text-slate-400">PowerShell ENV Command</span><button type="button" onclick="copyText('$env:DYNADOT_API_KEY=&quot;YOUR_DYNADOT_KEY&quot;', this)" class="text-xs text-[#0099E5] hover:underline">Copy</button></div>
+          <pre class="bg-slate-900 border border-slate-800 rounded p-2 text-[11px] font-mono text-slate-200 overflow-x-auto">$env:DYNADOT_API_KEY="YOUR_DYNADOT_KEY"</pre>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div><span class="text-[10px] font-mono uppercase text-[#FF9900]">Required for Tabs 8 &amp; 11</span><h2 class="text-base font-bold text-white">3. AWS S3 &amp; SES IAM Keys</h2></div>
+            <a href="https://console.aws.amazon.com/iam/home#/users" target="_blank" class="keep-white text-xs bg-[#FF9900] hover:bg-amber-500 text-white font-semibold px-3 py-1.5 rounded-lg">AWS IAM ↗</a>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+            <li>Create an IAM user with <strong class="text-amber-300">AmazonS3FullAccess</strong> and <strong class="text-amber-300">AmazonSESFullAccess</strong> policies.</li>
+            <li>Create an access key for <strong class="text-white">Application running outside AWS</strong> and copy both keys.</li>
+          </ol>
+        </div>
+        <div class="space-y-1 pt-2 border-t border-slate-800">
+          <div class="flex items-center justify-between"><span class="text-[10px] uppercase text-slate-400">PowerShell ENV Command</span><button type="button" onclick="copyText('$env:AWS_ACCESS_KEY_ID=&quot;AKIA...&quot;; $env:AWS_SECRET_ACCESS_KEY=&quot;SECRET...&quot;', this)" class="text-xs text-[#FF9900] hover:underline">Copy</button></div>
+          <pre class="bg-slate-900 border border-slate-800 rounded p-2 text-[11px] font-mono text-slate-200 overflow-x-auto">$env:AWS_ACCESS_KEY_ID="AKIA..."
+$env:AWS_SECRET_ACCESS_KEY="SECRET..."</pre>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div><span class="text-[10px] font-mono uppercase text-[#EA4335]">Required for Tab 9</span><h2 class="text-base font-bold text-white">4. Google Postmaster OAuth</h2></div>
+            <a href="https://developers.google.com/oauthplayground/" target="_blank" class="keep-white text-xs bg-[#EA4335] hover:bg-red-500 text-white font-semibold px-3 py-1.5 rounded-lg">Playground ↗</a>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+            <li>Authorize <code class="text-rose-300">https://www.googleapis.com/auth/postmaster</code> and <code class="text-rose-300">https://www.googleapis.com/auth/siteverification</code> in OAuth Playground.</li>
+            <li>Exchange authorization code for tokens and save the <code class="text-slate-200">ya29...</code> token in Tab 9.</li>
+          </ol>
+        </div>
+        <div class="space-y-1 pt-2 border-t border-slate-800">
+          <div class="flex items-center justify-between"><span class="text-[10px] uppercase text-slate-400">PowerShell ENV Command</span><button type="button" onclick="copyText('$env:GOOGLE_OAUTH_TOKEN=&quot;ya29...&quot;', this)" class="text-xs text-[#EA4335] hover:underline">Copy</button></div>
+          <pre class="bg-slate-900 border border-slate-800 rounded p-2 text-[11px] font-mono text-slate-200 overflow-x-auto">$env:GOOGLE_OAUTH_TOKEN="ya29..."</pre>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div><span class="text-[10px] font-mono uppercase text-purple-400">Required for Tab 10</span><h2 class="text-base font-bold text-white">5. Yahoo Sender Hub Session</h2></div>
+            <a href="https://senders.yahooinc.com/" target="_blank" class="keep-white text-xs bg-[#6001D2] hover:bg-purple-600 text-white font-semibold px-3 py-1.5 rounded-lg">Open YSH ↗</a>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+            <li>Sign into <strong class="text-white">senders.yahooinc.com</strong>, open DevTools (<code class="text-slate-200">F12 → Network → Fetch/XHR</code>), reload, and copy the <code class="text-purple-300">cookie:</code> header.</li>
+            <li>Save it with an <strong class="text-white">Account Name</strong> in Tab 10 and pull unverified domains.</li>
+          </ol>
+        </div>
+        <div class="space-y-1 pt-2 border-t border-slate-800">
+          <div class="flex items-center justify-between"><span class="text-[10px] uppercase text-slate-400">PowerShell ENV Command</span><button type="button" onclick="copyText('$env:YAHOO_SENDERHUB_COOKIE=&quot;YOUR_COOKIE&quot;', this)" class="text-xs text-purple-400 hover:underline">Copy</button></div>
+          <pre class="bg-slate-900 border border-slate-800 rounded p-2 text-[11px] font-mono text-slate-200 overflow-x-auto">$env:YAHOO_SENDERHUB_COOKIE="YOUR_COOKIE"</pre>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div><span class="text-[10px] font-mono uppercase text-emerald-400">24/7 Cloud Hosting</span><h2 class="text-base font-bold text-white">6. Deploy Safely on Render</h2></div>
+            <a href="https://dashboard.render.com/" target="_blank" class="keep-white text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-3 py-1.5 rounded-lg">Render ↗</a>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300">
+            <li>Push <code class="text-slate-200">main.py</code>, <code class="text-slate-200">requirements.txt</code>, and <code class="text-slate-200">templates/index.html</code> to your deployment repository.</li>
+            <li>Deploy on Render with start command <code class="text-emerald-300">uvicorn main:app --host 0.0.0.0 --port $PORT</code> and configure environment variables.</li>
+          </ol>
+        </div>
+        <div class="space-y-1 pt-2 border-t border-slate-800">
+          <div class="flex items-center justify-between"><span class="text-[10px] uppercase text-slate-400">Render Start Command</span><button type="button" onclick="copyText('uvicorn main:app --host 0.0.0.0 --port $PORT', this)" class="text-xs text-emerald-400 hover:underline">Copy</button></div>
+          <pre class="bg-slate-900 border border-slate-800 rounded p-2 text-[11px] font-mono text-slate-200 overflow-x-auto">uvicorn main:app --host 0.0.0.0 --port $PORT</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MAX_DOMAINS_LIMIT = 1000;
+    const OPERATIONAL_TABS = ["dns", "csv", "ssl", "redir", "prov", "audit", "dyna", "s3", "pm", "ysh", "ses"];
+    const ALL_CF_RECORD_TYPES = [
+      "A", "AAAA", "CAA", "CERT", "CNAME", "DNSKEY", "DS", "HTTPS", "LOC",
+      "MX", "NAPTR", "NS", "OPENPGPKEY", "PTR", "SMIMEA", "SPF", "SRV",
+      "SSHFP", "SVCB", "TLSA", "TXT", "URI"
+    ];
+
+    const BRAND_TAB_STYLES = {
+      home:   "border-emerald-400 text-emerald-400",
+      cf:     "border-[#F38020] text-[#F38020]",
+      dyna:   "border-[#0099E5] text-[#0099E5]",
+      aws:    "border-[#FF9900] text-[#FF9900]",
+      google: "border-[#EA4335] text-[#EA4335]",
+      yahoo:  "border-[#6001D2] text-purple-300",
+      jobs:   "border-cyan-400 text-cyan-400",
+      guide:  "border-emerald-400 text-emerald-400"
+    };
+
+    const tabStates = {};
+    OPERATIONAL_TABS.forEach(tabId => {
+      tabStates[tabId] = {
+        logs: [],
+        endpoint: "",
+        lastFormData: null,
+        abortController: null,
+        filterStatus: "all",
+        searchQuery: "",
+        startedAt: 0,
+        totalBatch: 0,
+        renderRaf: null
+      };
+      const slot = document.getElementById(`results-slot-${tabId}`);
+      if (slot) {
+        slot.innerHTML = `
+          <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 bg-slate-950/80 border-b border-slate-800">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Tab Results (${tabId.toUpperCase()})</span>
+                <span id="counter-${tabId}" class="hidden text-xs font-mono bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded text-slate-200"></span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="text" id="search-${tabId}" oninput="setTabSearch('${tabId}', this.value)" placeholder="Filter domain/status/result..."
+                  class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs font-mono w-44" />
+                <div class="inline-flex rounded border border-slate-700 bg-slate-900 p-0.5 text-[11px] font-mono">
+                  <button type="button" id="flt-all-${tabId}" onclick="setTabFilter('${tabId}', 'all')" class="px-2 py-0.5 rounded bg-slate-700 text-white">All</button>
+                  <button type="button" id="flt-ok-${tabId}" onclick="setTabFilter('${tabId}', 'ok')" class="px-2 py-0.5 rounded text-emerald-400 hover:bg-slate-800">Passed</button>
+                  <button type="button" id="flt-fail-${tabId}" onclick="setTabFilter('${tabId}', 'fail')" class="px-2 py-0.5 rounded text-rose-400 hover:bg-slate-800">Failed</button>
+                </div>
+                <button type="button" id="stopBtn-${tabId}" onclick="stopTabRun('${tabId}')"
+                  class="hidden keep-white text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1 rounded">
+                  ■ Stop
+                </button>
+                <button type="button" id="retryBtn-${tabId}" onclick="retryTabFailed('${tabId}')"
+                  class="hidden keep-white text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white px-2.5 py-1 rounded">
+                  Retry Failed (<span id="failCount-${tabId}">0</span>)
+                </button>
+                <button type="button" onclick="clearTabResults('${tabId}')"
+                  class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded border border-slate-700">
+                  Clear
+                </button>
+                <button type="button" onclick="exportTabCSV('${tabId}')"
+                  class="keep-white text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white px-2.5 py-1 rounded">
+                  Export Tab CSV
+                </button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/70 text-slate-300 text-xs uppercase">
+                  <tr>
+                    <th class="p-3">#</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3">Domain</th>
+                    <th class="p-3">Account</th>
+                    <th class="p-3">Target / Info</th>
+                    <th class="p-3">Result</th>
+                    <th class="p-3">Extra</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-${tabId}" class="divide-y divide-slate-800 font-mono text-xs">
+                  <tr><td colspan="7" class="p-4 text-center text-slate-500">No operations run in this tab yet (Limit: 1,000 domains per run).</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    function updateTextareaDomainCount(ta) {
+      if (!ta) return;
+      const lines = ta.value.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const count = lines.length;
+      const form = ta.closest("form");
+      const badge = form ? form.querySelector("[id^='count-']") : null;
+      if (!badge) return;
+
+      badge.textContent = `${count.toLocaleString()} / 1,000 domains`;
+      badge.classList.remove("text-emerald-400", "text-amber-400", "text-rose-400");
+      if (count > MAX_DOMAINS_LIMIT) {
+        badge.classList.add("text-rose-400");
+        badge.textContent = `${count.toLocaleString()} / 1,000 (Exceeds limit!)`;
+      } else if (count >= 850) {
+        badge.classList.add("text-amber-400");
+      } else {
+        badge.classList.add("text-emerald-400");
+      }
+    }
+
+    document.querySelectorAll("textarea[name='domains_text']").forEach(ta => {
+      ta.addEventListener("input", () => updateTextareaDomainCount(ta));
+      ta.addEventListener("keydown", e => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          const form = ta.closest("form");
+          if (form) form.requestSubmit();
+        }
+      });
+      updateTextareaDomainCount(ta);
+    });
+
+    function setTabFilter(tabId, mode) {
+      if (!tabStates[tabId]) return;
+      tabStates[tabId].filterStatus = mode;
+      ["all", "ok", "fail"].forEach(m => {
+        const b = document.getElementById(`flt-${m}-${tabId}`);
+        if (b) b.classList.toggle("bg-slate-700", m === mode);
+      });
+      renderFilteredTabRows(tabId);
+    }
+
+    function setTabSearch(tabId, q) {
+      if (!tabStates[tabId]) return;
+      tabStates[tabId].searchQuery = (q || "").trim().toLowerCase();
+      renderFilteredTabRows(tabId);
+    }
+
+    function updateLiveProgressBadge(tabId, isDone = false) {
+      const st = tabStates[tabId];
+      const counter = document.getElementById(`counter-${tabId}`);
+      if (!st || !counter) return;
+      const processed = st.logs.length;
+      const total = st.totalBatch || processed;
+      const pending = Math.max(0, total - processed);
+      const passed = st.logs.filter(r => r.ok).length;
+      const failed = processed - passed;
+      const elapsed = st.startedAt ? ((Date.now() - st.startedAt) / 1000).toFixed(1) : "0.0";
+
+      if (isDone) {
+        counter.textContent = `Done • Processed: ${processed}/${total} • Passed: ${passed} • Failed: ${failed} • ${elapsed}s`;
+      } else {
+        counter.textContent = `Processed: ${processed}/${total} • Pending: ${pending} • Passed: ${passed} • Failed: ${failed} • ${elapsed}s`;
+      }
+    }
+
+    function normalizeStreamRow(raw, fallbackIndex, fallbackTotal) {
+      const d = (raw && typeof raw === "object") ? raw : {};
+      const ok = Boolean(d.ok);
+      const rawResult = d.result !== undefined && d.result !== null && String(d.result).trim() !== ""
+        ? String(d.result)
+        : (ok ? "Completed" : "Unknown Error");
+      return {
+        index: d.index ?? fallbackIndex,
+        total: d.total ?? fallbackTotal,
+        domain: d.domain || "-",
+        account: d.account || "-",
+        target: d.target || "-",
+        result: rawResult,
+        extra: d.extra || "-",
+        ok
+      };
+    }
+
+    function renderFilteredTabRows(tabId) {
+      const st = tabStates[tabId];
+      const tbody = document.getElementById(`tbody-${tabId}`);
+      if (!st || !tbody) return;
+      const filtered = [...st.logs].reverse().filter(d => {
+        if (st.filterStatus === "ok" && !d.ok) return false;
+        if (st.filterStatus === "fail" && d.ok) return false;
+        if (st.searchQuery) {
+          const statusWord = d.ok ? "passed" : "failed";
+          const hay = `${statusWord} ${d.domain} ${d.account} ${d.target} ${d.result} ${d.extra}`.toLowerCase();
+          if (!hay.includes(st.searchQuery)) return false;
+        }
+        return true;
+      });
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">No matching rows for current filter.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = filtered.map(data => {
+        const statusBadge = data.ok
+          ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold text-[10px]">PASSED</span>`
+          : `<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/40 font-bold text-[10px]">FAILED</span>`;
+        const resultText = data.ok ? data.result : `FAILED: ${data.result}`;
+        return `
+          <tr class="${data.ok ? 'bg-slate-900' : 'bg-red-950/30'}">
+            <td class="p-3 text-slate-400">${data.index}</td>
+            <td class="p-3">${statusBadge}</td>
+            <td class="p-3 font-semibold text-white">${data.domain}</td>
+            <td class="p-3 text-slate-300">${data.account}</td>
+            <td class="p-3 text-amber-300">${data.target}</td>
+            <td class="p-3 ${data.ok ? 'text-emerald-400' : 'text-rose-400 font-semibold'}">${resultText}</td>
+            <td class="p-3 text-sky-400">${data.extra}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function scheduleLiveRender(tabId) {
+      const st = tabStates[tabId];
+      if (!st) return;
+      updateLiveProgressBadge(tabId, false);
+      if (st.renderRaf) return;
+      st.renderRaf = requestAnimationFrame(() => {
+        st.renderRaf = null;
+        renderFilteredTabRows(tabId);
+      });
+    }
+
+    function cleanDomainTextarea(textareaId) {
+      const ta = document.getElementById(textareaId);
+      if (!ta) return;
+      const seen = new Set();
+      const cleaned = [];
+      for (const rawLine of ta.value.split(/\r?\n/)) {
+        let h = rawLine.trim().toLowerCase().replace(/^https?:\/\//, "").split("/")[0].split(":")[0].replace(/\.+$/, "");
+        if (!h || seen.has(h)) continue;
+        seen.add(h);
+        cleaned.push(h);
+      }
+      ta.value = cleaned.join("\n");
+      updateTextareaDomainCount(ta);
+    }
+
+    function setTheme(mode) {
+      document.body.classList.remove("theme-light", "theme-darkblue");
+      if (mode === "light") document.body.classList.add("theme-light");
+      if (mode === "darkblue") document.body.classList.add("theme-darkblue");
+
+      ["light", "dark", "darkblue"].forEach(m => {
+        document.querySelectorAll(".theme-opt-" + m).forEach(btn => {
+          btn.classList.toggle("bg-orange-600", m === mode);
+          btn.classList.toggle("text-white", m === mode);
+          btn.classList.toggle("keep-white", m === mode);
+        });
+      });
+      localStorage.setItem("occ_dashboard_theme", mode);
+    }
+    setTheme(localStorage.getItem("occ_dashboard_theme") || "dark");
+
+    const CREDENTIAL_CONFIG = {
+      cf: { storageKey: "occ_profiles_cf", selectId: "cfProfileSelect", labelId: "cfAccountLabel", fields: { token: "sharedToken" }, emptyTitle: "Saved CF Accounts" },
+      dyna: { storageKey: "occ_profiles_dyna", selectId: "dynaProfileSelect", labelId: "dynaAccountLabel", fields: { key: "dynaKeyInput" }, emptyTitle: "Saved Dynadot Accounts" },
+      s3: { storageKey: "occ_profiles_s3", selectId: "s3ProfileSelect", labelId: "s3AccountLabel", fields: { ak: "s3AwsKeyInput", sk: "s3AwsSecretInput" }, emptyTitle: "Saved AWS Accounts" },
+      pm: { storageKey: "occ_profiles_pm", selectId: "pmProfileSelect", labelId: "pmAccountLabel", fields: { token: "pmTokenInput" }, emptyTitle: "Saved Google Accounts" },
+      ysh: { storageKey: "occ_profiles_ysh", selectId: "yshProfileSelect", labelId: "yshAccountLabel", fields: { cookie: "yahooCookieInput" }, emptyTitle: "Saved Yahoo Accounts" },
+      ses: { storageKey: "occ_profiles_ses", selectId: "sesProfileSelect", labelId: "sesAccountLabel", fields: { ak: "sesAwsKeyInput", sk: "sesAwsSecretInput", region: "sesAwsRegionSelect" }, emptyTitle: "Saved AWS SES Accounts" }
+    };
+
+    function getProfiles(service) {
+      try { return JSON.parse(localStorage.getItem(CREDENTIAL_CONFIG[service].storageKey) || "[]"); } catch { return []; }
+    }
+
+    function renderProfileDropdown(service, selectedName = "") {
+      const cfg = CREDENTIAL_CONFIG[service];
+      const sel = document.getElementById(cfg.selectId);
+      if (!sel) return;
+      const list = getProfiles(service);
+      sel.innerHTML = `<option value="">-- ${cfg.emptyTitle} (${list.length}) --</option>` +
+        list.map(p => `<option value="${p.name}" ${p.name === selectedName ? "selected" : ""}>${p.name}</option>`).join("");
+    }
+
+    function saveCredentialProfile(service) {
+      const cfg = CREDENTIAL_CONFIG[service];
+      const labelEl = document.getElementById(cfg.labelId);
+      const name = (labelEl.value || "").trim();
+      if (!name) return alert("Please enter an Account Name before saving.");
+
+      const data = { name };
+      let hasSecret = false;
+      for (const [k, elId] of Object.entries(cfg.fields)) {
+        const val = (document.getElementById(elId)?.value || "").trim();
+        data[k] = val;
+        if (k !== "region" && val) hasSecret = true;
+      }
+      if (!hasSecret) return alert("Please enter the API Key / Token before saving.");
+
+      const list = getProfiles(service).filter(p => p.name.toLowerCase() !== name.toLowerCase());
+      list.push(data);
+      localStorage.setItem(cfg.storageKey, JSON.stringify(list));
+      renderProfileDropdown(service, name);
+      alert(`Saved "${name}"!`);
+    }
+
+    function selectCredentialProfile(service) {
+      const cfg = CREDENTIAL_CONFIG[service];
+      const sel = document.getElementById(cfg.selectId);
+      const chosen = sel.value;
+      const labelEl = document.getElementById(cfg.labelId);
+      if (!chosen) return;
+      const profile = getProfiles(service).find(p => p.name === chosen);
+      if (!profile) return;
+      if (labelEl) labelEl.value = profile.name;
+      for (const [k, elId] of Object.entries(cfg.fields)) {
+        const el = document.getElementById(elId);
+        if (el && profile[k] !== undefined) el.value = profile[k];
+      }
+    }
+
+    function deleteCredentialProfile(service) {
+      const cfg = CREDENTIAL_CONFIG[service];
+      const sel = document.getElementById(cfg.selectId);
+      const chosen = sel.value;
+      if (!chosen) return alert("Select a saved account from the dropdown to delete.");
+      const list = getProfiles(service).filter(p => p.name !== chosen);
+      localStorage.setItem(cfg.storageKey, JSON.stringify(list));
+      renderProfileDropdown(service);
+      const labelEl = document.getElementById(cfg.labelId);
+      if (labelEl) labelEl.value = "";
+      for (const [k, elId] of Object.entries(cfg.fields)) {
+        const el = document.getElementById(elId);
+        if (el && k !== "region") el.value = "";
+      }
+    }
+
+    Object.keys(CREDENTIAL_CONFIG).forEach(svc => {
+      renderProfileDropdown(svc);
+      const list = getProfiles(svc);
+      if (list.length > 0) {
+        const sel = document.getElementById(CREDENTIAL_CONFIG[svc].selectId);
+        if (sel) { sel.value = list[0].name; selectCredentialProfile(svc); }
+      }
+    });
+
+    function toggleSesMailFrom() {
+      const enabled = document.getElementById("sesEnableMailFrom").checked;
+      const inp = document.getElementById("sesMailFromInput");
+      inp.disabled = !enabled;
+      inp.classList.toggle("opacity-50", !enabled);
+    }
+
+    function toggleSesDmarc() {
+      const enabled = document.getElementById("sesDmarcToggle").checked;
+      document.getElementById("sesDmarcFields").classList.toggle("hidden", !enabled);
+    }
+
+    async function pullUnverifiedFromYahoo(populateTextarea = true) {
+      const statusEl = document.getElementById("yahooCookieStatus");
+      const btn = document.getElementById("pullYahooBtn");
+      const origBtnText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Checking Yahoo...";
+
+      statusEl.classList.remove("hidden", "border-emerald-800", "bg-emerald-950/50", "text-emerald-300", "border-rose-800", "bg-rose-950/50", "text-rose-300");
+      statusEl.classList.add("border-slate-700", "bg-slate-900", "text-slate-300");
+      statusEl.textContent = "Connecting to Yahoo Sender Hub...";
+
+      try {
+        const fd = new FormData();
+        fd.append("yahoo_cookie", document.getElementById("yahooCookieInput").value);
+        const res = await (await fetch("/api/yahoo-fetch-unverified", { method: "POST", body: fd })).json();
+
+        if (!res.ok) {
+          statusEl.classList.remove("border-slate-700", "bg-slate-900", "text-slate-300");
+          statusEl.classList.add("border-rose-800", "bg-rose-950/50", "text-rose-300");
+          statusEl.textContent = `✕ ${res.error}`;
+          return;
+        }
+
+        statusEl.classList.remove("border-slate-700", "bg-slate-900", "text-slate-300");
+        statusEl.classList.add("border-emerald-800", "bg-emerald-950/50", "text-emerald-300");
+        statusEl.textContent = `✓ Active Session • ${res.unverified_count} Unverified / ${res.total} Total Root Domains`;
+
+        if (populateTextarea) {
+          const ta = document.getElementById("yshDomainsTextarea");
+          if (res.unverified_count === 0) alert("All domains in this Yahoo Sender Hub account are already verified!");
+          else {
+            ta.value = res.pairs_text;
+            updateTextareaDomainCount(ta);
+          }
+        }
+      } catch (e) {
+        statusEl.classList.add("border-rose-800", "bg-rose-950/50", "text-rose-300");
+        statusEl.textContent = `✕ Error: ${e.message}`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = origBtnText;
+      }
+    }
+
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text);
+      const orig = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => btn.textContent = orig, 1500);
+    }
+
+    function updateBulkDnsFields() {
+      const rtype = document.getElementById("dnsRtypeSelect").value;
+      const action = document.getElementById("dnsActionSelect").value;
+      const isDelete = action === "delete";
+      const isProxiable = ["A", "AAAA", "CNAME"].includes(rtype);
+      const needsPriority = ["MX", "SRV", "URI"].includes(rtype);
+
+      const contentLabel = document.getElementById("dnsContentLabel");
+      const contentInput = document.getElementById("dnsContentInput");
+      const priorityBox = document.getElementById("dnsPriorityBox");
+      const ttlBox = document.getElementById("dnsTtlBox");
+      const sslBox = document.getElementById("dnsSslBox");
+      const proxyBox = document.getElementById("dnsProxyBox");
+      const proxyCb = document.getElementById("dnsProxiedCheckbox");
+
+      const placeholders = {
+        A: ["IPv4 Address", "e.g. 3.23.10.37"], AAAA: ["IPv6 Address", "e.g. 2606:4700:4700::1111"],
+        CAA: ["CAA Value", "e.g. 0 issue \"letsencrypt.org\""], CERT: ["Certificate Data", "Base64 certificate payload"],
+        CNAME: ["Target Hostname", "e.g. target.example.com"], DNSKEY: ["DNSKEY Record", "Flags Protocol Algorithm PublicKey"],
+        DS: ["DS Record", "KeyTag Algorithm DigestType Digest"], HTTPS: ["HTTPS Service Binding", "e.g. 1 . alpn=\"h2,h3\""],
+        LOC: ["Location Coordinates", "e.g. 37 46 30.000 N 122 23 30.000 W 0.00m"], MX: ["Mail Server Hostname", "e.g. inbound-smtp.us-east-1.amazonaws.com"],
+        NAPTR: ["NAPTR Value", "Order Pref Flags Service Regexp Replacement"], NS: ["Nameserver Hostname", "e.g. ns1.example.com"],
+        OPENPGPKEY: ["OpenPGP Public Key", "Base64 public key"], PTR: ["Pointer Hostname", "e.g. host.example.com"],
+        SMIMEA: ["S/MIME Certificate", "Usage Selector MatchingType Certificate"], SPF: ["SPF Record Value", "e.g. v=spf1 include:amazonses.com ~all"],
+        SRV: ["SRV Target & Weight/Port", "e.g. 0 5 5060 sipserver.example.com"], SSHFP: ["SSH Fingerprint", "Algorithm FPType Fingerprint"],
+        SVCB: ["SVCB Service Binding", "Priority TargetName SvcParams"], TLSA: ["TLSA Certificate Assoc", "Usage Selector MatchingType Data"],
+        TXT: ["TXT Record Value", "e.g. v=spf1 include:amazonses.com ~all"], URI: ["URI Target", "e.g. \"https://example.com/resource\""]
+      };
+
+      const [lbl, ph] = placeholders[rtype] || [`${rtype} Content`, `Enter ${rtype} record value...`];
+      contentLabel.textContent = isDelete ? `${lbl} (Optional)` : lbl;
+      contentInput.placeholder = isDelete ? "Leave blank to delete all matching" : ph;
+
+      priorityBox.classList.toggle("hidden", isDelete || !needsPriority);
+      ttlBox.classList.toggle("hidden", isDelete);
+      sslBox.classList.toggle("hidden", isDelete || !isProxiable);
+      proxyBox.classList.toggle("hidden", isDelete || !isProxiable);
+
+      if (isDelete || !isProxiable) {
+        proxyCb.checked = false;
+        document.getElementById("dnsSslSelect").value = "";
+      }
+    }
+    updateBulkDnsFields();
+
+    function toggleRedirectInputs() {
+      const mode = document.getElementById("redirectPreset").value;
+      document.getElementById("subdomainBox").classList.toggle("hidden", mode !== "root_to_subdomain");
+      document.getElementById("customUrlBox").classList.toggle("hidden", mode === "root_to_subdomain");
+    }
+
+    function togglePmInputs() {
+      const mode = document.getElementById("pmModeSelect").value;
+      document.getElementById("googleOauthBox").classList.toggle("hidden", mode !== "google_api_auto");
+      document.getElementById("waitBox").classList.toggle("hidden", mode !== "google_api_auto");
+      document.getElementById("manualTxtBox").classList.toggle("hidden", mode !== "manual_txt");
+    }
+
+    function updateDynaRowFields(row) {
+      const rtype = row.querySelector(".rec-type").value;
+      const isProxiable = ["A", "AAAA", "CNAME"].includes(rtype);
+      const needsPrio = ["MX", "SRV", "URI"].includes(rtype);
+      const contentInput = row.querySelector(".rec-content");
+      const prioInput = row.querySelector(".rec-prio");
+      const proxyLabel = row.querySelector(".rec-proxy-wrap");
+      const proxyCb = row.querySelector(".rec-proxied");
+
+      prioInput.classList.toggle("hidden", !needsPrio);
+      if (!needsPrio) prioInput.value = "";
+      proxyLabel.classList.toggle("hidden", !isProxiable);
+      if (!isProxiable) proxyCb.checked = false;
+
+      contentInput.classList.remove("col-span-5", "col-span-6", "col-span-7");
+      if (isProxiable) contentInput.classList.add("col-span-5");
+      else if (needsPrio) contentInput.classList.add("col-span-6");
+      else contentInput.classList.add("col-span-7");
+    }
+
+    function addDynaRecordRow(type = "A", name = "@", content = "", priority = "", proxied = true) {
+      const container = document.getElementById("dynaRecordRows");
+      const row = document.createElement("div");
+      row.className = "dyna-rec-row grid grid-cols-12 gap-1.5 items-center bg-slate-900 p-2 rounded border border-slate-800";
+      const typeOptions = ALL_CF_RECORD_TYPES.map(t => `<option value="${t}" ${t === type ? "selected" : ""}>${t}</option>`).join("");
+      row.innerHTML = `
+        <select class="rec-type col-span-2 bg-slate-950 border border-slate-700 rounded p-1.5 text-xs font-mono">${typeOptions}</select>
+        <input type="text" value="${name}" placeholder="Host (@)" class="rec-name col-span-2 bg-slate-950 border border-slate-700 rounded p-1.5 text-xs font-mono" />
+        <input type="text" value="${content}" placeholder="Content..." class="rec-content col-span-5 bg-slate-950 border border-slate-700 rounded p-1.5 text-xs font-mono" />
+        <input type="number" value="${priority}" placeholder="Prio" class="rec-prio hidden col-span-1 bg-slate-950 border border-slate-700 rounded p-1.5 text-xs font-mono" />
+        <label class="rec-proxy-wrap col-span-2 flex items-center space-x-1 text-[11px] text-slate-300 justify-center">
+          <input type="checkbox" ${proxied?"checked":""} class="rec-proxied accent-[#0099E5] w-3.5 h-3.5" />
+          <span>Proxy</span>
+        </label>
+        <button type="button" onclick="this.parentElement.remove()" class="col-span-1 text-rose-400 hover:text-rose-300 font-bold text-sm text-center">✕</button>
+      `;
+      row.querySelector(".rec-type").addEventListener("change", () => updateDynaRowFields(row));
+      container.appendChild(row);
+      updateDynaRowFields(row);
+    }
+
+    function toggleDynaCustomRec() {
+      const checked = document.getElementById("dynaCustomRecToggle").checked;
+      document.getElementById("dynaCustomRecBox").classList.toggle("hidden", !checked);
+      document.getElementById("addDynaRecBtn").classList.toggle("hidden", !checked);
+      if (checked && document.querySelectorAll(".dyna-rec-row").length === 0) addDynaRecordRow();
+    }
+
+    function switchTab(id) {
+      const inWorkspace = id !== "home";
+      document.getElementById("homeTopBar")?.classList.toggle("hidden", inWorkspace);
+      document.getElementById("workspaceTopHeader")?.classList.toggle("hidden", !inWorkspace);
+      document.getElementById("tabNavBar")?.classList.toggle("hidden", !inWorkspace);
+      document.getElementById("activeTabBanner")?.classList.toggle("hidden", !inWorkspace);
+      document.getElementById("cfAccountBar")?.classList.toggle("hidden", !inWorkspace);
+
+      document.querySelectorAll(".tab-panel").forEach(p => {
+        p.classList.add("hidden");
+        p.classList.remove("grid");
+      });
+      document.querySelectorAll(".tab-btn").forEach(b => {
+        b.className = "tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-white";
+      });
+      const active = document.getElementById("panel-" + id);
+      active.classList.remove("hidden");
+      if (id === "jobs" || id === "guide") active.classList.add("grid");
+
+      const btn = document.getElementById("btn-" + id);
+      const brand = btn.dataset.brand || "cf";
+      btn.className = `tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border bg-slate-950/80 ${BRAND_TAB_STYLES[brand]}`;
+
+      if (inWorkspace) {
+        const svgEl = btn.querySelector("svg");
+        const labelSpan = btn.querySelector("span");
+        const iconBox = document.getElementById("activeTabIconBox");
+        const titleEl = document.getElementById("activeTabTitleText");
+        if (iconBox && svgEl) {
+          iconBox.innerHTML = svgEl.outerHTML;
+          const clonedSvg = iconBox.querySelector("svg");
+          if (clonedSvg) clonedSvg.className.baseVal = "w-4 h-4";
+        }
+        if (titleEl && labelSpan) {
+          titleEl.textContent = labelSpan.textContent;
+        }
+      }
+    }
+
+    async function loadAccounts(selectId) {
+      const fd = new FormData();
+      fd.append("api_token", document.getElementById("sharedToken").value);
+      const res = await (await fetch("/api/accounts", { method: "POST", body: fd })).json();
+      const sel = document.getElementById(selectId);
+      if (!res.success || !res.accounts.length) return alert(res.error || "No accounts found.");
+      sel.innerHTML = res.accounts.map(a => `<option value="${a.id}">${a.name} (${a.id.slice(0,8)}...)</option>`).join("");
+    }
+
+    async function runTabStream(tabId, endpoint, formData) {
+      const rawDomains = (formData.get("domains_text") || "").toString().split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      if (rawDomains.length > MAX_DOMAINS_LIMIT) {
+        return alert(`Domain limit exceeded: You entered ${rawDomains.length.toLocaleString()} domains. Maximum allowed per single run is 1,000 domains.`);
+      }
+
+      const st = tabStates[tabId];
+      const tbody = document.getElementById(`tbody-${tabId}`);
+      const counter = document.getElementById(`counter-${tabId}`);
+      const stopBtn = document.getElementById(`stopBtn-${tabId}`);
+      const retryBtn = document.getElementById(`retryBtn-${tabId}`);
+      const formEl = document.getElementById(`form-${tabId}`);
+
+      tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-sky-400">Starting parallel execution...</td></tr>`;
+      st.logs = [];
+      st.endpoint = endpoint;
+      st.lastFormData = formData;
+      st.startedAt = Date.now();
+      st.totalBatch = rawDomains.length || 0;
+      st.abortController = new AbortController();
+
+      counter.classList.remove("hidden");
+      counter.textContent = `Processed: 0/${st.totalBatch} • Pending: ${st.totalBatch} • Passed: 0 • Failed: 0`;
+      stopBtn.classList.remove("hidden");
+      retryBtn.classList.add("hidden");
+      if (formEl) formEl.querySelectorAll(".runBtn").forEach(b => b.disabled = true);
+
+      const payload = new FormData();
+      for (const [k, v] of formData.entries()) payload.append(k, v);
+      payload.append("api_token", document.getElementById("sharedToken").value);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: payload,
+          signal: st.abortController.signal,
+        });
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const parts = buffer.split("\n\n");
+          buffer = parts.pop();
+
+          for (const part of parts) {
+            const normalizedPart = part.replace(/\r\n/g, "\n").trim();
+            if (!normalizedPart) continue;
+            const dataLines = normalizedPart
+              .split("\n")
+              .filter(l => l.startsWith("data:"))
+              .map(l => l.replace(/^data:\s?/, ""));
+            if (!dataLines.length) continue;
+            const jsonStr = dataLines.join("\n").trim();
+            if (!jsonStr) continue;
+
+            let data;
+            try {
+              data = JSON.parse(jsonStr);
+            } catch (parseErr) {
+              const errRow = normalizeStreamRow(
+                { domain: "stream-frame", result: `Invalid JSON: ${parseErr.message}`, ok: false },
+                st.logs.length + 1,
+                st.totalBatch
+              );
+              st.logs.push(errRow);
+              scheduleLiveRender(tabId);
+              continue;
+            }
+
+            if (data.error) {
+              alert(data.error);
+              counter.classList.add("hidden");
+              break;
+            }
+            if (data.done) {
+              if (st.renderRaf) { cancelAnimationFrame(st.renderRaf); st.renderRaf = null; }
+              renderFilteredTabRows(tabId);
+              updateLiveProgressBadge(tabId, true);
+              break;
+            }
+
+            if (data.total) st.totalBatch = data.total;
+            const rowObj = normalizeStreamRow(data, st.logs.length + 1, st.totalBatch);
+            st.logs.push(rowObj);
+            scheduleLiveRender(tabId);
+          }
+        }
+      } catch (err) {
+        if (err.name === "AbortError") {
+          counter.textContent = `Stopped (${st.logs.length} processed)`;
+        } else {
+          alert("Stream Error: " + err.message);
+        }
+      } finally {
+        stopBtn.classList.add("hidden");
+        if (formEl) formEl.querySelectorAll(".runBtn").forEach(b => b.disabled = false);
+        st.abortController = null;
+
+        const failed = st.logs.filter(r => !r.ok);
+        if (failed.length > 0) {
+          document.getElementById(`failCount-${tabId}`).textContent = failed.length;
+          retryBtn.classList.remove("hidden");
+        }
+        if (st.logs.length > 0) {
+          fetch("/api/jobs/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tab_id: tabId, endpoint, label: endpoint.replace("/api/", ""), results: st.logs }),
+          });
+        }
+      }
+    }
+
+    function stopTabRun(tabId) {
+      const st = tabStates[tabId];
+      if (st && st.abortController) {
+        st.abortController.abort();
+        st.abortController = null;
+      }
+    }
+
+    function retryTabFailed(tabId) {
+      const st = tabStates[tabId];
+      if (!st) return;
+      const failedDomains = st.logs.filter(r => !r.ok).map(r => r.domain);
+      if (!failedDomains.length || !st.lastFormData || !st.endpoint) return;
+      const retryData = new FormData();
+      for (const [k, v] of st.lastFormData.entries()) {
+        if (k !== "domains_text") retryData.append(k, v);
+      }
+      retryData.set("domains_text", failedDomains.join("\n"));
+      runTabStream(tabId, st.endpoint, retryData);
+    }
+
+    function clearTabResults(tabId) {
+      const st = tabStates[tabId];
+      if (!st) return;
+      st.logs = [];
+      document.getElementById(`tbody-${tabId}`).innerHTML =
+        `<tr><td colspan="7" class="p-4 text-center text-slate-500">Results cleared.</td></tr>`;
+      document.getElementById(`counter-${tabId}`).classList.add("hidden");
+      document.getElementById(`retryBtn-${tabId}`).classList.add("hidden");
+    }
+
+    function exportTabCSV(tabId) {
+      const st = tabStates[tabId];
+      if (!st || !st.logs.length) return alert("No results in this tab to export yet.");
+      const header = "index,status,domain,account,target,result,extra,ok\n";
+      const rows = st.logs.map(r => [
+        r.index,
+        r.ok ? "PASSED" : "FAILED",
+        r.domain,
+        `"${r.account}"`,
+        `"${r.target}"`,
+        `"${r.ok ? r.result : `FAILED: ${r.result}`}"`,
+        `"${r.extra}"`,
+        r.ok,
+      ].join(",")).join("\n");
+      const blob = new Blob([header + rows], { type: "text/csv" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `${tabId}_export_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    }
+
+    async function loadJobHistory() {
+      const res = await (await fetch("/api/jobs")).json();
+      const jBody = document.getElementById("jobsHistoryBody");
+      jBody.innerHTML = (res.jobs || []).map(j => `
+        <tr>
+          <td class="p-3 text-slate-400">#${j.id}</td>
+          <td class="p-3 text-slate-300">${j.created_at}</td>
+          <td class="p-3 uppercase text-cyan-300">${j.tab_id || "dns"}</td>
+          <td class="p-3 text-amber-300">${j.label}</td>
+          <td class="p-3">${j.total}</td>
+          <td class="p-3 text-emerald-400">${j.ok}</td>
+          <td class="p-3 text-rose-400">${j.fail}</td>
+          <td class="p-3 space-x-3">
+            <button type="button" onclick="loadSavedJob(${j.id})" class="text-cyan-400 hover:underline">Open in Tab</button>
+            <button type="button" onclick="deleteSavedJob(${j.id})" class="text-rose-400 hover:underline">Delete</button>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="8" class="p-4 text-center text-slate-500">No saved jobs yet.</td></tr>`;
+    }
+
+    async function loadSavedJob(jobId) {
+      const data = await (await fetch(`/api/jobs/${jobId}`)).json();
+      if (!data.results) return;
+      const targetTab = OPERATIONAL_TABS.includes(data.tab_id) ? data.tab_id : "dns";
+      switchTab(targetTab);
+
+      const st = tabStates[targetTab];
+      st.logs = data.results;
+      st.endpoint = data.endpoint;
+      st.totalBatch = data.results.length;
+      renderFilteredTabRows(targetTab);
+
+      const failed = st.logs.filter(r => !r.ok);
+      document.getElementById(`failCount-${targetTab}`).textContent = failed.length;
+      document.getElementById(`retryBtn-${targetTab}`).classList.toggle("hidden", failed.length === 0);
+      const counter = document.getElementById(`counter-${targetTab}`);
+      counter.classList.remove("hidden");
+      counter.textContent = `Loaded Job #${jobId} (${st.logs.length} rows)`;
+    }
+
+    async function deleteSavedJob(jobId) {
+      await fetch(`/api/jobs/${jobId}`, { method: "DELETE" });
+      loadJobHistory();
+    }
+
+    document.getElementById("form-dns").addEventListener("submit", e => { e.preventDefault(); runTabStream("dns", "/api/bulk-dns", new FormData(e.target)); });
+    document.getElementById("form-csv").addEventListener("submit", e => { e.preventDefault(); runTabStream("csv", "/api/bulk-csv", new FormData(e.target)); });
+    document.getElementById("form-ssl").addEventListener("submit", e => { e.preventDefault(); runTabStream("ssl", "/api/bulk-zone-settings", new FormData(e.target)); });
+    document.getElementById("form-redir").addEventListener("submit", e => { e.preventDefault(); runTabStream("redir", "/api/bulk-redirect", new FormData(e.target)); });
+    document.getElementById("form-prov").addEventListener("submit", e => { e.preventDefault(); runTabStream("prov", "/api/bulk-provision", new FormData(e.target)); });
+    document.getElementById("form-audit").addEventListener("submit", e => { e.preventDefault(); runTabStream("audit", "/api/bulk-audit", new FormData(e.target)); });
+
+    document.getElementById("form-dyna").addEventListener("submit", e => {
+      e.preventDefault();
+      const recs = [];
+      document.querySelectorAll(".dyna-rec-row").forEach(row => {
+        recs.push({
+          type: row.querySelector(".rec-type").value,
+          name: row.querySelector(".rec-name").value,
+          content: row.querySelector(".rec-content").value,
+          priority: row.querySelector(".rec-prio").value,
+          proxied: row.querySelector(".rec-proxied").checked,
+        });
+      });
+      document.getElementById("dynaCustomRecordsJson").value = JSON.stringify(recs);
+      runTabStream("dyna", "/api/dynadot-sync", new FormData(e.target));
+    });
+
+    document.getElementById("form-s3").addEventListener("submit", e => { e.preventDefault(); runTabStream("s3", "/api/bulk-s3-deploy", new FormData(e.target)); });
+    document.getElementById("form-pm").addEventListener("submit", e => { e.preventDefault(); runTabStream("pm", "/api/bulk-postmaster", new FormData(e.target)); });
+    document.getElementById("form-ysh").addEventListener("submit", e => { e.preventDefault(); runTabStream("ysh", "/api/bulk-yahoo-senderhub", new FormData(e.target)); });
+    document.getElementById("form-ses").addEventListener("submit", e => { e.preventDefault(); runTabStream("ses", "/api/bulk-ses-verify", new FormData(e.target)); });
+
+    // Real-time 1-second Google OAuth token expiry timer for 9. Postmaster DNS
+    let pmExactExpiryEpochMs = null;
+
+    function renderPmExactCountdown() {
+      const badge = document.getElementById("pmTokenExpiryBadge");
+      const textEl = document.getElementById("pmTokenExpiryText");
+      const tokenInp = document.getElementById("pmTokenInput");
+      if (!badge || !textEl || !tokenInp) return;
+
+      const tok = (tokenInp.value || "").trim();
+      if (!tok) {
+        pmExactExpiryEpochMs = null;
+        badge.className = "flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-slate-900 border border-slate-800 text-slate-400";
+        textEl.textContent = "Paste or select a token to check exact expiry seconds.";
+        return;
+      }
+
+      if (!pmExactExpiryEpochMs) {
+        badge.className = "flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-slate-900 border border-slate-700 text-slate-300";
+        textEl.textContent = "Checking exact token expiry...";
+        return;
+      }
+
+      const secsLeft = Math.max(0, Math.floor((pmExactExpiryEpochMs - Date.now()) / 1000));
+      const expClock = new Date(pmExactExpiryEpochMs).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+      if (secsLeft <= 0) {
+        badge.className = "flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-rose-950/60 border border-rose-700/60 text-rose-300 font-semibold";
+        textEl.innerHTML = `The access token has <span class="text-rose-400 font-bold">expired (0s)</span> — Refresh token.`;
+      } else if (secsLeft <= 300) {
+        badge.className = "flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-amber-950/60 border border-amber-700/60 text-amber-300";
+        textEl.innerHTML = `The access token will expire in <span class="text-rose-400 font-bold">${secsLeft}</span> seconds (${expClock}).`;
+      } else {
+        badge.className = "flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-emerald-950/50 border border-emerald-800/60 text-emerald-300";
+        textEl.innerHTML = `The access token will expire in <span class="text-rose-400 font-bold">${secsLeft}</span> seconds (${expClock}).`;
+      }
+    }
+
+    async function syncGoogleTokenExactExpiry(forceAlert = false) {
+      const tokenInp = document.getElementById("pmTokenInput");
+      const badge = document.getElementById("pmTokenExpiryBadge");
+      const textEl = document.getElementById("pmTokenExpiryText");
+      if (!tokenInp || !badge || !textEl) return;
+
+      const tok = (tokenInp.value || "").trim();
+      if (!tok) {
+        renderPmExactCountdown();
+        return;
+      }
+
+      try {
+        const fd = new FormData();
+        fd.append("google_oauth_token", tok);
+        const res = await (await fetch("/api/google-token-info", { method: "POST", body: fd })).json();
+        if (!res.ok) {
+          pmExactExpiryEpochMs = Date.now();
+          badge.className = "flex items-center justify-between gap-2 text-[11px] font-mono px-2.5 py-1.5 rounded bg-rose-950/60 border border-rose-700/60 text-rose-300 font-semibold";
+          textEl.innerHTML = `Token invalid/expired (<span class="text-rose-400 font-bold">0s</span>): ${res.error}`;
+          if (forceAlert) alert(res.error);
+          return;
+        }
+        pmExactExpiryEpochMs = Date.now() + (Number(res.expires_in) * 1000);
+        renderPmExactCountdown();
+      } catch (e) {
+        textEl.textContent = `Expiry check failed: ${e.message}`;
+      }
+    }
+
+    document.getElementById("pmTokenInput")?.addEventListener("input", () => {
+      pmExactExpiryEpochMs = null;
+      renderPmExactCountdown();
+      clearTimeout(window._pmTokTimer);
+      window._pmTokTimer = setTimeout(() => syncGoogleTokenExactExpiry(false), 400);
+    });
+
+    const _origSelectCredProfile = selectCredentialProfile;
+    selectCredentialProfile = function(service) {
+      _origSelectCredProfile(service);
+      if (service === "pm") {
+        pmExactExpiryEpochMs = null;
+        syncGoogleTokenExactExpiry(false);
+      }
+    };
+
+    const _origSaveCredProfile = saveCredentialProfile;
+    saveCredentialProfile = function(service) {
+      _origSaveCredProfile(service);
+      if (service === "pm") {
+        pmExactExpiryEpochMs = null;
+        syncGoogleTokenExactExpiry(false);
+      }
+    };
+
+    syncGoogleTokenExactExpiry(false);
+    setInterval(renderPmExactCountdown, 1000);
+  </script>
+</body>
+</html>

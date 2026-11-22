@@ -1,0 +1,8 @@
+﻿__pycache__/
+*.pyc
+*.db
+domains.txt
+cf-dns-dashboard
+update_dns.py
+SES-Dashboard-API_JSON.json
+.env
