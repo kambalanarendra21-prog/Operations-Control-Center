@@ -1,11 +1,14 @@
 import os
 import io
 import csv
+import html
 import json
+import re
 import time
 import sqlite3
 from datetime import datetime
 from typing import Optional, Tuple
+from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import boto3
@@ -271,26 +274,6 @@ def manage_dns_record(
         return False, str(e)[:80]
 
 
-def verify_cname_via_doh(fqdn: str, expected_target: str) -> bool:
-    try:
-        r = SHARED_HTTP.get(
-            "https://dns.google/resolve",
-            params={"name": fqdn.strip().rstrip("."), "type": "CNAME"},
-            timeout=8,
-        ).json()
-        if r.get("Status") != 0:
-            return False
-        exp = expected_target.strip().rstrip(".").lower()
-        for ans in r.get("Answer", []):
-            if ans.get("type") == 5:
-                data = ans.get("data", "").strip().rstrip(".").lower()
-                if data == exp:
-                    return True
-    except Exception:
-        pass
-    return False
-
-
 # ==========================================
 # DASHBOARD UI & UTILITY ENDPOINTS
 # ==========================================
@@ -339,7 +322,6 @@ async def sample_yahoo_csv():
     )
 
 
-@app.post("/api/accounts")
 @app.post("/api/google-token-info")
 async def google_token_info(google_oauth_token: str = Form("")):
     tok = (google_oauth_token or "").strip() or DEFAULT_GOOGLE_TOKEN
@@ -363,6 +345,9 @@ async def google_token_info(google_oauth_token: str = Form("")):
         }
     except Exception as e:
         return {"ok": False, "error": str(e)[:80]}
+
+
+@app.post("/api/accounts")
 async def list_cf_accounts(api_token: str = Form("")):
     token = api_token.strip() or DEFAULT_TOKEN
     if not token:
@@ -882,6 +867,321 @@ async def dynadot_sync(
 
 
 # ==========================================
+# S3 WEBSITE GENERATORS (VERTICAL, REF URL, AI PROMPT)
+# ==========================================
+PALETTES = [
+    {"bg": "#0f172a", "surface": "#1e293b", "accent": "#f97316", "text": "#f8fafc", "muted": "#cbd5e1"},
+    {"bg": "#111827", "surface": "#1f2937", "accent": "#38bdf8", "text": "#f9fafb", "muted": "#d1d5db"},
+    {"bg": "#18181b", "surface": "#27272a", "accent": "#10b981", "text": "#fafafa", "muted": "#d4d4d8"},
+    {"bg": "#172554", "surface": "#1e3a8a", "accent": "#f59e0b", "text": "#eff6ff", "muted": "#bfdbfe"},
+    {"bg": "#1f1b24", "surface": "#2d2638", "accent": "#c084fc", "text": "#faf5ff", "muted": "#e9d5ff"},
+]
+
+VERTICAL_LABELS = {
+    "finance": "Finance & Lending",
+    "insurance": "Insurance",
+    "tech": "Tech & Software",
+    "healthcare": "Healthcare",
+    "legal": "Legal & Notary",
+    "consulting": "Consulting",
+}
+
+
+def _pick_palette(domain: str) -> dict:
+    idx = sum(ord(c) for c in domain.lower()) % len(PALETTES)
+    return PALETTES[idx]
+
+
+def _brand_from_domain(domain: str) -> str:
+    root = domain.lower().strip().split(".")[0]
+    words = [w.capitalize() for w in re.split(r"[-_]+", root) if w]
+    return " ".join(words) if words else domain
+
+
+def _resolve_vertical(domain: str, site_vertical: str) -> str:
+    clean_v = (site_vertical or "auto").strip().lower()
+    if clean_v in VERTICAL_LABELS:
+        return VERTICAL_LABELS[clean_v]
+    d = domain.lower()
+    if any(k in d for k in ("fin", "fund", "capital", "wealth", "lend", "loan", "invest")):
+        return "Finance & Lending"
+    if any(k in d for k in ("insure", "assurance", "cover", "guard")):
+        return "Insurance"
+    if any(k in d for k in ("health", "med", "care", "bio", "clinic")):
+        return "Healthcare"
+    if any(k in d for k in ("law", "legal", "notary", "attorney", "advocate")):
+        return "Legal & Notary"
+    if any(k in d for k in ("tech", "soft", "cloud", "ai", "cyber", "app")):
+        return "Tech & Software"
+    return "Consulting"
+
+
+def _fetch_reference_summary(reference_url: str) -> dict:
+    summary = {
+        "url": (reference_url or "").strip(),
+        "host": "",
+        "title": "",
+        "headings": [],
+    }
+    if not summary["url"]:
+        return summary
+    normalized = summary["url"] if summary["url"].startswith(("http://", "https://")) else f"https://{summary['url']}"
+    parsed = urlparse(normalized)
+    summary["host"] = parsed.netloc or summary["url"]
+    try:
+        resp = SHARED_HTTP.get(
+            parsed.geturl(),
+            timeout=8,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; OperationsControlCenter/1.0)"},
+        )
+        if resp.ok and resp.text:
+            title_match = re.search(r"<title[^>]*>(.*?)</title>", resp.text, flags=re.I | re.S)
+            if title_match:
+                summary["title"] = re.sub(r"\s+", " ", html.unescape(title_match.group(1))).strip()[:120]
+            h_matches = re.findall(r"<h[12][^>]*>(.*?)</h[12]>", resp.text, flags=re.I | re.S)
+            cleaned_h = []
+            for h in h_matches[:4]:
+                txt = re.sub(r"<[^>]+>", "", html.unescape(h))
+                txt = re.sub(r"\s+", " ", txt).strip()
+                if txt:
+                    cleaned_h.append(txt[:80])
+            summary["headings"] = cleaned_h
+    except Exception:
+        pass
+    return summary
+
+
+def _render_responsive_html(
+    domain: str,
+    brand_name: str,
+    vertical: str,
+    headline: str,
+    subheadline: str,
+    sections: list,
+    palette: dict,
+) -> str:
+    safe_brand = html.escape(brand_name)
+    safe_domain = html.escape(domain)
+    safe_vertical = html.escape(vertical)
+    safe_headline = html.escape(headline)
+    safe_subheadline = html.escape(subheadline)
+    support_email = html.escape(f"support@{domain}")
+
+    cards_html = "".join(
+        f"""
+        <article class="card">
+          <h3>{html.escape(sec_title)}</h3>
+          <p>{html.escape(sec_body)}</p>
+        </article>
+        """
+        for sec_title, sec_body in sections
+    )
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{safe_brand} — {safe_vertical}</title>
+  <style>
+    :root {{
+      --bg: {palette["bg"]};
+      --surface: {palette["surface"]};
+      --accent: {palette["accent"]};
+      --text: {palette["text"]};
+      --muted: {palette["muted"]};
+    }}
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }}
+    header {{
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }}
+    .brand {{ font-size: 1.25rem; font-weight: 700; color: var(--accent); }}
+    nav a {{
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1.25rem;
+      font-size: 0.95rem;
+    }}
+    nav a:hover {{ color: var(--text); }}
+    .hero {{
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 2.5rem;
+    }}
+    .badge {{
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }}
+    h1 {{ font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; margin-bottom: 1rem; }}
+    .lead {{ max-width: 720px; color: var(--muted); font-size: 1.1rem; }}
+    .grid {{
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }}
+    .card {{
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }}
+    .card h3 {{ color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }}
+    .card p {{ color: var(--muted); font-size: 0.95rem; }}
+    footer {{
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">{safe_brand}</div>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" id="overview">
+      <span class="badge">{safe_vertical}</span>
+      <h1>{safe_headline}</h1>
+      <p class="lead">{safe_subheadline}</p>
+    </section>
+    <section class="grid" id="solutions">
+      {cards_html}
+    </section>
+  </main>
+  <footer id="contact">
+    <p>{safe_brand} ({safe_domain}) • Contact: <a href="mailto:{support_email}" style="color:var(--accent);">{support_email}</a></p>
+  </footer>
+</body>
+</html>
+"""
+
+
+def _generate_ai_prompt_html(
+    domain: str,
+    brand_name: str,
+    vertical: str,
+    prompt_text: str,
+    palette: dict,
+) -> Optional[str]:
+    if not DEFAULT_LLM_KEY or not prompt_text.strip():
+        return None
+    try:
+        resp = SHARED_HTTP.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {DEFAULT_LLM_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": os.environ.get("OPENAI_SITE_MODEL", "gpt-4o-mini"),
+                "temperature": 0.7,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "Return ONLY a complete, responsive single-file HTML5 document starting with <!DOCTYPE html>. Do not wrap in markdown code fences.",
+                    },
+                    {
+                        "role": "user",
+                        "content": (
+                            f"Build a responsive static website for brand '{brand_name}' on domain '{domain}' "
+                            f"in vertical '{vertical}'. Accent color: {palette['accent']}, surface color: {palette['surface']}. "
+                            f"Include email support@{domain} and NO phone numbers. User prompt: {prompt_text.strip()}"
+                        ),
+                    },
+                ],
+            },
+            timeout=25,
+        )
+        if resp.ok:
+            content = resp.json()["choices"][0]["message"]["content"].strip()
+            content = re.sub(r"^```html\s*|\s*```$", "", content, flags=re.I).strip()
+            if content.lower().startswith("<!doctype html") or "<html" in content.lower():
+                return content
+    except Exception:
+        pass
+    return None
+
+
+def build_s3_website_html(
+    domain: str,
+    site_vertical: str = "auto",
+    site_prompt: str = "",
+    reference_url: str = "",
+    ref_summary: Optional[dict] = None,
+) -> Tuple[str, str]:
+    clean_domain = domain.strip().lower()
+    brand_name = _brand_from_domain(clean_domain)
+    vertical = _resolve_vertical(clean_domain, site_vertical)
+    palette = _pick_palette(clean_domain)
+    clean_prompt = (site_prompt or "").strip()
+    clean_ref = (reference_url or "").strip()
+
+    if clean_prompt:
+        ai_html = _generate_ai_prompt_html(clean_domain, brand_name, vertical, clean_prompt, palette)
+        if ai_html:
+            return ai_html, "AI Prompt"
+        headline = f"{brand_name}: {clean_prompt[:90]}"
+        subheadline = f"Responsive {vertical} site for {clean_domain} tailored to: {clean_prompt}."
+        sections = [
+            ("Requested Concept", clean_prompt),
+            (f"{vertical} Structure", f"Organized sections, clear typography, and mobile-first layout built for {clean_domain}."),
+            ("Direct Contact", f"Reach our team at support@{clean_domain} for inquiries regarding {clean_domain}."),
+        ]
+        return _render_responsive_html(clean_domain, brand_name, vertical, headline, subheadline, sections, palette), "Prompt"
+
+    if clean_ref:
+        ref_info = ref_summary or _fetch_reference_summary(clean_ref)
+        ref_label = ref_info.get("title") or ref_info.get("host") or clean_ref
+        headline = f"{brand_name} — Inspired by {ref_label}"
+        subheadline = f"Modern {vertical} experience for {clean_domain} structured around clear hero messaging and responsive cards."
+        sections = [
+            ("Layout & Structure", f"Designed with clean header navigation, hero overview, and responsive cards inspired by {ref_label}."),
+            (f"{vertical} Focus", f"Tailored {vertical.lower()} content blocks adapted specifically for {clean_domain}."),
+            ("Direct Contact", f"Questions about {clean_domain} can be sent to support@{clean_domain}."),
+        ]
+        return _render_responsive_html(clean_domain, brand_name, vertical, headline, subheadline, sections, palette), "Ref URL"
+
+    headline = f"{vertical} Solutions for {brand_name}"
+    subheadline = f"Dedicated {vertical.lower()} portal for {clean_domain} with responsive layout and clear information hierarchy."
+    sections = [
+        (f"{vertical} Overview", f"Structured {vertical.lower()} guidance and transparent resources for {clean_domain}."),
+        ("Responsive Architecture", f"Fast static delivery engineered for desktop and mobile visitors on {clean_domain}."),
+        ("Direct Contact", f"Connect with {brand_name} regarding {clean_domain} via support@{clean_domain}."),
+    ]
+    return _render_responsive_html(clean_domain, brand_name, vertical, headline, subheadline, sections, palette), vertical
+
+
+# ==========================================
 # TAB 8: AWS S3 DEPLOY / VERIFY / TEARDOWN
 # ==========================================
 @app.post("/api/bulk-s3-deploy")
@@ -889,6 +1189,9 @@ async def bulk_s3_deploy(
     request: Request,
     domains_text: str = Form(""),
     s3_operation: str = Form("deploy"),
+    site_vertical: str = Form("auto"),
+    reference_url: str = Form(""),
+    site_prompt: str = Form(""),
     aws_access_key: str = Form(""),
     aws_secret_key: str = Form(""),
     aws_region: str = Form("us-east-1"),
@@ -912,6 +1215,7 @@ async def bulk_s3_deploy(
     domains = [d.strip().lower() for d in domains_text.splitlines() if d.strip()][:MAX_DOMAINS_PER_RUN]
     is_dry_run = dry_run == "true"
     delay_sec = max(0, min(int(request_delay_ms or 0), 5000)) / 1000.0
+    ref_summary = _fetch_reference_summary(reference_url) if reference_url.strip() else None
     s3 = boto3.client("s3", region_name=region, aws_access_key_id=ak, aws_secret_access_key=sk)
     session = create_session(cf_token)
     cache = {}
@@ -977,8 +1281,14 @@ async def bulk_s3_deploy(
                 Bucket=dom,
                 WebsiteConfiguration={"IndexDocument": {"Suffix": "index.html"}, "ErrorDocument": {"Key": "index.html"}},
             )
-            html_body = f"<!DOCTYPE html><html><head><title>{dom}</title></head><body><h1>Welcome to {dom}</h1><p>Contact: support@{dom}</p></body></html>"
-            s3.put_object(Bucket=dom, Key="index.html", Body=html_body.encode("utf-8"), ContentType="text/html")
+            html_body, gen_mode_label = build_s3_website_html(
+                domain=dom,
+                site_vertical=site_vertical,
+                site_prompt=site_prompt,
+                reference_url=reference_url,
+                ref_summary=ref_summary,
+            )
+            s3.put_object(Bucket=dom, Key="index.html", Body=html_body.encode("utf-8"), ContentType="text/html; charset=utf-8")
 
             s3_endpoint = f"{dom}.s3-website-{region}.amazonaws.com" if region != "us-east-1" else f"{dom}.s3-website-us-east-1.amazonaws.com"
             if zone_id:
@@ -990,13 +1300,13 @@ async def bulk_s3_deploy(
                 if always_https == "true":
                     session.patch(f"https://api.cloudflare.com/client/v4/zones/{zone_id}/settings/always_use_https", json={"value": "on"}, timeout=TIMEOUT)
 
-            extra = "Deployed"
+            extra = f"Deployed ({gen_mode_label})"
             if verify_after_deploy == "true":
                 try:
                     vr = SHARED_HTTP.get(f"https://{dom}", timeout=6)
-                    extra = f"HTTP {vr.status_code}"
+                    extra = f"HTTP {vr.status_code} ({gen_mode_label})"
                 except Exception:
-                    extra = "Propagating"
+                    extra = f"Propagating ({gen_mode_label})"
 
             if delay_sec > 0:
                 time.sleep(delay_sec)

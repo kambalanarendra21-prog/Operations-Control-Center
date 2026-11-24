@@ -1001,6 +1001,28 @@
                 <option value="teardown">Teardown (Delete S3 Bucket &amp; CF CNAME)</option>
               </select>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">Website Vertical</label>
+              <select name="site_vertical" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm">
+                <option value="auto" selected>Auto-Detect from Domain</option>
+                <option value="finance">Finance &amp; Lending</option>
+                <option value="insurance">Insurance</option>
+                <option value="tech">Tech &amp; Software</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="legal">Legal &amp; Notary</option>
+                <option value="consulting">Consulting</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase text-slate-400 mb-1">Reference Website URL (Optional)</label>
+              <input type="url" name="reference_url" placeholder="https://heylending.com/" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Custom Website Prompt (Optional)</label>
+            <textarea name="site_prompt" rows="2" placeholder="Describe layout, sections, or brand style..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs"></textarea>
+          </div>
             <div>
               <label class="block text-xs uppercase text-slate-400 mb-1">AWS Region</label>
               <input type="text" name="aws_region" value="us-east-1" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-sm" />
@@ -1165,6 +1187,24 @@
         <div class="md:col-span-3 bg-slate-950 border border-[#6001D2]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
           <div class="font-bold text-purple-300 uppercase tracking-wide">Step-by-Step Guide • 10. Yahoo Sender Hub</div>
           <p class="text-slate-400"><strong>Purpose:</strong> Automatically pull unverified domains from Yahoo Sender Hub, publish <code class="text-slate-200">yahoo-verification-key=...</code> TXT records on root domains in Cloudflare, and trigger verification in bulk (up to 1,000 domains).</p>
+          <div class="md:col-span-3 bg-slate-950 border border-[#6001D2]/40 rounded-lg p-4 text-xs text-slate-300 space-y-2">
+      <div class="font-bold text-purple-300 uppercase tracking-wide">Step-by-Step Guide • 10. Yahoo Sender Hub</div>
+      <p class="text-slate-400"><strong>Purpose:</strong> Pull unverified domains from Yahoo Sender Hub, sync Cloudflare verification TXT records, and verify in bulk across unlimited domains.</p>
+
+      <!-- ADD CLOUDFLARE API TOKEN CREATION BLOCK HERE -->
+      <div class="border border-[#F38020]/40 bg-slate-900/80 rounded-lg p-3 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-[#F38020] uppercase tracking-wide text-[11px]">Cloudflare API Token Creation (Required to Publish Yahoo TXT Records)</span>
+          <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" class="text-[#F38020] hover:underline font-mono text-[11px]">Create CF Token ↗</a>
+        </div>
+        <ol class="list-decimal list-inside space-y-1 text-slate-300">
+          <li><strong>Open Cloudflare Tokens:</strong> Go to <em>My Profile → API Tokens → Create Token</em> and pick <em>Create Custom Token</em> (or <em>Edit zone DNS</em> template).</li>
+          <li><strong>Set Required Permissions:</strong> Grant <strong>Zone → Zone → Read</strong> and <strong>Zone → DNS → Edit</strong> so the tab can find zones and write <code class="text-slate-200">yahoo-verification-key=...</code> TXT records[cite: 9].</li>
+          <li><strong>Select Zones &amp; Save:</strong> Set <em>Zone Resources</em> to <em>Include → All zones</em> (or target zones), generate the token, and save it in the <strong>CLOUDFLARE ACCOUNT &amp; TOKEN</strong> bar above[cite: 9].</li>
+        </ol>
+      </div>
+
+      <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
           <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
             <li><strong>Step 1 — Copy &amp; Save Yahoo Cookie:</strong> Sign into <code class="text-slate-200">senders.yahooinc.com</code>, open DevTools (<code class="text-slate-200">F12 → Network → Fetch/XHR</code>), reload, copy the full <code class="text-purple-300">cookie:</code> request header, and click <strong>Save Yahoo Account</strong>.</li>
             <li><strong>Step 2 — Pull Unverified Domains (or Upload CSV):</strong> Click <strong>↓ Pull Unverified from Yahoo</strong> to populate <code class="text-slate-200">domain,yahoo-verification-key=...</code> pairs automatically, or upload a 2-column CSV.</li>
