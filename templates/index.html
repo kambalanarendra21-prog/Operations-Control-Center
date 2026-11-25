@@ -63,6 +63,8 @@
     body.theme-light .text-purple-400 { color: #6d28d9 !important; }
     body.theme-light .text-cyan-300,
     body.theme-light .text-cyan-400 { color: #0e7490 !important; }
+    body.theme-light .text-pink-300,
+    body.theme-light .text-pink-400 { color: #be185d !important; }
 
     body.theme-light input,
     body.theme-light select,
@@ -253,6 +255,10 @@
       <button type="button" onclick="switchTab('guide')" id="btn-guide" data-brand="guide" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-emerald-400">
         <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         <span>13. API Guide Book</span>
+      </button>
+      <button type="button" onclick="switchTab('convert')" id="btn-convert" data-brand="convert" class="tab-btn inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-transparent text-slate-400 hover:text-pink-400">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        <span>14. Convert Case</span>
       </button>
     </nav>
 
@@ -537,16 +543,31 @@
             </div>
           </button>
 
-          <button type="button" onclick="switchTab('guide')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-r from-emerald-500/15 via-slate-900 to-slate-950 hover:from-emerald-500/25 border border-emerald-500/40 hover:border-emerald-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-emerald-500/10 transition sm:col-span-2 lg:col-span-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div class="flex items-center gap-3.5">
-                <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-                <div>
-                  <div class="text-base font-bold text-white">API Key &amp; Token Setup Guide Book</div>
-                  <p class="text-xs text-slate-400 mt-0.5">Step-by-step credentials setup for Cloudflare, Dynadot, AWS S3/SES, Google Postmaster OAuth, Yahoo Sender Hub, and Render deployment.</p>
-                </div>
+          <button type="button" onclick="switchTab('convert')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-br from-pink-500/10 via-slate-900 to-slate-950 hover:from-pink-500/20 border border-pink-500/40 hover:border-pink-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-pink-500/10 hover:-translate-y-0.5 transition sm:col-span-2 lg:col-span-2">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-pink-500 to-rose-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center border border-pink-500/30"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-pink-400 group-hover:translate-x-0.5 transition">Launch →</span>
               </div>
-              <span class="text-xs font-mono font-semibold text-emerald-400 group-hover:translate-x-0.5 transition shrink-0">Open Guide →</span>
+              <div>
+                <div class="text-base font-bold text-white">Convert Case &amp; Text Studio</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Sentence, UPPER, lower, Title, camelCase, snake_case, kebab-case, cleanup, Base64/URL &amp; Unicode fonts.</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" onclick="switchTab('guide')" class="group h-full flex flex-col justify-between text-left bg-gradient-to-r from-emerald-500/15 via-slate-900 to-slate-950 hover:from-emerald-500/25 border border-emerald-500/40 hover:border-emerald-400 rounded-xl p-5 shadow-sm hover:shadow-lg hover:shadow-emerald-500/10 transition sm:col-span-2 lg:col-span-2">
+            <div class="space-y-3">
+              <div class="h-1 w-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 opacity-80 group-hover:opacity-100"></div>
+              <div class="flex items-center justify-between">
+                <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+                <span class="text-xs font-mono font-semibold text-emerald-400 group-hover:translate-x-0.5 transition shrink-0">Open Guide →</span>
+              </div>
+              <div>
+                <div class="text-base font-bold text-white">API Key &amp; Token Setup Guide Book</div>
+                <p class="text-xs text-slate-400 leading-relaxed mt-1">Credentials setup for Cloudflare, Dynadot, AWS S3/SES, Google Postmaster OAuth, Yahoo Sender Hub, and Render.</p>
+              </div>
             </div>
           </button>
         </div>
@@ -1027,6 +1048,10 @@
             <label class="block text-xs uppercase text-slate-400 mb-1">Custom Website Prompt (Optional)</label>
             <textarea name="site_prompt" rows="2" placeholder="Describe layout, sections, or brand style..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs"></textarea>
           </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">OpenAI API Key for AI Prompt Mode {% if has_env_llm %}<span class="text-emerald-400">(ENV Active)</span>{% else %}<span class="text-slate-500">(Optional — uses Smart Builder if blank)</span>{% endif %}</label>
+            <input type="password" name="llm_api_key" placeholder="sk-... (Optional if OPENAI_API_KEY is set in ENV)" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-xs" />
+          </div>
         </div>
 
         <div class="space-y-2.5">
@@ -1059,8 +1084,8 @@
           <p class="text-slate-400"><strong>Purpose:</strong> Create public S3 static website buckets, configure Cloudflare <code class="text-slate-200">CNAME</code> records + <code class="text-slate-200">Flexible</code> SSL, verify live HTTP <code class="text-slate-200">200 OK</code> responses, or tear down buckets for up to 1,000 domains.</p>
           <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
             <li><strong>Step 1 — Save AWS S3 Credentials:</strong> Use an IAM user with <code class="text-amber-300">AmazonS3FullAccess</code>, paste the Access Key ID and Secret Access Key above, and click <strong>Save AWS Account</strong>.</li>
-            <li><strong>Step 2 — Select Operation Mode &amp; Region:</strong> Choose <strong>Deploy Static Website + Update CF DNS</strong> to create buckets and point Cloudflare CNAMEs, <strong>Verify Live HTTP (200 OK)</strong> to check live sites, or <strong>Teardown</strong> to delete buckets and CNAMEs.</li>
-            <li><strong>Step 3 — Choose Vertical, Reference URL, or Prompt:</strong> Select a <strong>Website Vertical</strong>, paste an optional <strong>Reference Website URL</strong>, or enter a <strong>Custom Website Prompt</strong> to generate responsive HTML for each domain.</li>
+            <li><strong>Step 2 — Select Operation Mode &amp; Region:</strong> Choose <strong>Deploy Static Website + Update CF DNS</strong> to create buckets and point Cloudflare CNAMEs, <strong>Verify Live HTTP (200 OK)</strong> to check live sites, or <strong>Teardown</strong> to delete buckets (including versioned objects) and CNAMEs.</li>
+            <li><strong>Step 3 — Choose Vertical, Reference URL, or AI Prompt:</strong> Select a <strong>Website Vertical</strong>, paste a <strong>Reference Website URL</strong> to mirror its palette/headings/sections, or enter a <strong>Custom Website Prompt</strong> (with optional OpenAI key for full AI HTML generation).</li>
             <li><strong>Step 4 — Configure SSL &amp; Execute:</strong> Keep <strong>Set SSL/TLS to Flexible</strong> and <strong>Enable Always Use HTTPS</strong> checked, paste up to 1,000 domains, and click <strong>Execute AWS S3 Action</strong>.</li>
           </ol>
         </div>
@@ -1465,6 +1490,92 @@ $env:AWS_SECRET_ACCESS_KEY="SECRET..."</pre>
         </div>
       </div>
     </div>
+
+    <!-- TAB 14: CONVERT CASE & TEXT STUDIO -->
+    <div id="panel-convert" class="tab-panel hidden space-y-4">
+      <div class="bg-slate-900 p-5 rounded-xl border border-pink-500/50 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-base font-bold text-pink-400">Convert Case &amp; Text Formatting Studio</h2>
+            <p class="text-xs text-slate-400">Instant client-side case conversions, developer naming cases, text cleanup, encoding, and Unicode styles.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+            <span id="ccStats" class="px-2.5 py-1 rounded bg-slate-950 border border-slate-700 text-slate-300">Chars: 0 • Words: 0 • Sentences: 0 • Lines: 0</span>
+            <button type="button" onclick="ccUndo()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">↶ Undo</button>
+            <button type="button" onclick="ccCopy()" id="ccCopyBtn" class="keep-white px-3 py-1 rounded bg-pink-600 hover:bg-pink-500 text-white font-semibold">Copy Text</button>
+            <button type="button" onclick="ccDownload()" class="keep-white px-3 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-semibold">Download .txt</button>
+            <button type="button" onclick="ccClear()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 border border-slate-700">Clear</button>
+          </div>
+        </div>
+
+        <textarea id="ccTextarea" rows="9" oninput="ccUpdateStats()" placeholder="Type or paste your text here to convert case, format code identifiers, clean whitespace, encode/decode, or generate Unicode styles..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 font-mono text-sm focus:border-pink-500 focus:outline-none"></textarea>
+
+        <div class="space-y-2">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-pink-400">Standard Case Conversions</div>
+          <div class="flex flex-wrap gap-2 text-xs font-semibold">
+            <button type="button" onclick="ccTransform('sentence')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">Sentence case</button>
+            <button type="button" onclick="ccTransform('lower')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">lower case</button>
+            <button type="button" onclick="ccTransform('upper')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">UPPER CASE</button>
+            <button type="button" onclick="ccTransform('capitalized')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">Capitalized Case</button>
+            <button type="button" onclick="ccTransform('title')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">Title Case</button>
+            <button type="button" onclick="ccTransform('alternating')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">aLtErNaTiNg cAsE</button>
+            <button type="button" onclick="ccTransform('inverse')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-pink-600/20 border border-slate-700 hover:border-pink-400 text-slate-200">InVeRsE CaSe</button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-sky-400">Programming &amp; Slug Cases (Line-by-Line)</div>
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <button type="button" onclick="ccTransform('camel')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-sky-600/20 border border-slate-700 hover:border-sky-400 text-sky-300">camelCase</button>
+            <button type="button" onclick="ccTransform('pascal')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-sky-600/20 border border-slate-700 hover:border-sky-400 text-sky-300">PascalCase</button>
+            <button type="button" onclick="ccTransform('snake')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-sky-600/20 border border-slate-700 hover:border-sky-400 text-sky-300">snake_case</button>
+            <button type="button" onclick="ccTransform('screaming_snake')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-sky-600/20 border border-slate-700 hover:border-sky-400 text-sky-300">SCREAMING_SNAKE_CASE</button>
+            <button type="button" onclick="ccTransform('kebab')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-sky-600/20 border border-slate-700 hover:border-sky-400 text-sky-300">kebab-case</button>
+            <button type="button" onclick="ccTransform('dot')" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-sky-600/20 border border-slate-700 hover:border-sky-400 text-sky-300">dot.case</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
+          <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3 space-y-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Text Cleanup, Sort &amp; Reverse</div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <button type="button" onclick="ccTransform('clean_spaces')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Remove Extra Spaces</button>
+              <button type="button" onclick="ccTransform('remove_breaks')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Remove Line Breaks</button>
+              <button type="button" onclick="ccTransform('remove_empty_lines')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Remove Empty Lines</button>
+              <button type="button" onclick="ccTransform('dedupe_lines')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Deduplicate Lines</button>
+              <button type="button" onclick="ccTransform('strip_html')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Strip HTML Tags</button>
+              <button type="button" onclick="ccTransform('sort_az')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Sort Lines A → Z</button>
+              <button type="button" onclick="ccTransform('sort_za')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Sort Lines Z → A</button>
+              <button type="button" onclick="ccTransform('reverse_text')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Reverse Text</button>
+              <button type="button" onclick="ccTransform('reverse_lines')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">Reverse Lines</button>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3 space-y-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Unicode Fancy Fonts &amp; Encoders</div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <button type="button" onclick="ccTransform('unicode_bold')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">𝗕𝗼𝗹𝗱</button>
+              <button type="button" onclick="ccTransform('unicode_italic')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">𝘐𝘵𝘢𝘭𝘪𝘤</button>
+              <button type="button" onclick="ccTransform('unicode_mono')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎</button>
+              <button type="button" onclick="ccTransform('strikethrough')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">S̶t̶r̶i̶k̶e̶</button>
+              <button type="button" onclick="ccTransform('upside_down')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">uʍop ǝpᴉsd∩</button>
+              <button type="button" onclick="ccTransform('b64_enc')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 font-mono">Base64 Encode</button>
+              <button type="button" onclick="ccTransform('b64_dec')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 font-mono">Base64 Decode</button>
+              <button type="button" onclick="ccTransform('url_enc')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 font-mono">URL Encode</button>
+              <button type="button" onclick="ccTransform('url_dec')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 font-mono">URL Decode</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3 flex flex-wrap items-center gap-2 text-xs">
+          <span class="font-bold uppercase text-purple-300">Find &amp; Replace:</span>
+          <input type="text" id="ccFindInput" placeholder="Find text or regex..." class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 font-mono w-48" />
+          <input type="text" id="ccReplaceInput" placeholder="Replace with..." class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 font-mono w-48" />
+          <label class="inline-flex items-center gap-1.5 text-slate-300"><input type="checkbox" id="ccRegexToggle" class="accent-pink-500" /><span>Regex</span></label>
+          <button type="button" onclick="ccFindReplace()" class="keep-white px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white font-semibold">Replace All</button>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
     const MAX_DOMAINS_LIMIT = 1000;
@@ -1476,14 +1587,15 @@ $env:AWS_SECRET_ACCESS_KEY="SECRET..."</pre>
     ];
 
     const BRAND_TAB_STYLES = {
-      home:   "border-emerald-400 text-emerald-400",
-      cf:     "border-[#F38020] text-[#F38020]",
+      home:    "border-emerald-400 text-emerald-400",
+      cf:      "border-[#F38020] text-[#F38020]",
       dyna:   "border-[#0099E5] text-[#0099E5]",
       aws:    "border-[#FF9900] text-[#FF9900]",
       google: "border-[#EA4335] text-[#EA4335]",
       yahoo:  "border-[#6001D2] text-purple-300",
       jobs:   "border-cyan-400 text-cyan-400",
-      guide:  "border-emerald-400 text-emerald-400"
+      guide:  "border-emerald-400 text-emerald-400",
+      convert: "border-pink-400 text-pink-400"
     };
 
     const tabStates = {};
@@ -1978,7 +2090,7 @@ $env:AWS_SECRET_ACCESS_KEY="SECRET..."</pre>
       document.getElementById("workspaceTopHeader")?.classList.toggle("hidden", !inWorkspace);
       document.getElementById("tabNavBar")?.classList.toggle("hidden", !inWorkspace);
       document.getElementById("activeTabBanner")?.classList.toggle("hidden", !inWorkspace);
-      document.getElementById("cfAccountBar")?.classList.toggle("hidden", !inWorkspace);
+      document.getElementById("cfAccountBar")?.classList.toggle("hidden", !inWorkspace || id === "convert");
 
       document.querySelectorAll(".tab-panel").forEach(p => {
         p.classList.add("hidden");
@@ -2356,6 +2468,224 @@ $env:AWS_SECRET_ACCESS_KEY="SECRET..."</pre>
 
     syncGoogleTokenExactExpiry(false);
     setInterval(renderPmExactCountdown, 1000);
+
+    // ==========================================
+    // TAB 14: CONVERT CASE & TEXT STUDIO LOGIC
+    // ==========================================
+    const ccHistory = [];
+
+    function ccPushUndo(val) {
+      if (!ccHistory.length || ccHistory[ccHistory.length - 1] !== val) {
+        ccHistory.push(val);
+        if (ccHistory.length > 30) ccHistory.shift();
+      }
+    }
+
+    function ccUndo() {
+      const ta = document.getElementById("ccTextarea");
+      if (!ta || !ccHistory.length) return;
+      ta.value = ccHistory.pop();
+      ccUpdateStats();
+    }
+
+    function ccUpdateStats() {
+      const ta = document.getElementById("ccTextarea");
+      const el = document.getElementById("ccStats");
+      if (!ta || !el) return;
+      const txt = ta.value;
+      const chars = txt.length;
+      const words = txt.trim() ? txt.trim().split(/\s+/).length : 0;
+      const sentences = txt.trim() ? (txt.match(/[^.!?]+[.!?]+/g) || [txt.trim()]).length : 0;
+      const lines = txt ? txt.split(/\r?\n/).length : 0;
+      el.textContent = `Chars: ${chars.toLocaleString()} • Words: ${words.toLocaleString()} • Sentences: ${sentences.toLocaleString()} • Lines: ${lines.toLocaleString()}`;
+    }
+
+    function _ccWords(line) {
+      return line
+        .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+        .replace(/[^a-zA-Z0-9\u00C0-\u024F]+/g, " ")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+    }
+
+    function _ccMapUnicode(str, upperStart, lowerStart, digitStart = null) {
+      let out = "";
+      for (const ch of str) {
+        const code = ch.charCodeAt(0);
+        if (code >= 65 && code <= 90) out += String.fromCodePoint(upperStart + (code - 65));
+        else if (code >= 97 && code <= 122) out += String.fromCodePoint(lowerStart + (code - 97));
+        else if (digitStart !== null && code >= 48 && code <= 57) out += String.fromCodePoint(digitStart + (code - 48));
+        else out += ch;
+      }
+      return out;
+    }
+
+    function ccTransform(mode) {
+      const ta = document.getElementById("ccTextarea");
+      if (!ta) return;
+      const src = ta.value;
+      if (!src) return;
+      ccPushUndo(src);
+
+      const smallWords = new Set(["a","an","and","as","at","but","by","en","for","if","in","nor","of","on","or","per","the","to","v","vs","via"]);
+      let res = src;
+
+      switch (mode) {
+        case "lower":
+          res = src.toLowerCase();
+          break;
+        case "upper":
+          res = src.toUpperCase();
+          break;
+        case "sentence":
+          res = src.toLowerCase().replace(/(^\s*[a-z\u00e0-\u00ff]|[.!?]\s+[a-z\u00e0-\u00ff]|\n\s*[a-z\u00e0-\u00ff])/g, m => m.toUpperCase());
+          break;
+        case "capitalized":
+          res = src.toLowerCase().replace(/\b[a-z\u00e0-\u00ff]/g, c => c.toUpperCase());
+          break;
+        case "title":
+          res = src.toLowerCase().split(/(\s+)/).map((tok, i, arr) => {
+            if (/^\s+$/.test(tok)) return tok;
+            const clean = tok.replace(/^[^a-z0-9]+|[^a-z0-9]+$/gi, "");
+            if (i !== 0 && i !== arr.length - 1 && smallWords.has(clean)) return tok;
+            return tok.replace(/[a-z\u00e0-\u00ff]/, c => c.toUpperCase());
+          }).join("");
+          break;
+        case "alternating":
+          res = [...src].map((c, i) => (i % 2 === 0 ? c.toLowerCase() : c.toUpperCase())).join("");
+          break;
+        case "inverse":
+          res = [...src].map(c => (c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase())).join("");
+          break;
+        case "camel":
+          res = src.split(/\r?\n/).map(line => {
+            const w = _ccWords(line);
+            return w.map((x, i) => i === 0 ? x.toLowerCase() : x[0].toUpperCase() + x.slice(1).toLowerCase()).join("");
+          }).join("\n");
+          break;
+        case "pascal":
+          res = src.split(/\r?\n/).map(line => _ccWords(line).map(x => x[0].toUpperCase() + x.slice(1).toLowerCase()).join("")).join("\n");
+          break;
+        case "snake":
+          res = src.split(/\r?\n/).map(line => _ccWords(line).map(x => x.toLowerCase()).join("_")).join("\n");
+          break;
+        case "screaming_snake":
+          res = src.split(/\r?\n/).map(line => _ccWords(line).map(x => x.toUpperCase()).join("_")).join("\n");
+          break;
+        case "kebab":
+          res = src.split(/\r?\n/).map(line => _ccWords(line).map(x => x.toLowerCase()).join("-")).join("\n");
+          break;
+        case "dot":
+          res = src.split(/\r?\n/).map(line => _ccWords(line).map(x => x.toLowerCase()).join(".")).join("\n");
+          break;
+        case "clean_spaces":
+          res = src.replace(/[ \t]+/g, " ").replace(/^ +| +$/gm, "");
+          break;
+        case "remove_breaks":
+          res = src.replace(/\r?\n+/g, " ").replace(/\s{2,}/g, " ").trim();
+          break;
+        case "remove_empty_lines":
+          res = src.split(/\r?\n/).filter(l => l.trim() !== "").join("\n");
+          break;
+        case "dedupe_lines":
+          res = [...new Set(src.split(/\r?\n/))].join("\n");
+          break;
+        case "strip_html":
+          res = src.replace(/<[^>]*>/g, "");
+          break;
+        case "sort_az":
+          res = src.split(/\r?\n/).sort((a, b) => a.localeCompare(b)).join("\n");
+          break;
+        case "sort_za":
+          res = src.split(/\r?\n/).sort((a, b) => b.localeCompare(a)).join("\n");
+          break;
+        case "reverse_text":
+          res = [...src].reverse().join("");
+          break;
+        case "reverse_lines":
+          res = src.split(/\r?\n/).reverse().join("\n");
+          break;
+        case "unicode_bold":
+          res = _ccMapUnicode(src, 0x1D5D4, 0x1D5EE, 0x1D7EC);
+          break;
+        case "unicode_italic":
+          res = _ccMapUnicode(src, 0x1D608, 0x1D622);
+          break;
+        case "unicode_mono":
+          res = _ccMapUnicode(src, 0x1D670, 0x1D68A, 0x1D7F6);
+          break;
+        case "strikethrough":
+          res = [...src].map(c => (c === "\n" || c === "\r" ? c : c + "\u0336")).join("");
+          break;
+        case "upside_down": {
+          const map = {a:"ɐ",b:"q",c:"ɔ",d:"p",e:"ǝ",f:"ɟ",g:"ƃ",h:"ɥ",i:"ᴉ",j:"ɾ",k:"ʞ",l:"l",m:"ɯ",n:"u",o:"o",p:"d",q:"b",r:"ɹ",s:"s",t:"ʇ",u:"n",v:"ʌ",w:"ʍ",x:"x",y:"ʎ",z:"z",A:"∀",B:"𐐒",C:"Ɔ",D:"ᗡ",E:"Ǝ",F:"Ⅎ",G:"פ",H:"H",I:"I",J:"ſ",K:"ʞ",L:"˥",M:"W",N:"N",O:"O",P:"Ԁ",Q:"Ό",R:"ᴚ",S:"S",T:"⊥",U:"∩",V:"Λ",W:"M",X:"X",Y:"⅄",Z:"Z","1":"Ɩ","2":"ᄅ","3":"Ɛ","4":"ㄣ","5":"ϛ","6":"9","7":"ㄥ","8":"8","9":"6","0":"0",".":"˙",",":"'","?":"¿","!":"¡"};
+          res = [...src].reverse().map(c => map[c] || c).join("");
+          break;
+        }
+        case "b64_enc":
+          res = btoa(unescape(encodeURIComponent(src)));
+          break;
+        case "b64_dec":
+          try { res = decodeURIComponent(escape(atob(src.trim()))); } catch { return alert("Invalid Base64 input."); }
+          break;
+        case "url_enc":
+          res = encodeURIComponent(src);
+          break;
+        case "url_dec":
+          try { res = decodeURIComponent(src); } catch { return alert("Invalid URL-encoded input."); }
+          break;
+      }
+      ta.value = res;
+      ccUpdateStats();
+    }
+
+    function ccFindReplace() {
+      const ta = document.getElementById("ccTextarea");
+      const findVal = document.getElementById("ccFindInput").value;
+      const repVal = document.getElementById("ccReplaceInput").value;
+      const isRegex = document.getElementById("ccRegexToggle").checked;
+      if (!ta || !findVal) return;
+      ccPushUndo(ta.value);
+      try {
+        if (isRegex) {
+          ta.value = ta.value.replace(new RegExp(findVal, "g"), repVal);
+        } else {
+          ta.value = ta.value.split(findVal).join(repVal);
+        }
+        ccUpdateStats();
+      } catch (e) {
+        alert("Invalid regex: " + e.message);
+      }
+    }
+
+    function ccCopy() {
+      const ta = document.getElementById("ccTextarea");
+      const btn = document.getElementById("ccCopyBtn");
+      if (!ta) return;
+      navigator.clipboard.writeText(ta.value);
+      const orig = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => btn.textContent = orig, 1500);
+    }
+
+    function ccDownload() {
+      const ta = document.getElementById("ccTextarea");
+      if (!ta || !ta.value) return;
+      const blob = new Blob([ta.value], { type: "text/plain;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `converted_text_${new Date().toISOString().slice(0,10)}.txt`;
+      a.click();
+    }
+
+    function ccClear() {
+      const ta = document.getElementById("ccTextarea");
+      if (!ta) return;
+      ccPushUndo(ta.value);
+      ta.value = "";
+      ccUpdateStats();
+    }
   </script>
 </body>
 </html>

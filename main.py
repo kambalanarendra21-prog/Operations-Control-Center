@@ -867,23 +867,114 @@ async def dynadot_sync(
 
 
 # ==========================================
-# S3 WEBSITE GENERATORS (VERTICAL, REF URL, AI PROMPT)
+# S3 WEBSITE GENERATORS (AI PROMPT, REF URL, VERTICAL)
 # ==========================================
 PALETTES = [
-    {"bg": "#0f172a", "surface": "#1e293b", "accent": "#f97316", "text": "#f8fafc", "muted": "#cbd5e1"},
-    {"bg": "#111827", "surface": "#1f2937", "accent": "#38bdf8", "text": "#f9fafb", "muted": "#d1d5db"},
-    {"bg": "#18181b", "surface": "#27272a", "accent": "#10b981", "text": "#fafafa", "muted": "#d4d4d8"},
-    {"bg": "#172554", "surface": "#1e3a8a", "accent": "#f59e0b", "text": "#eff6ff", "muted": "#bfdbfe"},
-    {"bg": "#1f1b24", "surface": "#2d2638", "accent": "#c084fc", "text": "#faf5ff", "muted": "#e9d5ff"},
+    {"bg": "#0f172a", "surface": "#1e293b", "accent": "#f97316", "text": "#f8fafc", "muted": "#cbd5e1", "hero_grad": "linear-gradient(135deg,#0f172a 0%,#1e293b 100%)"},
+    {"bg": "#090d16", "surface": "#131b2e", "accent": "#38bdf8", "text": "#f8fafc", "muted": "#cbd5e1", "hero_grad": "linear-gradient(135deg,#090d16 0%,#0f294a 100%)"},
+    {"bg": "#0c1412", "surface": "#152420", "accent": "#10b981", "text": "#f8fafc", "muted": "#d1fae5", "hero_grad": "linear-gradient(135deg,#0c1412 0%,#13382e 100%)"},
+    {"bg": "#14110f", "surface": "#26201c", "accent": "#f59e0b", "text": "#fffbeb", "muted": "#fde68a", "hero_grad": "linear-gradient(135deg,#14110f 0%,#362714 100%)"},
+    {"bg": "#130f1c", "surface": "#221a33", "accent": "#a855f7", "text": "#faf5ff", "muted": "#e9d5ff", "hero_grad": "linear-gradient(135deg,#130f1c 0%,#2e1b4b 100%)"},
+    {"bg": "#f8fafc", "surface": "#ffffff", "accent": "#2563eb", "text": "#0f172a", "muted": "#475569", "hero_grad": "linear-gradient(135deg,#eff6ff 0%,#ffffff 100%)"},
 ]
 
-VERTICAL_LABELS = {
-    "finance": "Finance & Lending",
-    "insurance": "Insurance",
-    "tech": "Tech & Software",
-    "healthcare": "Healthcare",
-    "legal": "Legal & Notary",
-    "consulting": "Consulting",
+VERTICAL_BLUEPRINTS = {
+    "finance": {
+        "label": "Finance & Lending",
+        "tagline": "Structured Capital & Commercial Lending Solutions",
+        "lead": "Transparent funding programs, fast underwriting workflows, and dedicated advisory support tailored for growing businesses.",
+        "cta": "Explore Funding Options",
+        "cards": [
+            ("Working Capital Lines", "Flexible revolving credit facilities structured around your operating cash flow and seasonal cycles."),
+            ("Equipment & Expansion Financing", "Predictable fixed-term financing to acquire commercial assets without tying up liquid reserves."),
+            ("Dedicated Underwriting Desk", "Direct specialist review with clear milestone timelines and straightforward documentation."),
+        ],
+        "steps": [
+            ("1. Initial Assessment", "Share basic operational metrics and funding goals for rapid preliminary sizing."),
+            ("2. Structured Terms", "Review transparent rate schedules, repayment terms, and zero-surprise covenants."),
+            ("3. Fast Disbursement", "Complete streamlined verification and receive funds directly to your operating account."),
+        ],
+    },
+    "insurance": {
+        "label": "Insurance",
+        "tagline": "Comprehensive Commercial & Personal Risk Protection",
+        "lead": "Tailored policy coverage, proactive risk assessments, and responsive claims advocacy built to protect what matters most.",
+        "cta": "Request Coverage Review",
+        "cards": [
+            ("Commercial Liability & Property", "End-to-end protection for business operations, commercial facilities, and equipment assets."),
+            ("Tailored Policy Structuring", "Side-by-side carrier comparisons to eliminate coverage gaps while optimizing annual premiums."),
+            ("Responsive Claims Support", "Dedicated policy specialists guiding documentation and resolution from first notice to settlement."),
+        ],
+        "steps": [
+            ("1. Risk Profile Review", "Identify operational exposures, compliance mandates, and existing policy overlaps."),
+            ("2. Multi-Carrier Quote", "Compare vetted coverage tiers with transparent deductibles and policy limits."),
+            ("3. Active Policy Management", "Instant certificates of insurance and annual renewal optimization."),
+        ],
+    },
+    "tech": {
+        "label": "Tech & Software",
+        "tagline": "Cloud Infrastructure, Automation & Modern Software Engineering",
+        "lead": "Resilient cloud architectures, API integrations, and high-throughput operational software built for modern teams.",
+        "cta": "Explore Platform Architecture",
+        "cards": [
+            ("Cloud-Native Engineering", "Scalable microservices, automated CI/CD pipelines, and fault-tolerant infrastructure deployments."),
+            ("Workflow & API Automation", "Connect mission-critical data systems with real-time webhooks, telemetry, and zero-downtime sync."),
+            ("Security & Compliance First", "End-to-end encryption, strict access isolation, and continuous observability across environments."),
+        ],
+        "steps": [
+            ("1. Architecture Audit", "Map current system bottlenecks, latency hotspots, and integration requirements."),
+            ("2. Modular Deployment", "Ship production-ready components with automated testing and instant rollback safety."),
+            ("3. 24/7 Telemetry", "Monitor uptime, throughput, and security posture from a unified operational view."),
+        ],
+    },
+    "healthcare": {
+        "label": "Healthcare",
+        "tagline": "Patient-Centered Care Coordination & Clinical Services",
+        "lead": "Accessible health resources, modern care pathways, and clear patient communication designed for better outcomes.",
+        "cta": "View Care Services",
+        "cards": [
+            ("Preventive & Primary Care", "Comprehensive wellness screenings, chronic condition management, and personalized care plans."),
+            ("Streamlined Patient Access", "Clear scheduling, digital intake guidance, and coordinated specialist referrals."),
+            ("Evidence-Based Standards", "Clinical protocols grounded in current medical research and compassionate patient support."),
+        ],
+        "steps": [
+            ("1. Care Consultation", "Discuss health history, preventive goals, and diagnostic priorities with our care team."),
+            ("2. Personalized Plan", "Receive a structured care roadmap with clear follow-up milestones."),
+            ("3. Ongoing Support", "Continuous care coordination and direct portal communication."),
+        ],
+    },
+    "legal": {
+        "label": "Legal & Notary",
+        "tagline": "Precision Document Execution, Notary & Compliance Services",
+        "lead": "Dependable notarization, corporate filings, and structured legal documentation handled with strict confidentiality.",
+        "cta": "Schedule Document Review",
+        "cards": [
+            ("Certified Notary & Apostille", "Accurate verification, witnessing, and authentication for domestic and international documents."),
+            ("Corporate & Commercial Filings", "Entity formation records, operating agreements, and regulatory compliance documentation."),
+            ("Confidential Handling", "Strict chain-of-custody standards and prompt turnaround for time-sensitive signings."),
+        ],
+        "steps": [
+            ("1. Document Check", "Verify identification requirements, witness rules, and jurisdictional formatting."),
+            ("2. Formal Execution", "Complete in-person or scheduled signing with full statutory compliance."),
+            ("3. Certified Delivery", "Receive properly sealed originals and digital confirmation records."),
+        ],
+    },
+    "consulting": {
+        "label": "Consulting",
+        "tagline": "Strategic Operations, Growth & Advisory Consulting",
+        "lead": "Actionable operational frameworks, market analysis, and hands-on execution support for measurable business growth.",
+        "cta": "Book Strategy Overview",
+        "cards": [
+            ("Operational Optimization", "Streamline core workflows, reduce overhead, and establish clear KPI accountability."),
+            ("Market & Growth Strategy", "Data-backed expansion roadmaps, pricing architecture, and customer acquisition systems."),
+            ("Executive Advisory", "Pragmatic guidance from diagnosis through full team implementation."),
+        ],
+        "steps": [
+            ("1. Diagnostic Discovery", "Benchmark current performance, unit economics, and operational bottlenecks."),
+            ("2. Roadmap Design", "Prioritize high-leverage initiatives with clear 30-60-90 day milestones."),
+            ("3. Guided Execution", "Implement systems alongside your leadership team with measurable tracking."),
+        ],
+    },
 }
 
 
@@ -898,22 +989,22 @@ def _brand_from_domain(domain: str) -> str:
     return " ".join(words) if words else domain
 
 
-def _resolve_vertical(domain: str, site_vertical: str) -> str:
+def _resolve_vertical_key(domain: str, site_vertical: str) -> str:
     clean_v = (site_vertical or "auto").strip().lower()
-    if clean_v in VERTICAL_LABELS:
-        return VERTICAL_LABELS[clean_v]
+    if clean_v in VERTICAL_BLUEPRINTS:
+        return clean_v
     d = domain.lower()
-    if any(k in d for k in ("fin", "fund", "capital", "wealth", "lend", "loan", "invest")):
-        return "Finance & Lending"
-    if any(k in d for k in ("insure", "assurance", "cover", "guard")):
-        return "Insurance"
-    if any(k in d for k in ("health", "med", "care", "bio", "clinic")):
-        return "Healthcare"
-    if any(k in d for k in ("law", "legal", "notary", "attorney", "advocate")):
-        return "Legal & Notary"
-    if any(k in d for k in ("tech", "soft", "cloud", "ai", "cyber", "app")):
-        return "Tech & Software"
-    return "Consulting"
+    if any(k in d for k in ("fin", "fund", "capital", "wealth", "lend", "loan", "invest", "pay", "bank")):
+        return "finance"
+    if any(k in d for k in ("insure", "assurance", "cover", "guard", "policy", "shield")):
+        return "insurance"
+    if any(k in d for k in ("health", "med", "care", "bio", "clinic", "vital", "wellness")):
+        return "healthcare"
+    if any(k in d for k in ("law", "legal", "notary", "attorney", "advocate", "custody", "trust")):
+        return "legal"
+    if any(k in d for k in ("tech", "soft", "cloud", "ai", "cyber", "app", "data", "nova", "pulse")):
+        return "tech"
+    return "consulting"
 
 
 def _fetch_reference_summary(reference_url: str) -> dict:
@@ -921,7 +1012,11 @@ def _fetch_reference_summary(reference_url: str) -> dict:
         "url": (reference_url or "").strip(),
         "host": "",
         "title": "",
+        "description": "",
+        "accent_color": "",
+        "nav_items": [],
         "headings": [],
+        "snippets": [],
     }
     if not summary["url"]:
         return summary
@@ -931,51 +1026,116 @@ def _fetch_reference_summary(reference_url: str) -> dict:
     try:
         resp = SHARED_HTTP.get(
             parsed.geturl(),
-            timeout=8,
-            headers={"User-Agent": "Mozilla/5.0 (compatible; OperationsControlCenter/1.0)"},
+            timeout=12,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            },
         )
         if resp.ok and resp.text:
-            title_match = re.search(r"<title[^>]*>(.*?)</title>", resp.text, flags=re.I | re.S)
+            theme_match = re.search(r'<meta[^>]+name=["\']theme-color["\'][^>]+content=["\'](#[0-9a-fA-F]{3,6})["\']', resp.text, flags=re.I)
+            if theme_match:
+                summary["accent_color"] = theme_match.group(1)
+            else:
+                hex_colors = re.findall(r"#([0-9a-fA-F]{6})\b", resp.text)
+                for hx in hex_colors:
+                    if hx.lower() not in ("ffffff", "000000", "f8fafc", "0f172a", "111827", "e2e8f0", "cbd5e1"):
+                        summary["accent_color"] = f"#{hx}"
+                        break
+
+            raw_html = re.sub(r"<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", resp.text, flags=re.I | re.S)
+
+            title_match = re.search(r"<title[^>]*>(.*?)</title>", raw_html, flags=re.I | re.S)
             if title_match:
                 summary["title"] = re.sub(r"\s+", " ", html.unescape(title_match.group(1))).strip()[:120]
-            h_matches = re.findall(r"<h[12][^>]*>(.*?)</h[12]>", resp.text, flags=re.I | re.S)
-            cleaned_h = []
-            for h in h_matches[:4]:
-                txt = re.sub(r"<[^>]+>", "", html.unescape(h))
-                txt = re.sub(r"\s+", " ", txt).strip()
-                if txt:
-                    cleaned_h.append(txt[:80])
-            summary["headings"] = cleaned_h
+
+            desc_match = re.search(
+                r'<meta[^>]+name=["\']description["\'][^>]+content=["\'](.*?)["\']',
+                raw_html,
+                flags=re.I | re.S,
+            )
+            if desc_match:
+                summary["description"] = re.sub(r"\s+", " ", html.unescape(desc_match.group(1))).strip()[:240]
+
+            nav_block = re.search(r"<(nav|header)[^>]*>(.*?)</\1>", raw_html, flags=re.I | re.S)
+            if nav_block:
+                links = re.findall(r"<a[^>]*>(.*?)</a>", nav_block.group(2), flags=re.I | re.S)
+                for l in links:
+                    txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html.unescape(l))).strip()
+                    if 2 <= len(txt) <= 26 and txt.lower() not in [x.lower() for x in summary["nav_items"]]:
+                        summary["nav_items"].append(txt)
+                summary["nav_items"] = summary["nav_items"][:5]
+
+            h_matches = re.findall(r"<h[1-3][^>]*>(.*?)</h[1-3]>", raw_html, flags=re.I | re.S)
+            for h in h_matches:
+                txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html.unescape(h))).strip()
+                if len(txt) >= 4 and txt.lower() not in [x.lower() for x in summary["headings"]]:
+                    summary["headings"].append(txt[:95])
+                if len(summary["headings"]) >= 8:
+                    break
+
+            p_matches = re.findall(r"<p[^>]*>(.*?)</p>", raw_html, flags=re.I | re.S)
+            for p in p_matches:
+                txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html.unescape(p))).strip()
+                if len(txt) >= 35 and txt not in summary["snippets"]:
+                    summary["snippets"].append(txt[:200])
+                if len(summary["snippets"]) >= 6:
+                    break
     except Exception:
         pass
     return summary
 
 
-def _render_responsive_html(
+def _render_rich_responsive_html(
     domain: str,
     brand_name: str,
-    vertical: str,
+    vertical_label: str,
     headline: str,
     subheadline: str,
-    sections: list,
+    cta_label: str,
+    nav_items: list,
+    feature_cards: list,
+    process_steps: list,
     palette: dict,
 ) -> str:
     safe_brand = html.escape(brand_name)
     safe_domain = html.escape(domain)
-    safe_vertical = html.escape(vertical)
+    safe_vertical = html.escape(vertical_label)
     safe_headline = html.escape(headline)
     safe_subheadline = html.escape(subheadline)
+    safe_cta = html.escape(cta_label)
     support_email = html.escape(f"support@{domain}")
+
+    nav_links = nav_items[:4] if nav_items else ["Overview", "Solutions", "Process", "Contact"]
+    anchors = ["#overview", "#solutions", "#process", "#contact"]
+    nav_html = "".join(
+        f'<a href="{anchors[i % len(anchors)]}">{html.escape(label)}</a>'
+        for i, label in enumerate(nav_links)
+    )
 
     cards_html = "".join(
         f"""
         <article class="card">
-          <h3>{html.escape(sec_title)}</h3>
-          <p>{html.escape(sec_body)}</p>
+          <div class="card-num">0{i}</div>
+          <h3>{html.escape(title)}</h3>
+          <p>{html.escape(body)}</p>
         </article>
         """
-        for sec_title, sec_body in sections
+        for i, (title, body) in enumerate(feature_cards, 1)
     )
+
+    steps_html = "".join(
+        f"""
+        <div class="step">
+          <h4>{html.escape(st_title)}</h4>
+          <p>{html.escape(st_body)}</p>
+        </div>
+        """
+        for st_title, st_body in process_steps
+    )
+
+    is_light = palette["bg"].lower() == "#f8fafc"
+    border_col = "rgba(15,23,42,0.1)" if is_light else "rgba(255,255,255,0.1)"
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -990,116 +1150,209 @@ def _render_responsive_html(
       --accent: {palette["accent"]};
       --text: {palette["text"]};
       --muted: {palette["muted"]};
+      --border: {border_col};
     }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    html {{ scroll-behavior: smooth; }}
     body {{
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
     }}
+    .wrap {{ max-width: 1140px; margin: 0 auto; padding: 0 1.5rem; }}
     header {{
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      padding: 1.15rem 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 20;
+    }}
+    .nav-bar {{
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      max-width: 1120px;
-      margin: 0 auto;
     }}
-    .brand {{ font-size: 1.25rem; font-weight: 700; color: var(--accent); }}
+    .brand {{ font-size: 1.3rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }}
     nav a {{
       color: var(--muted);
       text-decoration: none;
-      margin-left: 1.25rem;
+      margin-left: 1.35rem;
       font-size: 0.95rem;
+      font-weight: 500;
     }}
-    nav a:hover {{ color: var(--text); }}
+    nav a:hover {{ color: var(--accent); }}
     .hero {{
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem 2.5rem;
+      background: {palette["hero_grad"]};
+      border-bottom: 1px solid var(--border);
+      padding: 4.5rem 0 4rem;
     }}
     .badge {{
       display: inline-block;
-      padding: 0.25rem 0.75rem;
+      padding: 0.3rem 0.85rem;
       border-radius: 999px;
-      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--accent);
       color: var(--accent);
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.1rem;
     }}
-    h1 {{ font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; margin-bottom: 1rem; }}
-    .lead {{ max-width: 720px; color: var(--muted); font-size: 1.1rem; }}
+    h1 {{ font-size: clamp(2.1rem, 4.2vw, 3.4rem); line-height: 1.12; margin-bottom: 1.1rem; max-width: 820px; }}
+    .lead {{ max-width: 720px; color: var(--muted); font-size: 1.12rem; margin-bottom: 1.75rem; }}
+    .cta-row {{ display: flex; flex-wrap: wrap; gap: 0.85rem; }}
+    .btn-primary {{
+      background: var(--accent);
+      color: #ffffff;
+      padding: 0.78rem 1.45rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }}
+    .btn-secondary {{
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.78rem 1.35rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }}
+    section {{ padding: 3.75rem 0; }}
+    .sec-title {{ font-size: 1.65rem; font-weight: 700; margin-bottom: 0.45rem; }}
+    .sec-sub {{ color: var(--muted); margin-bottom: 2rem; font-size: 0.98rem; }}
     .grid {{
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 1.5rem 1.5rem 4rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.35rem;
     }}
     .card {{
       background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
     }}
-    .card h3 {{ color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }}
+    .card-num {{
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.08em;
+    }}
+    .card h3 {{ color: var(--text); margin-bottom: 0.55rem; font-size: 1.15rem; }}
     .card p {{ color: var(--muted); font-size: 0.95rem; }}
+    .process-band {{
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }}
+    .step {{
+      padding: 1.25rem;
+      border-left: 3px solid var(--accent);
+      background: var(--bg);
+      border-radius: 0 12px 12px 0;
+    }}
+    .step h4 {{ color: var(--accent); margin-bottom: 0.4rem; font-size: 1.02rem; }}
+    .step p {{ color: var(--muted); font-size: 0.92rem; }}
+    .contact-box {{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }}
     footer {{
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
       text-align: center;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }}
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">{safe_brand}</div>
-    <nav>
-      <a href="#overview">Overview</a>
-      <a href="#solutions">Solutions</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="wrap nav-bar">
+      <div class="brand">{safe_brand}</div>
+      <nav>{nav_html}</nav>
+    </div>
   </header>
   <main>
-    <section class="hero" id="overview">
-      <span class="badge">{safe_vertical}</span>
-      <h1>{safe_headline}</h1>
-      <p class="lead">{safe_subheadline}</p>
+    <div class="hero" id="overview">
+      <div class="wrap">
+        <span class="badge">{safe_vertical}</span>
+        <h1>{safe_headline}</h1>
+        <p class="lead">{safe_subheadline}</p>
+        <div class="cta-row">
+          <a href="#solutions" class="btn-primary">{safe_cta}</a>
+          <a href="mailto:{support_email}" class="btn-secondary">Contact {safe_brand}</a>
+        </div>
+      </div>
+    </div>
+
+    <section id="solutions">
+      <div class="wrap">
+        <h2 class="sec-title">Core Capabilities</h2>
+        <p class="sec-sub">Structured services and solutions delivered by {safe_brand} ({safe_domain}).</p>
+        <div class="grid">{cards_html}</div>
+      </div>
     </section>
-    <section class="grid" id="solutions">
-      {cards_html}
+
+    <section class="process-band" id="process">
+      <div class="wrap">
+        <h2 class="sec-title">How We Work</h2>
+        <p class="sec-sub">Clear, transparent steps from initial inquiry to active delivery.</p>
+        <div class="grid">{steps_html}</div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="contact-box">
+          <div>
+            <h2 class="sec-title" style="margin-bottom:0.35rem;">Connect With {safe_brand}</h2>
+            <p style="color:var(--muted);font-size:0.95rem;">Direct inquiries for {safe_domain} are handled by our dedicated desk.</p>
+          </div>
+          <a href="mailto:{support_email}" class="btn-primary">{support_email}</a>
+        </div>
+      </div>
     </section>
   </main>
-  <footer id="contact">
-    <p>{safe_brand} ({safe_domain}) • Contact: <a href="mailto:{support_email}" style="color:var(--accent);">{support_email}</a></p>
+  <footer>
+    <div class="wrap">
+      <p>&copy; {datetime.now().year} {safe_brand} ({safe_domain}). All rights reserved. • <a href="mailto:{support_email}" style="color:var(--accent);text-decoration:none;">{support_email}</a></p>
+    </div>
   </footer>
 </body>
 </html>
 """
 
 
-def _generate_ai_prompt_html(
+def _generate_ai_html(
     domain: str,
     brand_name: str,
-    vertical: str,
-    prompt_text: str,
+    vertical_label: str,
+    instruction_text: str,
     palette: dict,
+    llm_api_key: str = "",
 ) -> Optional[str]:
-    if not DEFAULT_LLM_KEY or not prompt_text.strip():
+    api_key = (llm_api_key or "").strip() or DEFAULT_LLM_KEY
+    if not api_key or not instruction_text.strip():
         return None
     try:
         resp = SHARED_HTTP.post(
             "https://api.openai.com/v1/chat/completions",
             headers={
-                "Authorization": f"Bearer {DEFAULT_LLM_KEY}",
+                "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
             },
             json={
@@ -1108,19 +1361,24 @@ def _generate_ai_prompt_html(
                 "messages": [
                     {
                         "role": "system",
-                        "content": "Return ONLY a complete, responsive single-file HTML5 document starting with <!DOCTYPE html>. Do not wrap in markdown code fences.",
+                        "content": (
+                            "You are a senior frontend web designer. Return ONLY a complete, production-grade, "
+                            "self-contained responsive HTML5 page starting with <!DOCTYPE html>. Include rich CSS styling, "
+                            "sticky header navigation, hero section, 3-4 feature cards, process/highlights section, and footer. "
+                            "Never include phone numbers. No markdown fences."
+                        ),
                     },
                     {
                         "role": "user",
                         "content": (
-                            f"Build a responsive static website for brand '{brand_name}' on domain '{domain}' "
-                            f"in vertical '{vertical}'. Accent color: {palette['accent']}, surface color: {palette['surface']}. "
-                            f"Include email support@{domain} and NO phone numbers. User prompt: {prompt_text.strip()}"
+                            f"Brand: {brand_name}\nDomain: {domain}\nIndustry Vertical: {vertical_label}\n"
+                            f"Primary Accent Color: {palette['accent']}\nContact Email: support@{domain}\n"
+                            f"Design & Content Brief:\n{instruction_text.strip()}"
                         ),
                     },
                 ],
             },
-            timeout=25,
+            timeout=30,
         )
         if resp.ok:
             content = resp.json()["choices"][0]["message"]["content"].strip()
@@ -1132,53 +1390,147 @@ def _generate_ai_prompt_html(
     return None
 
 
+def _synthesize_prompt_blueprint(brand_name: str, domain: str, vertical_label: str, prompt_text: str, bp: dict) -> dict:
+    clean_p = re.sub(r"\s+", " ", prompt_text).strip()
+    sentences = [s.strip() for s in re.split(r"[.!?\n]+", clean_p) if len(s.strip()) >= 8]
+    headline = sentences[0][:105] if sentences else f"{brand_name}: {clean_p[:95]}"
+    if brand_name.lower() not in headline.lower():
+        headline = f"{brand_name} — {headline}"
+    subheadline = (
+        " ".join(sentences[1:3])[:230]
+        if len(sentences) > 1
+        else f"{clean_p}. Tailored {vertical_label.lower()} experience built for {domain}."
+    )
+
+    chunks = [c.strip() for c in re.split(r"[,;|\n]+", clean_p) if len(c.strip()) >= 6]
+    cards = []
+    for i in range(3):
+        if i < len(chunks):
+            topic = chunks[i][:55].rstrip(".")
+            cards.append((
+                topic.title(),
+                f"Dedicated {topic.lower()} workflow engineered for {brand_name} ({domain}) with responsive presentation and clear guidance.",
+            ))
+        else:
+            cards.append(bp["cards"][i])
+
+    return {
+        "headline": headline,
+        "subheadline": subheadline,
+        "cta": bp["cta"],
+        "nav": ["Overview", "Features", "Workflow", "Contact"],
+        "cards": cards,
+        "steps": bp["steps"],
+    }
+
+
 def build_s3_website_html(
     domain: str,
     site_vertical: str = "auto",
     site_prompt: str = "",
     reference_url: str = "",
     ref_summary: Optional[dict] = None,
+    llm_api_key: str = "",
 ) -> Tuple[str, str]:
     clean_domain = domain.strip().lower()
     brand_name = _brand_from_domain(clean_domain)
-    vertical = _resolve_vertical(clean_domain, site_vertical)
-    palette = _pick_palette(clean_domain)
+    v_key = _resolve_vertical_key(clean_domain, site_vertical)
+    bp = VERTICAL_BLUEPRINTS[v_key]
+    vertical_label = bp["label"]
+    palette = dict(_pick_palette(clean_domain))
     clean_prompt = (site_prompt or "").strip()
     clean_ref = (reference_url or "").strip()
 
+    # 1. Prompt-Based Generation (AI first, structured prompt synthesis fallback)
     if clean_prompt:
-        ai_html = _generate_ai_prompt_html(clean_domain, brand_name, vertical, clean_prompt, palette)
+        ai_html = _generate_ai_html(
+            domain=clean_domain,
+            brand_name=brand_name,
+            vertical_label=vertical_label,
+            instruction_text=clean_prompt,
+            palette=palette,
+            llm_api_key=llm_api_key,
+        )
         if ai_html:
             return ai_html, "AI Prompt"
-        headline = f"{brand_name}: {clean_prompt[:90]}"
-        subheadline = f"Responsive {vertical} site for {clean_domain} tailored to: {clean_prompt}."
-        sections = [
-            ("Requested Concept", clean_prompt),
-            (f"{vertical} Structure", f"Organized sections, clear typography, and mobile-first layout built for {clean_domain}."),
-            ("Direct Contact", f"Reach our team at support@{clean_domain} for inquiries regarding {clean_domain}."),
-        ]
-        return _render_responsive_html(clean_domain, brand_name, vertical, headline, subheadline, sections, palette), "Prompt"
 
+        syn = _synthesize_prompt_blueprint(brand_name, clean_domain, vertical_label, clean_prompt, bp)
+        return _render_rich_responsive_html(
+            domain=clean_domain,
+            brand_name=brand_name,
+            vertical_label=vertical_label,
+            headline=syn["headline"],
+            subheadline=syn["subheadline"],
+            cta_label=syn["cta"],
+            nav_items=syn["nav"],
+            feature_cards=syn["cards"],
+            process_steps=syn["steps"],
+            palette=palette,
+        ), "Prompt Builder"
+
+    # 2. Reference URL-Based Generation (Extracts layout, palette, headings & structure)
     if clean_ref:
         ref_info = ref_summary or _fetch_reference_summary(clean_ref)
+        if ref_info.get("accent_color"):
+            palette["accent"] = ref_info["accent_color"]
         ref_label = ref_info.get("title") or ref_info.get("host") or clean_ref
-        headline = f"{brand_name} — Inspired by {ref_label}"
-        subheadline = f"Modern {vertical} experience for {clean_domain} structured around clear hero messaging and responsive cards."
-        sections = [
-            ("Layout & Structure", f"Designed with clean header navigation, hero overview, and responsive cards inspired by {ref_label}."),
-            (f"{vertical} Focus", f"Tailored {vertical.lower()} content blocks adapted specifically for {clean_domain}."),
-            ("Direct Contact", f"Questions about {clean_domain} can be sent to support@{clean_domain}."),
-        ]
-        return _render_responsive_html(clean_domain, brand_name, vertical, headline, subheadline, sections, palette), "Ref URL"
 
-    headline = f"{vertical} Solutions for {brand_name}"
-    subheadline = f"Dedicated {vertical.lower()} portal for {clean_domain} with responsive layout and clear information hierarchy."
-    sections = [
-        (f"{vertical} Overview", f"Structured {vertical.lower()} guidance and transparent resources for {clean_domain}."),
-        ("Responsive Architecture", f"Fast static delivery engineered for desktop and mobile visitors on {clean_domain}."),
-        ("Direct Contact", f"Connect with {brand_name} regarding {clean_domain} via support@{clean_domain}."),
-    ]
-    return _render_responsive_html(clean_domain, brand_name, vertical, headline, subheadline, sections, palette), vertical
+        ai_html = _generate_ai_html(
+            domain=clean_domain,
+            brand_name=brand_name,
+            vertical_label=vertical_label,
+            instruction_text=(
+                f"Create an original website for {brand_name} ({clean_domain}) inspired by the layout, "
+                f"section rhythm, and visual hierarchy of {clean_ref}.\n"
+                f"Reference Title: {ref_label}\n"
+                f"Reference Description: {ref_info.get('description') or 'N/A'}\n"
+                f"Reference Navigation: {', '.join(ref_info.get('nav_items') or []) or 'Overview, Solutions, Process, Contact'}\n"
+                f"Reference Headings: {', '.join(ref_info.get('headings') or []) or 'N/A'}"
+            ),
+            palette=palette,
+            llm_api_key=llm_api_key,
+        )
+        if ai_html:
+            return ai_html, "AI Ref URL"
+
+        ref_headings = ref_info.get("headings") or []
+        ref_snippets = ref_info.get("snippets") or []
+        raw_hero = ref_headings[0] if ref_headings else bp["tagline"]
+        headline = raw_hero if brand_name.lower() in raw_hero.lower() else f"{brand_name}: {raw_hero}"
+        subheadline = ref_info.get("description") or bp["lead"]
+
+        cards = []
+        for i in range(3):
+            c_title = ref_headings[i + 1] if (i + 1) < len(ref_headings) else bp["cards"][i][0]
+            c_body = ref_snippets[i] if i < len(ref_snippets) else bp["cards"][i][1]
+            cards.append((c_title, c_body))
+
+        return _render_rich_responsive_html(
+            domain=clean_domain,
+            brand_name=brand_name,
+            vertical_label=vertical_label,
+            headline=headline,
+            subheadline=subheadline,
+            cta_label=bp["cta"],
+            nav_items=ref_info.get("nav_items") or ["Overview", "Solutions", "Process", "Contact"],
+            feature_cards=cards,
+            process_steps=bp["steps"],
+            palette=palette,
+        ), f"Ref ({ref_info.get('host') or 'URL'})"
+
+    # 3. Domain Vertical-Based Generation
+    return _render_rich_responsive_html(
+        domain=clean_domain,
+        brand_name=brand_name,
+        vertical_label=vertical_label,
+        headline=f"{brand_name} — {bp['tagline']}",
+        subheadline=bp["lead"],
+        cta_label=bp["cta"],
+        nav_items=["Overview", "Solutions", "Process", "Contact"],
+        feature_cards=bp["cards"],
+        process_steps=bp["steps"],
+        palette=palette,
+    ), vertical_label
 
 
 # ==========================================
@@ -1192,6 +1544,7 @@ async def bulk_s3_deploy(
     site_vertical: str = Form("auto"),
     reference_url: str = Form(""),
     site_prompt: str = Form(""),
+    llm_api_key: str = Form(""),
     aws_access_key: str = Form(""),
     aws_secret_key: str = Form(""),
     aws_region: str = Form("us-east-1"),
@@ -1237,17 +1590,45 @@ async def bulk_s3_deploy(
                 return {"index": idx, "total": total, "domain": dom, "account": acc, "target": "HTTP Check", "result": f"HTTP {r.status_code}", "extra": "-", "ok": r.status_code == 200}
 
             if s3_operation == "teardown":
+                s3_status = "S3 Deleted"
                 try:
+                    paginator = s3.get_paginator("list_object_versions")
+                    for page in paginator.paginate(Bucket=dom):
+                        to_delete = []
+                        for v in page.get("Versions", []):
+                            to_delete.append({"Key": v["Key"], "VersionId": v["VersionId"]})
+                        for m in page.get("DeleteMarkers", []):
+                            to_delete.append({"Key": m["Key"], "VersionId": m["VersionId"]})
+                        if to_delete:
+                            for i in range(0, len(to_delete), 1000):
+                                s3.delete_objects(Bucket=dom, Delete={"Objects": to_delete[i:i + 1000]})
+
                     objs = s3.list_objects_v2(Bucket=dom).get("Contents", [])
                     if objs:
-                        s3.delete_objects(Bucket=dom, Delete={"Objects": [{"Key": o["Key"]} for o in objs]})
+                        for i in range(0, len(objs), 1000):
+                            s3.delete_objects(Bucket=dom, Delete={"Objects": [{"Key": o["Key"]} for o in objs[i:i + 1000]]})
+
                     s3.delete_bucket(Bucket=dom)
-                except Exception:
-                    pass
+                except Exception as s3_err:
+                    s3_status = f"S3 Err: {str(s3_err)[:70]}"
+
+                cf_notes = []
                 if zone_id:
-                    manage_dns_record(session, zone_id, root, "delete", "CNAME", "@")
-                    manage_dns_record(session, zone_id, root, "delete", "CNAME", "www")
-                return {"index": idx, "total": total, "domain": dom, "account": acc, "target": "Teardown", "result": "Deleted S3 Bucket & CF CNAMEs", "extra": "-", "ok": True}
+                    for rec_name in ("@", "www"):
+                        ok_c, msg_c = manage_dns_record(session, zone_id, root, "delete", "CNAME", rec_name)
+                        if not ok_c:
+                            cf_notes.append(msg_c)
+                    if not cf_notes:
+                        cf_notes.append("CF CNAMEs Cleared")
+                else:
+                    cf_notes.append("No CF Zone")
+
+                all_ok = s3_status == "S3 Deleted" and (not zone_id or "CF CNAMEs Cleared" in cf_notes)
+                return {
+                    "index": idx, "total": total, "domain": dom, "account": acc,
+                    "target": "Teardown", "result": f"{s3_status} | {', '.join(cf_notes)}",
+                    "extra": "-", "ok": all_ok,
+                }
 
             try:
                 if region == "us-east-1":
@@ -1287,6 +1668,7 @@ async def bulk_s3_deploy(
                 site_prompt=site_prompt,
                 reference_url=reference_url,
                 ref_summary=ref_summary,
+                llm_api_key=llm_api_key,
             )
             s3.put_object(Bucket=dom, Key="index.html", Body=html_body.encode("utf-8"), ContentType="text/html; charset=utf-8")
 
